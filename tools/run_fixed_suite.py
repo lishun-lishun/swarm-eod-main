@@ -56,7 +56,8 @@ def main() -> None:
             ]
             print(f"RUN {map_name}", flush=True)
             child_env = os.environ.copy()
-            if (child_env.get("V5_DEADLINE_ASSIGNMENT") == "1"
+            if ((child_env.get("V5_DEADLINE_ASSIGNMENT") == "1"
+                 or child_env.get("V5_PATH_RECOVER") == "1")
                     and "V5_TIME_HORIZON" not in child_env):
                 # The published map class declares the round limit. Supply
                 # it through the independent test harness; the competition

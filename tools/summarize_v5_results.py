@@ -46,7 +46,10 @@ def baseline(name: str, seed: int) -> dict | None:
 
 def main() -> None:
     arms = {
-        "watchdog": [("v5_watchdog_Map09_e862", 862, ("Map09",))],
+        "watchdog": [
+            ("v5_watchdog_Map09_e862", 862, ("Map09",)),
+            ("v5_watchdog_Map08_e861", 861, ("Map08",)),
+        ],
         "deadline": [
             ("v5_deadline_Map09_e862", 862, ("Map09",)),
             ("v5_deadline_core_e862", 862, ("Map06", "Map08")),
@@ -66,6 +69,11 @@ def main() -> None:
         ],
         "recover_full_hull": [
             ("v5_recover_hull_e862", 862, ("Map09",)),
+        ],
+        "recover_endgame": [
+            ("v5_recover_endgame_Map09_e862", 862, ("Map09",)),
+            ("v5_recover_endgame_Map06_e861", 861, ("Map06",)),
+            ("v5_recover_endgame_Map08_e861", 861, ("Map08",)),
         ],
         "blend_alpha_0_1": [
             ("v5_blend_a01_e861", 861, ("Map04", "Map07", "Map09")),

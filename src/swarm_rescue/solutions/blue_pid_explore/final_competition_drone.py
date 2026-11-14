@@ -10,7 +10,8 @@ import numpy as np
 from scipy.spatial import ConvexHull
 
 from .pose_fusion_drone import FusionRescueDrone
-from .pose_sict_drone import EXPECTED_BOMBS, GOAL_STICKY, CELL, GRASP_REACH, wrap
+from .pose_sict_drone import (EXPECTED_BOMBS, GOAL_STICKY, CELL,
+                              GRASP_REACH, V5_TIME_HORIZON, wrap)
 from .corridor_explorer import CorridorExplorer, CorridorExploreState
 from .lidar_geometry import footprint_vertices_from_body
 from .lidar_safety import LidarPredictiveSafetyLayer
@@ -310,6 +311,11 @@ class FinalCompetitionDrone(FusionRescueDrone):
                     center_semantic=nearest,
                     path_points=len(self.path))
         if not self.v5_path_recover:
+            return
+        endgame_fraction = float(os.environ.get("V5_PATH_ENDGAME_FRACTION", "0.8"))
+        if (V5_TIME_HORIZON <= 0 or not 0.0 <= endgame_fraction <= 1.0
+                or step < endgame_fraction * V5_TIME_HORIZON):
+            self.v5_path_counts["pre_endgame_diagnostic"] += 1
             return
         if signal.reason != "nonzero_cost_empty_path":
             # Changing center-field evidence can make a moving carrier's
