@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import subprocess
 import sys
@@ -54,8 +55,21 @@ def main() -> None:
                 "--out", str(output),
             ]
             print(f"RUN {map_name}", flush=True)
+            child_env = os.environ.copy()
+            if (child_env.get("V5_DEADLINE_ASSIGNMENT") == "1"
+                    and "V5_TIME_HORIZON" not in child_env):
+                # The published map class declares the round limit. Supply
+                # it through the independent test harness; the competition
+                # controller never reads the map instance or hidden state.
+                map_source = (ROOT / "src" / "swarm_rescue" / "maps"
+                              / f"map_{map_name[3:].lower()}.py")
+                match = re.search(r"_max_timestep_limit\s*=\s*(\d+)",
+                                  map_source.read_text(encoding="utf-8"))
+                if match is None:
+                    raise ValueError(f"public time limit absent: {map_source}")
+                child_env["V5_TIME_HORIZON"] = match.group(1)
             completed = subprocess.run(
-                command, cwd=ROOT, env=os.environ.copy(), check=False,
+                command, cwd=ROOT, env=child_env, check=False,
             )
             if completed.returncode != 0:
                 records.append({"map": map_name, "error": completed.returncode})

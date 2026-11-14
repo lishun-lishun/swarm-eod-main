@@ -13,6 +13,7 @@ sighted again (newer sighting) comes back automatically.
 from __future__ import annotations
 
 import math
+from .v5_bid_wire import encode_bid, decode_bid
 
 MATCH = 24.0          # bomb radius is 12 px; two legal bombs can touch
 TOMB_RADIUS = 22.0
@@ -27,6 +28,8 @@ class Knowledge:
         self.tombs = []        # [(x, y, step)]
         self.peers = {}        # id -> state dict (direct radio contact)
         self.claims = {}       # id -> (pos, cost, step)
+        self.v5_outgoing_bid = None
+        self.v5_incoming_bids = {}
         self.failures = {}     # bomb key -> local failed attempts
         self.next_key = 0
         self.disposed = 0
@@ -116,7 +119,7 @@ class Knowledge:
     # ----------------------------------------------------------------- radio
     def message(self, step, pose, vel, carrying, state, goal, claim, grid,
                 health, pickup=None):
-        return {
+        msg = {
             "v3": 1, "id": self.own_id, "step": step,
             "pos": pose, "vel": vel, "carry": carrying, "state": state,
             "goal": goal, "claim": claim, "health": health,
@@ -132,6 +135,9 @@ class Knowledge:
             "pickups": self.pickups,
             "drops": list(self.drops),
         }
+        if self.v5_outgoing_bid is not None and self.v5_outgoing_bid.valid(step):
+            msg["v5_bid"] = encode_bid(self.v5_outgoing_bid)
+        return msg
 
     def receive(self, messages, step, grid):
         for _, msg in messages or ():
@@ -140,6 +146,11 @@ class Knowledge:
             pid = msg.get("id")
             if pid == self.own_id:
                 continue
+            parsed_bid = decode_bid(msg.get("v5_bid"), sender_id=pid, now=step)
+            if parsed_bid is not None:
+                self.v5_incoming_bids[pid] = parsed_bid
+            else:
+                self.v5_incoming_bids.pop(pid, None)
             self.peers[pid] = {"pos": msg.get("pos"), "vel": msg.get("vel"),
                                "carry": msg.get("carry"),
                                "state": msg.get("state"),
@@ -168,6 +179,10 @@ class Knowledge:
                       if step - v["step"] <= PEER_TTL}
         self.claims = {k: v for k, v in self.claims.items()
                        if step - v[2] <= CLAIM_TTL}
+        self.v5_incoming_bids = {
+            k: v for k, v in self.v5_incoming_bids.items()
+            if k in self.peers and v.valid(step)
+        }
 
     def accounted(self):
         """Bombs picked up (carried or delivered) plus bombs still on the list."""
@@ -175,9 +190,11 @@ class Knowledge:
         return picked + len(self.bombs)
 
     # ---------------------------------------------------------------- claims
-    def claimed_by_better_peer(self, pos, my_cost):
+    def claimed_by_better_peer(self, pos, my_cost, ignore_peer_ids=()):
         """A teammate is already going for this bomb and is (nearly) closer."""
         for pid, (cpos, cost, _) in self.claims.items():
+            if pid in ignore_peer_ids:
+                continue
             if cpos is None or math.dist(cpos, pos) > MATCH + 6:
                 continue
             if cost < my_cost - 25 or (abs(cost - my_cost) <= 25 and pid < self.own_id):

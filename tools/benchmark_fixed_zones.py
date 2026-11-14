@@ -134,6 +134,11 @@ def run(map_name: str, engine_seed: int, source: Path) -> dict:
     )
     result["controller_diagnostics"] = diagnostics_snapshot()
     result["controller_states"] = controller_state_snapshot()
+    result["controller_task_events"] = {
+        str(drone.me): list(getattr(drone, "task_events", ()))
+        for drone in list(_ACTIVE_DRONES)
+        if getattr(drone, "ready", False)
+    }
     # Evaluation-only truth audit, executed after Launcher has completed all
     # controller calls.  These values never re-enter a controller decision.
     truth_audit = []

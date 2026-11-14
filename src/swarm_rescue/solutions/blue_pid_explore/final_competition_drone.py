@@ -7,13 +7,15 @@ import math
 import os
 
 import numpy as np
+from scipy.spatial import ConvexHull
 
 from .pose_fusion_drone import FusionRescueDrone
-from .pose_sict_drone import EXPECTED_BOMBS, GOAL_STICKY, wrap
+from .pose_sict_drone import EXPECTED_BOMBS, GOAL_STICKY, CELL, GRASP_REACH, wrap
 from .corridor_explorer import CorridorExplorer, CorridorExploreState
 from .lidar_geometry import footprint_vertices_from_body
 from .lidar_safety import LidarPredictiveSafetyLayer
-from .oriented_footprint import OrientedFootprint
+from .oriented_footprint import OrientedFootprint, Pose2
+from .v5_path_supervisor import PathProgressSupervisor
 from .predictive_brake import BrakingMode, PredictiveBrakingController
 from .velocity_controller import body_to_world, world_to_body
 from .model_velocity_control import ShadowCargoIdentifier
@@ -35,6 +37,12 @@ class FinalCompetitionDrone(FusionRescueDrone):
         self.predictive_safety = LidarPredictiveSafetyLayer()
         self.corridor_brake = PredictiveBrakingController()
         self.branch_brake = PredictiveBrakingController()
+        self.v5_path_watchdog = (os.environ.get("V5_PATH_WATCHDOG", "0") == "1"
+                                 or os.environ.get("V5_PATH_RECOVER", "0") == "1")
+        self.v5_path_recover = os.environ.get("V5_PATH_RECOVER", "0") == "1"
+        self.v5_path_supervisor = PathProgressSupervisor()
+        self.v5_path_counts = Counter()
+        self._v5_last_recovery_step = -100000
         self.cargo_identifier = (
             ShadowCargoIdentifier()
             if os.environ.get("V4_CARGO_IDENTIFICATION", "0") == "1"
@@ -196,6 +204,8 @@ class FinalCompetitionDrone(FusionRescueDrone):
         self.corridor_explorer.pause()
         self._corridor_control_state = CorridorExploreState.PAUSED
         command = super()._carry(step, cmd, lidar, angles)
+        if self.v5_path_watchdog and self.pose is not None:
+            self._v5_observe_carry_path(step, lidar, angles)
         if self.carry_trace_enabled and self.pose is not None:
             world = body_to_world(
                 (float(command["forward"]), float(command["lateral"])), self.heading,
@@ -248,6 +258,95 @@ class FinalCompetitionDrone(FusionRescueDrone):
                 "lidar_right": None if lidar is None else self._sector_min(lidar, angles, -math.pi / 2.0),
             })
         return command
+
+    def _v5_loaded_segment_safe(self, start, end):
+        """Check a short map connection with the present loaded hull and swing envelope."""
+        if (self.measured_gps_position() is None or self.grid.obstacle is None
+                or getattr(self.grid, "unknown", None) is None):
+            return False
+        vertices = [tuple(v) for v in self._safety_footprint]
+        # The pivot permits the bomb to swing around the drone. Include the
+        # full grasp-reach disk plus the 12 px bomb radius and a 5 px buffer;
+        # a current-bearing-only footprint would miss the swept load.
+        loaded_radius = GRASP_REACH + 12.0 + 5.0
+        for phase in np.linspace(0.0, 2.0 * math.pi, 32, endpoint=False):
+            vertices.append((loaded_radius * math.cos(phase),
+                             loaded_radius * math.sin(phase)))
+        points = np.asarray(vertices, dtype=float)
+        hull = OrientedFootprint(points[ConvexHull(points).vertices], margin=2.0)
+        occupied = np.asarray(self.grid.obstacle | self.grid.unknown, dtype=bool)
+        origin = (-self.grid.width / 2.0, -self.grid.height / 2.0)
+        return not hull.swept_collides(
+            Pose2(float(start[0]), float(start[1]), float(self.heading)),
+            Pose2(float(end[0]), float(end[1]), float(self.heading)),
+            occupied, origin, CELL,
+        )
+
+    def _v5_observe_carry_path(self, step, lidar, angles):
+        cost = None
+        if self.center_cum is not None and self.grid.costs is not None:
+            cell = self.grid.free_start(self.grid.costs["carry"], *self.pose, radius=5)
+            if cell is not None and math.isfinite(float(self.center_cum[cell])):
+                cost = float(self.center_cum[cell]) * CELL
+        waypoint = (self.path[min(len(self.path) - 1, self.path_i)]
+                    if self.path else None)
+        nearest = min((hit[2] for hit in self.center_hits), default=None)
+        signal = self.v5_path_supervisor.observe(
+            step=step, tag="CARRY", position=self.pose,
+            path_cost_px=cost,
+            waypoint_distance_px=(math.dist(self.pose, waypoint)
+                                  if waypoint is not None else None),
+            path_points=len(self.path), is_carrying=bool(self.grasped_bombs()),
+            live_center_distance_px=nearest,
+        )
+        if signal.action == "CONTINUE":
+            return
+        self.v5_path_counts[signal.reason] += 1
+        self._event("v5_path_signal", step, action=signal.action,
+                    reason=signal.reason,
+                    progress=round(signal.progress_px, 1),
+                    displacement=round(signal.displacement_px, 1),
+                    center_cost=None if cost is None else round(cost, 1),
+                    center_semantic=nearest,
+                    path_points=len(self.path))
+        if not self.v5_path_recover:
+            return
+        if signal.reason != "nonzero_cost_empty_path":
+            # Changing center-field evidence can make a moving carrier's
+            # apparent map cost rise. Treat that as diagnostic only until a
+            # route truly disappears; the first canary over-recovered here.
+            self.v5_path_counts["diagnostic_only"] += 1
+            return
+        if step - self._v5_last_recovery_step < 120:
+            self.v5_path_counts["recovery_rate_limited"] += 1
+            return
+        self._v5_last_recovery_step = step
+        # Regenerate the existing legal carry-cost route. A new path is used
+        # only when the first links are connected for the present load hull.
+        if signal.action in ("REPLAN", "RECOVER"):
+            self.center_step = -1000
+            new_path = self._center_path(step)
+            first_links = [self.pose] + new_path[:3]
+            connected = (len(new_path) >= 2 and all(
+                self._v5_loaded_segment_safe(a, b)
+                for a, b in zip(first_links, first_links[1:])
+            ))
+            if connected:
+                self.path = new_path
+                self.path_i = 0
+                self.path_goal = "center"
+                self.path_step = step
+                self._reset_progress()
+                self.v5_path_counts["verified_replan"] += 1
+            elif signal.action == "RECOVER":
+                self._start_escape(step, lidar, angles, away_from=waypoint)
+                self.v5_path_counts["safe_recovery"] += 1
+            else:
+                self.v5_path_counts["replan_rejected"] += 1
+        elif signal.action == "TERMINAL_CONFLICT":
+            # No live, connected loaded path was proven. Keep the baseline
+            # controller's legal recovery; never treat map-cost zero as disposal.
+            self.v5_path_counts["terminal_unresolved"] += 1
 
     def _explore(self, step, cmd, lidar, angles):
         reason = "BASELINE"
@@ -514,6 +613,8 @@ class FinalCompetitionDrone(FusionRescueDrone):
 
     def control(self):
         command = self._control_with_safety()
+        if self.v5_path_watchdog and not self.grasped_bombs():
+            self.v5_path_supervisor.reset()
         if (getattr(self, "_v4_velocity_estimator", None) is not None
                 and self.heading is not None):
             self._v4_velocity_estimator.set_previous_command(

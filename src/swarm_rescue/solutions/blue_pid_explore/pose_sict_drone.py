@@ -34,6 +34,8 @@ from .legacy_sict_control import braking_speed, grasp_candidates, heading_comman
 from .legacy_sict_coordination import auction_utility
 from .predictive_task_eta import CompletionTimeEstimator, AssignmentHysteresis
 from .model_velocity_control import PolePlacementVelocityController, world_to_body
+from .v5_deadline_allocator import DeadlineTaskScheduler, TaskCandidate
+from .v5_control_gate import BoundedModelBlend
 from .velocity_estimator import LegalVelocityEstimator
 
 TYPE = DroneSemanticSensor.TypeEntity
@@ -103,6 +105,10 @@ CLAIM_DELIVERY = float(_os.environ.get("V3_CLAIM_DELIVERY", "0.0"))
 V4_PREDICTIVE_ASSIGNMENT = _os.environ.get("V4_PREDICTIVE_ASSIGNMENT", "0") == "1"
 V4_MODEL_EMPTY = _os.environ.get("V4_MODEL_EMPTY", "0") == "1"
 V4_MODEL_LEGAL_OBSERVER = _os.environ.get("V4_MODEL_LEGAL_OBSERVER", "0") == "1"
+V5_DEADLINE_ASSIGNMENT = _os.environ.get("V5_DEADLINE_ASSIGNMENT", "0") == "1"
+V5_TIME_HORIZON = int(_os.environ.get("V5_TIME_HORIZON", "0"))
+V5_MODEL_BLEND = _os.environ.get("V5_MODEL_BLEND", "0") == "1"
+V5_MODEL_SHADOW = _os.environ.get("V5_MODEL_SHADOW", "0") == "1"
 EXP_DIST_POW = float(_os.environ.get("V3_EXP_DIST_POW", "1.0"))
 NARROW_CAP = int(_os.environ.get("V3_NARROW_CAP", "10"))
 FRONTIER = _os.environ.get("V3_FRONTIER", "0") == "1"  # tested: worse
@@ -224,6 +230,13 @@ def controller_state_snapshot():
             "repeated_explore_goals": int(
                 drone.stats.get("repeated_explore_goals", 0)),
             "safety": {key: int(value) for key, value in safety.items()},
+            "v5_path_counts": dict(getattr(drone, "v5_path_counts", {})),
+            "v5_blend_frames": int(getattr(drone, "v5_blend_frames", 0)),
+            "v5_shadow_frames": int(getattr(drone, "v5_shadow_frames", 0)),
+            "v5_bid": (None if drone.know.v5_outgoing_bid is None
+                       else {"protocol": 5,
+                             "cost_frames": float(drone.know.v5_outgoing_bid.cost_frames),
+                             "sent_step": int(drone.know.v5_outgoing_bid.sent_step)}),
             "cargo_model": (drone.cargo_identifier.diagnostics()
                             if getattr(drone, "cargo_identifier", None)
                             is not None else None),
@@ -325,10 +338,16 @@ class SictRescueDrone(DroneAbstract):
         self.claim_cost = None
         self.claim_since = 0
         self._eta_estimator = CompletionTimeEstimator()
+        self.v5_scheduler = DeadlineTaskScheduler(self.me)
         self._eta_hysteresis = AssignmentHysteresis()
         self._last_claim_eta = None
         self.model_empty_controller = PolePlacementVelocityController(
             closed_loop_pole=0.75)
+        self.v5_blend = BoundedModelBlend(
+            alpha=min(0.2, max(0.0, float(_os.environ.get("V5_BLEND_ALPHA", "0.1"))))
+            if V5_MODEL_BLEND else 0.0)
+        self.v5_blend_frames = 0
+        self.v5_shadow_frames = 0
         self._v4_velocity_estimator = (
             LegalVelocityEstimator()
             if V4_MODEL_EMPTY and V4_MODEL_LEGAL_OBSERVER else None)
@@ -409,6 +428,8 @@ class SictRescueDrone(DroneAbstract):
     def define_message_for_all(self):
         if not self.ready or self.pose is None:
             return None
+        if self.state != "FETCH":
+            self.know.v5_outgoing_bid = None
         claim = ((self.claim_pos, self.claim_cost)
                  if self.claim_pos is not None and self.state == "FETCH" else None)
         return self.know.message(int(self.elapsed_timestep), self.pose, self.vel,
@@ -1162,6 +1183,8 @@ class SictRescueDrone(DroneAbstract):
 
     def _choose_bomb(self, step):
         previous_claim = self.claim_key
+        if V5_DEADLINE_ASSIGNMENT:
+            self.know.v5_outgoing_bid = None
         if self.cum is None:
             return
         if not self._carrier_slot_free():
@@ -1170,10 +1193,11 @@ class SictRescueDrone(DroneAbstract):
             if self.claim_key is not None:
                 self._drop_claim()
             return
-        if V4_PREDICTIVE_ASSIGNMENT and (self.grid.center_points
+        if (V4_PREDICTIVE_ASSIGNMENT or V5_DEADLINE_ASSIGNMENT) and (self.grid.center_points
                                          or self.grid.seen_points):
             self._refresh_center_field(step)
         best = None
+        v5_options = []
         incumbent = None
         incumbent_eta = None
         for key, track in self.know.bombs.items():
@@ -1241,8 +1265,21 @@ class SictRescueDrone(DroneAbstract):
                     # beside it: picking it up again is far cheaper than any
                     # teammate flying here, so keep it out of the auction.
                     cost -= 400.0
-            if self.know.claimed_by_better_peer(pos, cost):
+            matching_v5_ids = (
+                {pid for pid, bid in self.know.v5_incoming_bids.items()
+                 if bid.valid(step) and math.dist(pos, bid.position) <= 20.0}
+                if V5_DEADLINE_ASSIGNMENT else set()
+            )
+            if self.know.claimed_by_better_peer(
+                    pos, cost, ignore_peer_ids=matching_v5_ids):
                 continue
+            if V5_DEADLINE_ASSIGNMENT:
+                v5_options.append((TaskCandidate(
+                    key=key, position=tuple(pos), approach_px=approach_px,
+                    loaded_return_px=home_px,
+                    failures=self.know.failures.get(key, 0),
+                    blocked_approach=blocked,
+                ), cost, view, blocked))
             rank = eta_rank if V4_PREDICTIVE_ASSIGNMENT else cost
             candidate = (rank, cost, key, pos, view, blocked)
             if key == previous_claim:
@@ -1250,11 +1287,43 @@ class SictRescueDrone(DroneAbstract):
                 incumbent_eta = eta_rank
             if best is None or rank < best[0]:
                 best = candidate
+        v5_decision = None
+        if V5_DEADLINE_ASSIGNMENT:
+            recent_pickups = sum(
+                event["kind"] == "grasp" and step - event["step"] <= 1200
+                for event in self.task_events
+            )
+            # Public round limit can be supplied by the official test plan.
+            # If unavailable to the competition controller, omit lateness
+            # penalty rather than guessing a map-specific hidden limit.
+            horizon = V5_TIME_HORIZON if V5_TIME_HORIZON > 0 else 10**9
+            v5_decision = self.v5_scheduler.choose(
+                [item[0] for item in v5_options], now=step,
+                horizon=horizon, incumbent_key=previous_claim,
+                own_recent_pickups=recent_pickups,
+                peer_bids=self.know.v5_incoming_bids.values(),
+            )
+            if v5_decision is not None:
+                selected = next(item for item in v5_options
+                                if item[0].key == v5_decision.key)
+                candidate, cost, view, blocked = selected
+                best = (v5_decision.score_frames, cost, candidate.key,
+                        candidate.position, view, blocked)
+                self.know.v5_outgoing_bid = self.v5_scheduler.make_bid(
+                    v5_decision, now=step)
+                if v5_decision.key != previous_claim:
+                    self._event("v5_task_switch", step,
+                                reason=v5_decision.reason,
+                                eta=round(v5_decision.completion_frames, 1),
+                                finish=round(v5_decision.expected_finish_step, 1),
+                                recent_pickups=recent_pickups)
+            else:
+                best = None
         if best is None:
             if self.claim_key is not None:
                 self._drop_claim()
             return
-        if (V4_PREDICTIVE_ASSIGNMENT and incumbent is not None
+        if (V4_PREDICTIVE_ASSIGNMENT and not V5_DEADLINE_ASSIGNMENT and incumbent is not None
                 and best[2] != previous_claim
                 and not self._eta_hysteresis.should_switch(
                     incumbent_eta, best[0])):
@@ -1364,7 +1433,8 @@ class SictRescueDrone(DroneAbstract):
     def _velocity_to_command(self, v_des, lidar, angles, carrying, careful=False,
                              wall_margin=None, ignore_target=None):
         """Velocity PD + lidar braking + wall and drone repulsion."""
-        if (V4_MODEL_EMPTY and not carrying and not careful
+        if (V4_MODEL_EMPTY and not (V5_MODEL_BLEND or V5_MODEL_SHADOW)
+                and not carrying and not careful
                 and self.state == "EXPLORE" and lidar is not None):
             finite = np.asarray(lidar, float)
             finite = finite[np.isfinite(finite)]
@@ -1465,7 +1535,26 @@ class SictRescueDrone(DroneAbstract):
         if norm > 1.0:
             fx, fy = fx / norm, fy / norm
         ca, sa = math.cos(self.heading), math.sin(self.heading)
-        return ca * fx + sa * fy, -sa * fx + ca * fy
+        baseline_body = (ca * fx + sa * fy, -sa * fx + ca * fy)
+        if ((V5_MODEL_SHADOW or V5_MODEL_BLEND) and not carrying
+                and not careful and self.state == "EXPLORE"):
+            try:
+                model_world = self.model_empty_controller.compute(v_des, self.v_control)
+                self.v5_shadow_frames += 1
+                lidar_min = (float(np.min(lidar)) if lidar is not None
+                             else 0.0)
+                blended, enabled = self.v5_blend.apply(
+                    baseline_body=baseline_body, model_world=model_world,
+                    heading=self.heading, state=self.state, carrying=False,
+                    lidar_min_px=lidar_min,
+                    gps_valid=self.measured_gps_position() is not None,
+                    peer_nearby=any(d < 90.0 for _, _, d in self.visible_drones),
+                )
+                self.v5_blend_frames += int(enabled)
+                return float(blended[0]), float(blended[1])
+            except (ValueError, TypeError):
+                pass
+        return baseline_body
 
     def _toward(self, target, speed_cap, stop_dist=0.0):
         dx, dy = target[0] - self.pose[0], target[1] - self.pose[1]
