@@ -116,6 +116,7 @@ def main():
         "brake_shadow": [("v6_brake_shadow_Map07_e861", "Map07", 861)],
         "default_861": [("v6_default_all_e861", name, 861) for name in MAPS],
         "default_862": [("v6_default_all_e862", name, 862) for name in MAPS],
+        "default_863": [("v6_default_all_e863", name, 863) for name in MAPS],
     }
     report = {"engine": "official Launcher/Pymunk", "arms": {}}
     for arm, entries in arms.items():
