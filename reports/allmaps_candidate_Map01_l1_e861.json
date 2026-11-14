@@ -1,0 +1,1644 @@
+{
+  "disposed": 10,
+  "total_bombs": 10,
+  "official_total": 87.4,
+  "mean_health_percent": 92.4,
+  "time_to_dispose_all_step": 1379,
+  "elapsed_timestep": 1379,
+  "max_timestep": 2000,
+  "walltime_seconds": 31.0,
+  "raw_output": "The team 'SkySaviors' n\u00b06, with tom, alice, bob, lea\nDefault team mode: <not set>\nEvaluation Plan (from file: plan_Map01_1.yml):\n==================================================\nConfig ID: 1\n  Map: Map01\n  Zones: none\n  Number of Rounds: 1\n  Weight: 1\n  Team mode (scenario): rescue\n  Number of drones (scenario): 10\n--------------------------------------------------\nDefault team mode: <not set>\nTime score: full marks at or before 30% of the timestep limit\n--------------------------------------------------------------------------------------------\n\n--------------------------------------------------------------------------------------------\n--------------------------------------------------------------------------------------------\n* Map: Map01, mode: rescue, special zones: none, round: 1/1\ncount_reachable v3 = 928138\n\t* Round n\u00b01/1: \n\t\trescued nb: 10/10 (disposal score: 100.0%), health return score: 92.4%, time score: 44.4%, explor. score: 100.0% (weight 0%), walltime elapsed: 31s/90s, elapse timestep: 1379/2000 steps, time to dispose all: 1379 steps.\n\t\tscore breakdown (competition weights): disposal 100.0 x 60% = 60.0, health 92.4 x 20% = 18.5, time 44.4 x 20% = 8.9, total 87.4/100.\n\t\tpercentage of drones destroyed: 0.0 %, mean percentage of drones health : 92.4 %.\n\t\tround score: 87.4%, frequency: 43.89 steps/s.\n--------------------------------------------------------------------------------------------\n",
+  "map": "Map01",
+  "seed": 1,
+  "engine_seed": 861,
+  "ok": true,
+  "plan": "E:\\code\\final_fusai\\swarm-eod-main\\reports\\competition_work\\plan_Map01_1.yml",
+  "bomb_file": "E:\\code\\final_fusai\\swarm-eod-main\\reports\\competition_work\\bombs_Map01_1.json",
+  "controller_diagnostics": {
+    "drone_count": 10,
+    "control_calls": 13780,
+    "control_mean_ms": 1.686326559984121,
+    "control_max_ms": 17.782600014470518,
+    "control_p95_ms": 4.295019988785494,
+    "stuck_events": 6,
+    "grasp_failures": 0,
+    "grasp_time_steps": 0,
+    "grasp_successes": 10,
+    "recovery_events": 6,
+    "collision_damage_events": 19,
+    "event_counts": {
+      "grasp": 10,
+      "release": 9,
+      "center_goal_drop": 20,
+      "stuck": 6,
+      "explore_goal_timeout": 7,
+      "pickup_exit_complete": 1
+    },
+    "all_discovered_step": 628,
+    "explore_goal_selections": 560,
+    "repeated_exploration_ratio": 0.6446428571428572,
+    "corridor_entered": 0,
+    "corridor_ends_reached": 0,
+    "corridor_closed_ends": 0,
+    "corridor_branches_found": 0,
+    "corridor_branches_entered": 0,
+    "corridor_completed": 0,
+    "corridor_approach_failures": 0,
+    "unexplained_reversals": 0
+  },
+  "controller_states": [
+    {
+      "id": 0,
+      "state": "CARRY",
+      "carrying": false,
+      "accounted": 10,
+      "known_bombs": 0,
+      "known_disposed": 8,
+      "claim": null,
+      "pose": [
+        -380.89860352816737,
+        190.47844436144757
+      ],
+      "stuck_count": 0,
+      "grasps": 2,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "safety": {
+        "filtered_frames": 5,
+        "predictive_brake_frames": 0,
+        "infeasible_frames": 5
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "first_seen",
+          "step": 2,
+          "key": "(0, 0)",
+          "bomb": [
+            -555.62,
+            24.29
+          ],
+          "view": [
+            -568.77,
+            45.63
+          ],
+          "distance": 9.58
+        },
+        {
+          "kind": "claim",
+          "step": 2,
+          "key": "(0, 0)",
+          "bomb": [
+            -555.62,
+            24.29
+          ],
+          "cost": 17.89,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 99,
+          "key": "(0, 1)",
+          "bomb": [
+            -460.73,
+            -331.19
+          ],
+          "cost": 708.27,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 171,
+          "key": "(0, 2)",
+          "bomb": [
+            -319.5,
+            334.06
+          ],
+          "cost": 531.05,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 195,
+          "key": "(0, 3)",
+          "bomb": [
+            -6.43,
+            -34.43
+          ],
+          "cost": 703.18,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 392,
+          "key": "(0, 5)",
+          "bomb": [
+            -84.94,
+            141.94
+          ],
+          "cost": 391.86,
+          "blocked": false
+        },
+        {
+          "kind": "first_seen",
+          "step": 631,
+          "key": "(0, 10)",
+          "bomb": [
+            318.28,
+            -371.26
+          ],
+          "view": [
+            376.31,
+            -248.81
+          ],
+          "distance": 124.5
+        },
+        {
+          "kind": "claim",
+          "step": 631,
+          "key": "(0, 10)",
+          "bomb": [
+            318.28,
+            -371.26
+          ],
+          "cost": 208.23,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "last_events": [
+        {
+          "kind": "grasp",
+          "step": 6
+        },
+        {
+          "kind": "release",
+          "step": 99,
+          "near_center": true
+        },
+        {
+          "kind": "grasp",
+          "step": 655
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 1302
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "state": "EXPLORE",
+      "carrying": false,
+      "accounted": 10,
+      "known_bombs": 0,
+      "known_disposed": 8,
+      "claim": null,
+      "pose": [
+        -65.43347541679574,
+        -103.74060562402089
+      ],
+      "stuck_count": 1,
+      "grasps": 1,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "safety": {
+        "filtered_frames": 12,
+        "predictive_brake_frames": 1,
+        "infeasible_frames": 11
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "first_seen",
+          "step": 2,
+          "key": "(1, 0)",
+          "bomb": [
+            -564.25,
+            26.72
+          ],
+          "view": [
+            -524.32,
+            39.81
+          ],
+          "distance": 26.23
+        },
+        {
+          "kind": "claim",
+          "step": 2,
+          "key": "(1, 0)",
+          "bomb": [
+            -564.25,
+            26.72
+          ],
+          "cost": 38.8,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 75,
+          "key": "(1, 1)",
+          "bomb": [
+            -460.73,
+            -331.19
+          ],
+          "cost": 342.69,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 190,
+          "key": "(1, 3)",
+          "bomb": [
+            -319.5,
+            334.06
+          ],
+          "cost": 1003.04,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 212,
+          "key": "(1, 4)",
+          "bomb": [
+            -6.43,
+            -34.43
+          ],
+          "cost": 327.34,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 333,
+          "key": "(1, 6)",
+          "bomb": [
+            -67.1,
+            162.05
+          ],
+          "cost": 644.56,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 388,
+          "key": "(1, 6)",
+          "bomb": [
+            -67.1,
+            162.05
+          ],
+          "cost": 776.33,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 416,
+          "key": "(1, 7)",
+          "bomb": [
+            -84.94,
+            141.94
+          ],
+          "cost": 572.25,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 463,
+          "key": "(1, 8)",
+          "bomb": [
+            391.44,
+            -47.21
+          ],
+          "cost": 372.66,
+          "blocked": false
+        },
+        {
+          "kind": "first_seen",
+          "step": 559,
+          "key": "(1, 9)",
+          "bomb": [
+            313.86,
+            -183.47
+          ],
+          "view": [
+            396.51,
+            -70.73
+          ],
+          "distance": 128.79
+        },
+        {
+          "kind": "claim",
+          "step": 559,
+          "key": "(1, 9)",
+          "bomb": [
+            313.86,
+            -183.47
+          ],
+          "cost": 254.1,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "last_events": [
+        {
+          "kind": "grasp",
+          "step": 583
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 1019
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 1050
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 1084
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 1125
+        },
+        {
+          "kind": "stuck",
+          "step": 1125,
+          "state": "CARRY"
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 1185
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 1207
+        },
+        {
+          "kind": "release",
+          "step": 1257,
+          "near_center": true
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 1257
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "state": "EXPLORE",
+      "carrying": false,
+      "accounted": 10,
+      "known_bombs": 0,
+      "known_disposed": 8,
+      "claim": null,
+      "pose": [
+        82.38492068133627,
+        -94.94872291786182
+      ],
+      "stuck_count": 0,
+      "grasps": 0,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "safety": {
+        "filtered_frames": 18,
+        "predictive_brake_frames": 0,
+        "infeasible_frames": 18
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "claim",
+          "step": 74,
+          "key": "(2, 1)",
+          "bomb": [
+            -460.73,
+            -331.19
+          ],
+          "cost": 539.38,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 96,
+          "key": "(2, 1)",
+          "bomb": [
+            -460.73,
+            -331.19
+          ],
+          "cost": 453.4,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 165,
+          "key": "(2, 3)",
+          "bomb": [
+            -319.5,
+            334.06
+          ],
+          "cost": 353.67,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 279,
+          "key": "(2, 5)",
+          "bomb": [
+            175.05,
+            210.61
+          ],
+          "cost": 706.19,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 342,
+          "key": "(2, 6)",
+          "bomb": [
+            -67.1,
+            162.05
+          ],
+          "cost": 693.78,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 363,
+          "key": "(2, 7)",
+          "bomb": [
+            -84.94,
+            141.94
+          ],
+          "cost": 181.18,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 465,
+          "key": "(2, 8)",
+          "bomb": [
+            391.44,
+            -47.21
+          ],
+          "cost": 538.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 487,
+          "key": "(2, 8)",
+          "bomb": [
+            391.44,
+            -47.21
+          ],
+          "cost": 404.51,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 563,
+          "key": "(2, 9)",
+          "bomb": [
+            313.86,
+            -183.47
+          ],
+          "cost": 711.35,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "last_events": []
+    },
+    {
+      "id": 3,
+      "state": "EXPLORE",
+      "carrying": false,
+      "accounted": 10,
+      "known_bombs": 0,
+      "known_disposed": 8,
+      "claim": null,
+      "pose": [
+        -143.33101525054792,
+        -171.3434866593345
+      ],
+      "stuck_count": 0,
+      "grasps": 1,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "safety": {
+        "filtered_frames": 17,
+        "predictive_brake_frames": 0,
+        "infeasible_frames": 17
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "claim",
+          "step": 70,
+          "key": "(3, 1)",
+          "bomb": [
+            -460.73,
+            -331.19
+          ],
+          "cost": 249.41,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 80,
+          "key": "(3, 1)",
+          "bomb": [
+            -460.73,
+            -331.19
+          ],
+          "cost": 150.36,
+          "blocked": false
+        },
+        {
+          "kind": "first_seen",
+          "step": 84,
+          "key": "(3, 2)",
+          "bomb": [
+            -478.49,
+            -353.95
+          ],
+          "view": [
+            -419.5,
+            -229.01
+          ],
+          "distance": 127.16
+        },
+        {
+          "kind": "claim",
+          "step": 277,
+          "key": "(3, 5)",
+          "bomb": [
+            175.05,
+            210.61
+          ],
+          "cost": 1208.86,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 287,
+          "key": "(3, 5)",
+          "bomb": [
+            175.05,
+            210.61
+          ],
+          "cost": 442.85,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 331,
+          "key": "(3, 6)",
+          "bomb": [
+            -67.1,
+            162.05
+          ],
+          "cost": 278.03,
+          "blocked": false
+        },
+        {
+          "kind": "first_seen",
+          "step": 336,
+          "key": "(3, 7)",
+          "bomb": [
+            -87.8,
+            140.43
+          ],
+          "view": [
+            35.71,
+            89.18
+          ],
+          "distance": 122.72
+        },
+        {
+          "kind": "claim",
+          "step": 338,
+          "key": "(3, 7)",
+          "bomb": [
+            -87.58,
+            139.42
+          ],
+          "cost": 208.81,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 358,
+          "key": "(3, 6)",
+          "bomb": [
+            -69.19,
+            161.26
+          ],
+          "cost": 28.84,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "last_events": [
+        {
+          "kind": "grasp",
+          "step": 361
+        },
+        {
+          "kind": "release",
+          "step": 664,
+          "near_center": true
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 664
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "state": "EXPLORE",
+      "carrying": false,
+      "accounted": 10,
+      "known_bombs": 0,
+      "known_disposed": 8,
+      "claim": null,
+      "pose": [
+        56.627161982929884,
+        110.85974437272972
+      ],
+      "stuck_count": 2,
+      "grasps": 1,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "safety": {
+        "filtered_frames": 25,
+        "predictive_brake_frames": 0,
+        "infeasible_frames": 25
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "claim",
+          "step": 76,
+          "key": "(4, 1)",
+          "bomb": [
+            -460.73,
+            -331.19
+          ],
+          "cost": 464.95,
+          "blocked": false
+        },
+        {
+          "kind": "first_seen",
+          "step": 163,
+          "key": "(4, 3)",
+          "bomb": [
+            -319.5,
+            334.06
+          ],
+          "view": [
+            -302.08,
+            201.18
+          ],
+          "distance": 123.02
+        },
+        {
+          "kind": "claim",
+          "step": 163,
+          "key": "(4, 3)",
+          "bomb": [
+            -319.5,
+            334.06
+          ],
+          "cost": 352.82,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 446,
+          "key": "(4, 5)",
+          "bomb": [
+            -84.94,
+            141.94
+          ],
+          "cost": 781.13,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 658,
+          "key": "(4, 6)",
+          "bomb": [
+            460.95,
+            -347.43
+          ],
+          "cost": 911.8,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "last_events": [
+        {
+          "kind": "grasp",
+          "step": 190
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 210
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 231
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 252
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 273
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 294
+        },
+        {
+          "kind": "stuck",
+          "step": 294,
+          "state": "CARRY"
+        },
+        {
+          "kind": "release",
+          "step": 433,
+          "near_center": true
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 433
+        },
+        {
+          "kind": "stuck",
+          "step": 700,
+          "state": "FETCH"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "state": "EXPLORE",
+      "carrying": false,
+      "accounted": 10,
+      "known_bombs": 0,
+      "known_disposed": 8,
+      "claim": null,
+      "pose": [
+        -112.95521641460057,
+        -121.72721570988848
+      ],
+      "stuck_count": 0,
+      "grasps": 2,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "safety": {
+        "filtered_frames": 5,
+        "predictive_brake_frames": 0,
+        "infeasible_frames": 5
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "first_seen",
+          "step": 2,
+          "key": "(5, 0)",
+          "bomb": [
+            -556.05,
+            21.96
+          ],
+          "view": [
+            -525.56,
+            77.6
+          ],
+          "distance": 52.45
+        },
+        {
+          "kind": "claim",
+          "step": 2,
+          "key": "(5, 0)",
+          "bomb": [
+            -556.05,
+            21.96
+          ],
+          "cost": 60.94,
+          "blocked": false
+        },
+        {
+          "kind": "first_seen",
+          "step": 68,
+          "key": "(5, 1)",
+          "bomb": [
+            -460.73,
+            -331.19
+          ],
+          "view": [
+            -544.04,
+            -226.71
+          ],
+          "distance": 122.63
+        },
+        {
+          "kind": "claim",
+          "step": 68,
+          "key": "(5, 1)",
+          "bomb": [
+            -460.73,
+            -331.19
+          ],
+          "cost": 232.76,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 346,
+          "key": "(5, 3)",
+          "bomb": [
+            -84.94,
+            141.94
+          ],
+          "cost": 710.91,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 466,
+          "key": "(5, 4)",
+          "bomb": [
+            391.44,
+            -47.21
+          ],
+          "cost": 315.23,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 565,
+          "key": "(5, 5)",
+          "bomb": [
+            313.86,
+            -183.47
+          ],
+          "cost": 663.39,
+          "blocked": false
+        },
+        {
+          "kind": "first_seen",
+          "step": 611,
+          "key": "(5, 6)",
+          "bomb": [
+            460.95,
+            -347.43
+          ],
+          "view": [
+            463.45,
+            -206.65
+          ],
+          "distance": 129.8
+        },
+        {
+          "kind": "claim",
+          "step": 611,
+          "key": "(5, 6)",
+          "bomb": [
+            460.95,
+            -347.43
+          ],
+          "cost": 254.65,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "last_events": [
+        {
+          "kind": "grasp",
+          "step": 95
+        },
+        {
+          "kind": "release",
+          "step": 288,
+          "near_center": true
+        },
+        {
+          "kind": "grasp",
+          "step": 636
+        },
+        {
+          "kind": "release",
+          "step": 1312,
+          "near_center": true
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 1312
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "state": "EXPLORE",
+      "carrying": false,
+      "accounted": 10,
+      "known_bombs": 0,
+      "known_disposed": 8,
+      "claim": null,
+      "pose": [
+        -70.6443946102398,
+        -170.80341568743364
+      ],
+      "stuck_count": 0,
+      "grasps": 0,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "safety": {
+        "filtered_frames": 37,
+        "predictive_brake_frames": 0,
+        "infeasible_frames": 37
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "claim",
+          "step": 173,
+          "key": "(6, 3)",
+          "bomb": [
+            -319.5,
+            334.06
+          ],
+          "cost": 913.73,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 200,
+          "key": "(6, 4)",
+          "bomb": [
+            -6.43,
+            -34.43
+          ],
+          "cost": 290.51,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 275,
+          "key": "(6, 5)",
+          "bomb": [
+            175.05,
+            210.61
+          ],
+          "cost": 1206.2,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 283,
+          "key": "(6, 5)",
+          "bomb": [
+            175.05,
+            210.61
+          ],
+          "cost": 446.47,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 293,
+          "key": "(6, 5)",
+          "bomb": [
+            175.05,
+            210.61
+          ],
+          "cost": 297.99,
+          "blocked": false
+        },
+        {
+          "kind": "first_seen",
+          "step": 329,
+          "key": "(6, 6)",
+          "bomb": [
+            -67.1,
+            162.05
+          ],
+          "view": [
+            61.98,
+            126.02
+          ],
+          "distance": 123.01
+        },
+        {
+          "kind": "claim",
+          "step": 329,
+          "key": "(6, 6)",
+          "bomb": [
+            -67.1,
+            162.05
+          ],
+          "cost": 406.58,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 338,
+          "key": "(6, 7)",
+          "bomb": [
+            -87.8,
+            140.43
+          ],
+          "cost": 199.38,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 363,
+          "key": "(6, 7)",
+          "bomb": [
+            -87.8,
+            140.43
+          ],
+          "cost": 259.52,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 487,
+          "key": "(6, 8)",
+          "bomb": [
+            391.44,
+            -47.21
+          ],
+          "cost": 289.64,
+          "blocked": false
+        },
+        {
+          "kind": "first_seen",
+          "step": 628,
+          "key": "(6, 11)",
+          "bomb": [
+            498.98,
+            -345.05
+          ],
+          "view": [
+            542.74,
+            -215.36
+          ],
+          "distance": 125.87
+        },
+        {
+          "kind": "claim",
+          "step": 630,
+          "key": "(6, 11)",
+          "bomb": [
+            501.51,
+            -352.03
+          ],
+          "cost": 223.72,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 636,
+          "key": "(6, 12)",
+          "bomb": [
+            318.28,
+            -371.26
+          ],
+          "cost": 343.96,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "last_events": []
+    },
+    {
+      "id": 7,
+      "state": "EXPLORE",
+      "carrying": false,
+      "accounted": 10,
+      "known_bombs": 0,
+      "known_disposed": 8,
+      "claim": null,
+      "pose": [
+        -1.0239004140361978,
+        121.56566439211579
+      ],
+      "stuck_count": 0,
+      "grasps": 1,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "safety": {
+        "filtered_frames": 17,
+        "predictive_brake_frames": 0,
+        "infeasible_frames": 17
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "claim",
+          "step": 194,
+          "key": "(7, 4)",
+          "bomb": [
+            -6.43,
+            -34.43
+          ],
+          "cost": 553.64,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 200,
+          "key": "(7, 4)",
+          "bomb": [
+            -6.43,
+            -34.43
+          ],
+          "cost": 493.01,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 275,
+          "key": "(7, 5)",
+          "bomb": [
+            175.05,
+            210.61
+          ],
+          "cost": 1208.62,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 333,
+          "key": "(7, 6)",
+          "bomb": [
+            -67.1,
+            162.05
+          ],
+          "cost": 748.05,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 343,
+          "key": "(7, 6)",
+          "bomb": [
+            -67.1,
+            162.05
+          ],
+          "cost": 513.53,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 362,
+          "key": "(7, 7)",
+          "bomb": [
+            -84.94,
+            141.94
+          ],
+          "cost": 339.12,
+          "blocked": false
+        },
+        {
+          "kind": "first_seen",
+          "step": 461,
+          "key": "(7, 8)",
+          "bomb": [
+            391.44,
+            -47.21
+          ],
+          "view": [
+            354.4,
+            81.48
+          ],
+          "distance": 122.91
+        },
+        {
+          "kind": "claim",
+          "step": 461,
+          "key": "(7, 8)",
+          "bomb": [
+            391.44,
+            -47.21
+          ],
+          "cost": 437.24,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 468,
+          "key": "(7, 8)",
+          "bomb": [
+            399.46,
+            -48.63
+          ],
+          "cost": 110.37,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "last_events": [
+        {
+          "kind": "grasp",
+          "step": 484
+        },
+        {
+          "kind": "release",
+          "step": 1008,
+          "near_center": true
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 1008
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "state": "EXPLORE",
+      "carrying": false,
+      "accounted": 10,
+      "known_bombs": 0,
+      "known_disposed": 8,
+      "claim": null,
+      "pose": [
+        -369.86940244275695,
+        -133.43408734999923
+      ],
+      "stuck_count": 2,
+      "grasps": 1,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "safety": {
+        "filtered_frames": 12,
+        "predictive_brake_frames": 0,
+        "infeasible_frames": 12
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "claim",
+          "step": 74,
+          "key": "(8, 1)",
+          "bomb": [
+            -460.73,
+            -331.19
+          ],
+          "cost": 447.2,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 169,
+          "key": "(8, 3)",
+          "bomb": [
+            -319.5,
+            334.06
+          ],
+          "cost": 583.36,
+          "blocked": false
+        },
+        {
+          "kind": "first_seen",
+          "step": 191,
+          "key": "(8, 4)",
+          "bomb": [
+            -6.43,
+            -34.43
+          ],
+          "view": [
+            -114.69,
+            -110.34
+          ],
+          "distance": 121.22
+        },
+        {
+          "kind": "claim",
+          "step": 191,
+          "key": "(8, 4)",
+          "bomb": [
+            -6.43,
+            -34.43
+          ],
+          "cost": 701.66,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 199,
+          "key": "(8, 4)",
+          "bomb": [
+            -2.32,
+            -35.72
+          ],
+          "cost": 122.29,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "last_events": [
+        {
+          "kind": "grasp",
+          "step": 226
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 516
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 584
+        },
+        {
+          "kind": "stuck",
+          "step": 629,
+          "state": "CARRY"
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 715
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 737
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 759
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 784
+        },
+        {
+          "kind": "stuck",
+          "step": 784,
+          "state": "CARRY"
+        },
+        {
+          "kind": "release",
+          "step": 922,
+          "near_center": true
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 922
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "state": "EXPLORE",
+      "carrying": false,
+      "accounted": 10,
+      "known_bombs": 0,
+      "known_disposed": 7,
+      "claim": null,
+      "pose": [
+        96.264971127341,
+        301.9548179297377
+      ],
+      "stuck_count": 1,
+      "grasps": 1,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "safety": {
+        "filtered_frames": 19,
+        "predictive_brake_frames": 0,
+        "infeasible_frames": 18
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "claim",
+          "step": 90,
+          "key": "(9, 1)",
+          "bomb": [
+            -460.73,
+            -331.19
+          ],
+          "cost": 378.97,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 193,
+          "key": "(9, 4)",
+          "bomb": [
+            -6.43,
+            -34.43
+          ],
+          "cost": 272.94,
+          "blocked": false
+        },
+        {
+          "kind": "first_seen",
+          "step": 261,
+          "key": "(9, 5)",
+          "bomb": [
+            186.3,
+            212.52
+          ],
+          "view": [
+            241.37,
+            86.96
+          ],
+          "distance": 126.1
+        },
+        {
+          "kind": "claim",
+          "step": 261,
+          "key": "(9, 5)",
+          "bomb": [
+            186.3,
+            212.52
+          ],
+          "cost": 187.32,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "last_events": [
+        {
+          "kind": "grasp",
+          "step": 293
+        },
+        {
+          "kind": "pickup_exit_complete",
+          "step": 339,
+          "distance": 81.1
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 673
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 781
+        },
+        {
+          "kind": "stuck",
+          "step": 781,
+          "state": "CARRY"
+        },
+        {
+          "kind": "release",
+          "step": 995,
+          "near_center": true
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 995
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,3081 @@
+{
+  "disposed": 10,
+  "total_bombs": 10,
+  "official_total": 84.6,
+  "mean_health_percent": 88.4,
+  "time_to_dispose_all_step": 4099,
+  "elapsed_timestep": 4099,
+  "max_timestep": 5400,
+  "walltime_seconds": 101.0,
+  "raw_output": "The team 'SkySaviors' n\u00b06, with tom, alice, bob, lea\nDefault team mode: <not set>\nEvaluation Plan (from file: plan_Map09.yml):\n==================================================\nConfig ID: 1\n  Map: Map09\n  Zones: no_com_zone, no_gps_zone\n  Number of Rounds: 1\n  Weight: 1\n  Team mode (scenario): rescue\n  Number of drones (scenario): 10\n--------------------------------------------------\nDefault team mode: <not set>\nTime score: full marks at or before 30% of the timestep limit\n--------------------------------------------------------------------------------------------\n\n--------------------------------------------------------------------------------------------\n--------------------------------------------------------------------------------------------\n* Map: Map09, mode: rescue, special zones: no_com_zone, no_gps_zone, round: 1/1\ncount_reachable v3 = 1705782\n\t* Round n\u00b01/1: \n\t\trescued nb: 10/10 (disposal score: 100.0%), health return score: 88.4%, time score: 34.4%, explor. score: 100.0% (weight 0%), walltime elapsed: 101s/180s, elapse timestep: 4099/5400 steps, time to dispose all: 4099 steps.\n\t\tscore breakdown (competition weights): disposal 100.0 x 60% = 60.0, health 88.4 x 20% = 17.7, time 34.4 x 20% = 6.9, total 84.6/100.\n\t\tpercentage of drones destroyed: 0.0 %, mean percentage of drones health : 88.4 %.\n\t\tround score: 84.6%, frequency: 40.42 steps/s.\n--------------------------------------------------------------------------------------------\n",
+  "map": "Map09",
+  "engine_seed": 861,
+  "fixed_layout_source": "E:\\code\\final_fusai\\swarm-eod-main\\config\\zones_location.txt",
+  "zones_config": [
+    "NO_COM_ZONE",
+    "NO_GPS_ZONE"
+  ],
+  "ok": true,
+  "plan": "E:\\code\\final_fusai\\swarm-eod-main\\reports\\fixed_zones_work\\plan_Map09.yml",
+  "bomb_file": "E:\\code\\final_fusai\\swarm-eod-main\\reports\\fixed_zones_work\\bombs_Map09.json",
+  "controller_diagnostics": {
+    "drone_count": 10,
+    "control_calls": 40980,
+    "control_mean_ms": 1.6473157540400747,
+    "control_max_ms": 13.826499984133989,
+    "control_p95_ms": 7.3981599882245055,
+    "stuck_events": 54,
+    "grasp_failures": 0,
+    "grasp_time_steps": 0,
+    "grasp_successes": 10,
+    "recovery_events": 54,
+    "collision_damage_events": 29,
+    "event_counts": {
+      "zone_state": 101,
+      "explore_goal_timeout": 14,
+      "stuck": 54,
+      "grasp": 10,
+      "center_goal_drop": 36,
+      "damage": 29,
+      "release": 9
+    },
+    "all_discovered_step": null,
+    "explore_goal_selections": 4477,
+    "repeated_exploration_ratio": 0.7408979227161046,
+    "corridor_entered": 0,
+    "corridor_ends_reached": 0,
+    "corridor_closed_ends": 0,
+    "corridor_branches_found": 0,
+    "corridor_branches_entered": 0,
+    "corridor_completed": 0,
+    "corridor_approach_failures": 0,
+    "unexplained_reversals": 0
+  },
+  "controller_states": [
+    {
+      "id": 0,
+      "state": "CARRY",
+      "carrying": false,
+      "accounted": 9,
+      "known_bombs": 0,
+      "known_disposed": 7,
+      "claim": null,
+      "pose": [
+        650.5306443328541,
+        -295.09783926133093
+      ],
+      "goal": [
+        -585.0,
+        65.0
+      ],
+      "goal_kind": "explore",
+      "path_goal": "carry_explore",
+      "path_points": 1,
+      "path_index": 0,
+      "path_end": [
+        605.0,
+        -235.0
+      ],
+      "stuck_count": 3,
+      "grasps": 1,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "explore_goal_selections": 483,
+      "repeated_explore_goals": 312,
+      "safety": {
+        "filtered_frames": 119,
+        "predictive_brake_frames": 8,
+        "infeasible_frames": 111
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "corridor_reasons": {},
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "first_seen",
+          "step": 2629,
+          "key": "(0, 0)",
+          "bomb": [
+            -562.74,
+            114.32
+          ],
+          "view": [
+            -669.86,
+            48.12
+          ],
+          "distance": 114.92
+        },
+        {
+          "kind": "claim",
+          "step": 2629,
+          "key": "(0, 0)",
+          "bomb": [
+            -562.74,
+            114.32
+          ],
+          "cost": 154.55,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "branch_trace": [],
+      "pose_trace": [],
+      "last_events": [
+        {
+          "kind": "zone_state",
+          "step": 657,
+          "gps_degraded": true,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 805,
+          "gps_degraded": false,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 888,
+          "gps_degraded": true,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 1078,
+          "gps_degraded": false,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 1090,
+          "gps_degraded": true,
+          "comm_degraded": false
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 1294
+        },
+        {
+          "kind": "zone_state",
+          "step": 1319,
+          "gps_degraded": true,
+          "comm_degraded": true
+        },
+        {
+          "kind": "stuck",
+          "step": 1590,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "zone_state",
+          "step": 1827,
+          "gps_degraded": false,
+          "comm_degraded": true
+        },
+        {
+          "kind": "stuck",
+          "step": 1960,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "zone_state",
+          "step": 2445,
+          "gps_degraded": false,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 2551,
+          "gps_degraded": false,
+          "comm_degraded": true
+        },
+        {
+          "kind": "grasp",
+          "step": 2654
+        },
+        {
+          "kind": "stuck",
+          "step": 3210,
+          "state": "CARRY"
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 3998
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 4024
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "state": "EXPLORE",
+      "carrying": false,
+      "accounted": 8,
+      "known_bombs": 0,
+      "known_disposed": 8,
+      "claim": null,
+      "pose": [
+        -176.0788240765117,
+        208.96832166047605
+      ],
+      "goal": [
+        -195.0,
+        465.0
+      ],
+      "goal_kind": "explore",
+      "path_goal": "explore",
+      "path_points": 28,
+      "path_index": 3,
+      "path_end": [
+        -195.0,
+        465.0
+      ],
+      "stuck_count": 4,
+      "grasps": 1,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "explore_goal_selections": 366,
+      "repeated_explore_goals": 183,
+      "safety": {
+        "filtered_frames": 67,
+        "predictive_brake_frames": 6,
+        "infeasible_frames": 61
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "corridor_reasons": {},
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "first_seen",
+          "step": 409,
+          "key": "(1, 0)",
+          "bomb": [
+            -677.58,
+            -183.96
+          ],
+          "view": [
+            -785.38,
+            -143.18
+          ],
+          "distance": 104.25
+        },
+        {
+          "kind": "claim",
+          "step": 409,
+          "key": "(1, 0)",
+          "bomb": [
+            -677.58,
+            -183.96
+          ],
+          "cost": 320.39,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "branch_trace": [],
+      "pose_trace": [],
+      "last_events": [
+        {
+          "kind": "center_goal_drop",
+          "step": 1364
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 1444
+        },
+        {
+          "kind": "release",
+          "step": 1466,
+          "near_center": true
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 1466
+        },
+        {
+          "kind": "zone_state",
+          "step": 1575,
+          "gps_degraded": true,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 1850,
+          "gps_degraded": true,
+          "comm_degraded": true
+        },
+        {
+          "kind": "stuck",
+          "step": 2190,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "zone_state",
+          "step": 2604,
+          "gps_degraded": false,
+          "comm_degraded": true
+        },
+        {
+          "kind": "zone_state",
+          "step": 2994,
+          "gps_degraded": false,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 3130,
+          "gps_degraded": false,
+          "comm_degraded": true
+        },
+        {
+          "kind": "zone_state",
+          "step": 3236,
+          "gps_degraded": false,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 3260,
+          "gps_degraded": false,
+          "comm_degraded": true
+        },
+        {
+          "kind": "zone_state",
+          "step": 3354,
+          "gps_degraded": false,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 3617,
+          "gps_degraded": false,
+          "comm_degraded": true
+        },
+        {
+          "kind": "zone_state",
+          "step": 3679,
+          "gps_degraded": true,
+          "comm_degraded": true
+        },
+        {
+          "kind": "stuck",
+          "step": 3770,
+          "state": "EXPLORE"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "state": "EXPLORE",
+      "carrying": false,
+      "accounted": 9,
+      "known_bombs": 0,
+      "known_disposed": 7,
+      "claim": null,
+      "pose": [
+        160.44671092298572,
+        445.64702392237984
+      ],
+      "goal": [
+        275.0,
+        395.0
+      ],
+      "goal_kind": "explore",
+      "path_goal": "explore",
+      "path_points": 39,
+      "path_index": 0,
+      "path_end": [
+        275.0,
+        395.0
+      ],
+      "stuck_count": 4,
+      "grasps": 1,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "explore_goal_selections": 239,
+      "repeated_explore_goals": 165,
+      "safety": {
+        "filtered_frames": 118,
+        "predictive_brake_frames": 3,
+        "infeasible_frames": 112
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "corridor_reasons": {},
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "first_seen",
+          "step": 1615,
+          "key": "(2, 0)",
+          "bomb": [
+            -710.11,
+            524.73
+          ],
+          "view": [
+            -757.92,
+            395.08
+          ],
+          "distance": 127.18
+        },
+        {
+          "kind": "claim",
+          "step": 1615,
+          "key": "(2, 0)",
+          "bomb": [
+            -710.11,
+            524.73
+          ],
+          "cost": 202.42,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "branch_trace": [],
+      "pose_trace": [],
+      "last_events": [
+        {
+          "kind": "stuck",
+          "step": 2390,
+          "state": "CARRY"
+        },
+        {
+          "kind": "stuck",
+          "step": 2520,
+          "state": "CARRY"
+        },
+        {
+          "kind": "damage",
+          "step": 2641,
+          "loss": 1,
+          "state": "CARRY",
+          "carrying": true,
+          "visible_drones": 6,
+          "lidar_min": 13.6,
+          "clearance": 10.0,
+          "gps_valid": true,
+          "comm_disabled": true
+        },
+        {
+          "kind": "stuck",
+          "step": 2650,
+          "state": "CARRY"
+        },
+        {
+          "kind": "release",
+          "step": 3246,
+          "near_center": true
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 3246
+        },
+        {
+          "kind": "zone_state",
+          "step": 3272,
+          "gps_degraded": false,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 3315,
+          "gps_degraded": true,
+          "comm_degraded": false
+        },
+        {
+          "kind": "damage",
+          "step": 3469,
+          "loss": 1,
+          "state": "EXPLORE",
+          "carrying": false,
+          "visible_drones": 5,
+          "lidar_min": 13.3,
+          "clearance": 28.3,
+          "gps_valid": false,
+          "comm_disabled": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 3561,
+          "gps_degraded": false,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 3649,
+          "gps_degraded": true,
+          "comm_degraded": false
+        },
+        {
+          "kind": "damage",
+          "step": 3664,
+          "loss": 1,
+          "state": "EXPLORE",
+          "carrying": false,
+          "visible_drones": 6,
+          "lidar_min": 13.8,
+          "clearance": 30.0,
+          "gps_valid": false,
+          "comm_disabled": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 3752,
+          "gps_degraded": false,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 3884,
+          "gps_degraded": true,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 3971,
+          "gps_degraded": false,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 3982,
+          "gps_degraded": true,
+          "comm_degraded": false
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "state": "EXPLORE",
+      "carrying": false,
+      "accounted": 9,
+      "known_bombs": 0,
+      "known_disposed": 7,
+      "claim": null,
+      "pose": [
+        332.6202056892474,
+        244.34536849891597
+      ],
+      "goal": null,
+      "goal_kind": "explore",
+      "path_goal": "explore",
+      "path_points": 0,
+      "path_index": 0,
+      "path_end": null,
+      "stuck_count": 8,
+      "grasps": 1,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "explore_goal_selections": 643,
+      "repeated_explore_goals": 551,
+      "safety": {
+        "filtered_frames": 79,
+        "predictive_brake_frames": 13,
+        "infeasible_frames": 62
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "corridor_reasons": {},
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "first_seen",
+          "step": 818,
+          "key": "(3, 0)",
+          "bomb": [
+            618.19,
+            501.16
+          ],
+          "view": [
+            528.62,
+            398.92
+          ],
+          "distance": 124.93
+        },
+        {
+          "kind": "claim",
+          "step": 818,
+          "key": "(3, 0)",
+          "bomb": [
+            618.19,
+            501.16
+          ],
+          "cost": 337.22,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "branch_trace": [],
+      "pose_trace": [],
+      "last_events": [
+        {
+          "kind": "stuck",
+          "step": 1630,
+          "state": "CARRY"
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 1698
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 1721
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 1758
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 1819
+        },
+        {
+          "kind": "stuck",
+          "step": 1831,
+          "state": "CARRY"
+        },
+        {
+          "kind": "damage",
+          "step": 1906,
+          "loss": 1,
+          "state": "CARRY",
+          "carrying": true,
+          "visible_drones": 12,
+          "lidar_min": 13.3,
+          "clearance": 63.2,
+          "gps_valid": true,
+          "comm_disabled": false
+        },
+        {
+          "kind": "release",
+          "step": 1930,
+          "near_center": true
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 1930
+        },
+        {
+          "kind": "zone_state",
+          "step": 1989,
+          "gps_degraded": false,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 2145,
+          "gps_degraded": true,
+          "comm_degraded": false
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 2876
+        },
+        {
+          "kind": "stuck",
+          "step": 2876,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 3055,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 3820,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 4080,
+          "state": "EXPLORE"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "state": "EXPLORE",
+      "carrying": false,
+      "accounted": 4,
+      "known_bombs": 0,
+      "known_disposed": 1,
+      "claim": null,
+      "pose": [
+        -341.2585522843074,
+        207.49503466739338
+      ],
+      "goal": [
+        -385.0,
+        145.0
+      ],
+      "goal_kind": "explore",
+      "path_goal": "explore",
+      "path_points": 7,
+      "path_index": 0,
+      "path_end": [
+        -385.0,
+        145.0
+      ],
+      "stuck_count": 4,
+      "grasps": 1,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "explore_goal_selections": 1215,
+      "repeated_explore_goals": 1022,
+      "safety": {
+        "filtered_frames": 51,
+        "predictive_brake_frames": 0,
+        "infeasible_frames": 51
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "corridor_reasons": {},
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "first_seen",
+          "step": 229,
+          "key": "(4, 0)",
+          "bomb": [
+            395.51,
+            523.76
+          ],
+          "view": [
+            308.42,
+            435.44
+          ],
+          "distance": 113.03
+        },
+        {
+          "kind": "claim",
+          "step": 229,
+          "key": "(4, 0)",
+          "bomb": [
+            395.51,
+            523.76
+          ],
+          "cost": 158.4,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 900,
+          "key": "(4, 1)",
+          "bomb": [
+            618.19,
+            501.16
+          ],
+          "cost": 1799.67,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "branch_trace": [],
+      "pose_trace": [],
+      "last_events": [
+        {
+          "kind": "zone_state",
+          "step": 122,
+          "gps_degraded": true,
+          "comm_degraded": false
+        },
+        {
+          "kind": "grasp",
+          "step": 255
+        },
+        {
+          "kind": "release",
+          "step": 819,
+          "near_center": true
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 819
+        },
+        {
+          "kind": "zone_state",
+          "step": 878,
+          "gps_degraded": false,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 887,
+          "gps_degraded": true,
+          "comm_degraded": false
+        },
+        {
+          "kind": "damage",
+          "step": 918,
+          "loss": 1,
+          "state": "FETCH",
+          "carrying": false,
+          "visible_drones": 5,
+          "lidar_min": 10.6,
+          "clearance": 22.4,
+          "gps_valid": false,
+          "comm_disabled": false
+        },
+        {
+          "kind": "damage",
+          "step": 1078,
+          "loss": 1,
+          "state": "EXPLORE",
+          "carrying": false,
+          "visible_drones": 4,
+          "lidar_min": 13.6,
+          "clearance": 20.0,
+          "gps_valid": false,
+          "comm_disabled": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 1130,
+          "gps_degraded": true,
+          "comm_degraded": true
+        },
+        {
+          "kind": "stuck",
+          "step": 1370,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "zone_state",
+          "step": 1566,
+          "gps_degraded": true,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 1573,
+          "gps_degraded": true,
+          "comm_degraded": true
+        },
+        {
+          "kind": "damage",
+          "step": 1906,
+          "loss": 1,
+          "state": "EXPLORE",
+          "carrying": false,
+          "visible_drones": 7,
+          "lidar_min": 12.6,
+          "clearance": 22.4,
+          "gps_valid": false,
+          "comm_disabled": true
+        },
+        {
+          "kind": "stuck",
+          "step": 2370,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 3400,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 4030,
+          "state": "EXPLORE"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "state": "EXPLORE",
+      "carrying": false,
+      "accounted": 9,
+      "known_bombs": 0,
+      "known_disposed": 7,
+      "claim": null,
+      "pose": [
+        252.51406564778844,
+        7.935495113575239
+      ],
+      "goal": [
+        85.0,
+        175.0
+      ],
+      "goal_kind": "explore",
+      "path_goal": "explore",
+      "path_points": 154,
+      "path_index": 7,
+      "path_end": [
+        85.0,
+        175.0
+      ],
+      "stuck_count": 4,
+      "grasps": 1,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "explore_goal_selections": 289,
+      "repeated_explore_goals": 150,
+      "safety": {
+        "filtered_frames": 102,
+        "predictive_brake_frames": 10,
+        "infeasible_frames": 92
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "corridor_reasons": {},
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "first_seen",
+          "step": 630,
+          "key": "(5, 0)",
+          "bomb": [
+            102.25,
+            478.0
+          ],
+          "view": [
+            5.94,
+            384.85
+          ],
+          "distance": 122.99
+        },
+        {
+          "kind": "claim",
+          "step": 630,
+          "key": "(5, 0)",
+          "bomb": [
+            102.25,
+            478.0
+          ],
+          "cost": 257.82,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "branch_trace": [],
+      "pose_trace": [],
+      "last_events": [
+        {
+          "kind": "center_goal_drop",
+          "step": 1478
+        },
+        {
+          "kind": "stuck",
+          "step": 1478,
+          "state": "CARRY"
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 1582
+        },
+        {
+          "kind": "release",
+          "step": 1665,
+          "near_center": true
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 1665
+        },
+        {
+          "kind": "zone_state",
+          "step": 1724,
+          "gps_degraded": false,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 2048,
+          "gps_degraded": true,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 2161,
+          "gps_degraded": true,
+          "comm_degraded": true
+        },
+        {
+          "kind": "stuck",
+          "step": 2320,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "damage",
+          "step": 2876,
+          "loss": 1,
+          "state": "EXPLORE",
+          "carrying": false,
+          "visible_drones": 7,
+          "lidar_min": 10.9,
+          "clearance": 30.0,
+          "gps_valid": false,
+          "comm_disabled": true
+        },
+        {
+          "kind": "zone_state",
+          "step": 3018,
+          "gps_degraded": true,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 3213,
+          "gps_degraded": false,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 3460,
+          "gps_degraded": true,
+          "comm_degraded": false
+        },
+        {
+          "kind": "damage",
+          "step": 3506,
+          "loss": 1,
+          "state": "EXPLORE",
+          "carrying": false,
+          "visible_drones": 0,
+          "lidar_min": 10.9,
+          "clearance": 10.0,
+          "gps_valid": true,
+          "comm_disabled": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 3543,
+          "gps_degraded": false,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 3756,
+          "gps_degraded": true,
+          "comm_degraded": false
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "state": "EXPLORE",
+      "carrying": false,
+      "accounted": 8,
+      "known_bombs": 0,
+      "known_disposed": 8,
+      "claim": null,
+      "pose": [
+        -195.12822017339667,
+        448.87992202109155
+      ],
+      "goal": [
+        -195.0,
+        465.0
+      ],
+      "goal_kind": "explore",
+      "path_goal": "explore",
+      "path_points": 3,
+      "path_index": 0,
+      "path_end": [
+        -195.0,
+        465.0
+      ],
+      "stuck_count": 6,
+      "grasps": 1,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "explore_goal_selections": 370,
+      "repeated_explore_goals": 289,
+      "safety": {
+        "filtered_frames": 65,
+        "predictive_brake_frames": 2,
+        "infeasible_frames": 63
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "corridor_reasons": {},
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "first_seen",
+          "step": 986,
+          "key": "(6, 0)",
+          "bomb": [
+            -348.94,
+            342.14
+          ],
+          "view": [
+            -431.35,
+            300.42
+          ],
+          "distance": 81.36
+        },
+        {
+          "kind": "claim",
+          "step": 986,
+          "key": "(6, 0)",
+          "bomb": [
+            -348.94,
+            342.14
+          ],
+          "cost": 229.95,
+          "blocked": false
+        },
+        {
+          "kind": "first_seen",
+          "step": 1187,
+          "key": "(6, 1)",
+          "bomb": [
+            -660.34,
+            354.73
+          ],
+          "view": [
+            -541.28,
+            308.46
+          ],
+          "distance": 116.74
+        },
+        {
+          "kind": "claim",
+          "step": 1187,
+          "key": "(6, 1)",
+          "bomb": [
+            -660.34,
+            354.73
+          ],
+          "cost": 285.53,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "branch_trace": [],
+      "pose_trace": [],
+      "last_events": [
+        {
+          "kind": "grasp",
+          "step": 1214
+        },
+        {
+          "kind": "stuck",
+          "step": 1574,
+          "state": "CARRY"
+        },
+        {
+          "kind": "stuck",
+          "step": 1730,
+          "state": "CARRY"
+        },
+        {
+          "kind": "damage",
+          "step": 1775,
+          "loss": 1,
+          "state": "CARRY",
+          "carrying": true,
+          "visible_drones": 0,
+          "lidar_min": 14.6,
+          "clearance": 20.0,
+          "gps_valid": true,
+          "comm_disabled": true
+        },
+        {
+          "kind": "stuck",
+          "step": 1910,
+          "state": "CARRY"
+        },
+        {
+          "kind": "damage",
+          "step": 2150,
+          "loss": 1,
+          "state": "CARRY",
+          "carrying": true,
+          "visible_drones": 5,
+          "lidar_min": 10.6,
+          "clearance": 40.0,
+          "gps_valid": true,
+          "comm_disabled": false
+        },
+        {
+          "kind": "release",
+          "step": 2541,
+          "near_center": true
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 2541
+        },
+        {
+          "kind": "zone_state",
+          "step": 2600,
+          "gps_degraded": false,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 2731,
+          "gps_degraded": false,
+          "comm_degraded": true
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 2869
+        },
+        {
+          "kind": "stuck",
+          "step": 2990,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "damage",
+          "step": 3009,
+          "loss": 1,
+          "state": "EXPLORE",
+          "carrying": false,
+          "visible_drones": 7,
+          "lidar_min": 14.0,
+          "clearance": 14.1,
+          "gps_valid": true,
+          "comm_disabled": true
+        },
+        {
+          "kind": "stuck",
+          "step": 3780,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "zone_state",
+          "step": 3870,
+          "gps_degraded": true,
+          "comm_degraded": true
+        },
+        {
+          "kind": "stuck",
+          "step": 3960,
+          "state": "EXPLORE"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "state": "EXPLORE",
+      "carrying": false,
+      "accounted": 8,
+      "known_bombs": 0,
+      "known_disposed": 8,
+      "claim": null,
+      "pose": [
+        -367.59040057622906,
+        258.36106504923134
+      ],
+      "goal": [
+        -445.0,
+        195.0
+      ],
+      "goal_kind": "explore",
+      "path_goal": "explore",
+      "path_points": 17,
+      "path_index": 0,
+      "path_end": [
+        -445.0,
+        195.0
+      ],
+      "stuck_count": 6,
+      "grasps": 1,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "explore_goal_selections": 303,
+      "repeated_explore_goals": 226,
+      "safety": {
+        "filtered_frames": 118,
+        "predictive_brake_frames": 2,
+        "infeasible_frames": 116
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "corridor_reasons": {},
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "first_seen",
+          "step": 947,
+          "key": "(7, 0)",
+          "bomb": [
+            -339.22,
+            356.32
+          ],
+          "view": [
+            -435.39,
+            293.99
+          ],
+          "distance": 103.6
+        },
+        {
+          "kind": "claim",
+          "step": 947,
+          "key": "(7, 0)",
+          "bomb": [
+            -339.22,
+            356.32
+          ],
+          "cost": 284.44,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "branch_trace": [],
+      "pose_trace": [],
+      "last_events": [
+        {
+          "kind": "stuck",
+          "step": 1250,
+          "state": "CARRY"
+        },
+        {
+          "kind": "stuck",
+          "step": 1380,
+          "state": "CARRY"
+        },
+        {
+          "kind": "release",
+          "step": 1892,
+          "near_center": true
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 1892
+        },
+        {
+          "kind": "zone_state",
+          "step": 1951,
+          "gps_degraded": false,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 1997,
+          "gps_degraded": true,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 2161,
+          "gps_degraded": false,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 2212,
+          "gps_degraded": false,
+          "comm_degraded": true
+        },
+        {
+          "kind": "stuck",
+          "step": 2330,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 2520,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 2660,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 2980,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "zone_state",
+          "step": 3437,
+          "gps_degraded": false,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 3497,
+          "gps_degraded": false,
+          "comm_degraded": true
+        },
+        {
+          "kind": "zone_state",
+          "step": 3623,
+          "gps_degraded": false,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 3640,
+          "gps_degraded": false,
+          "comm_degraded": true
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "state": "EXPLORE",
+      "carrying": false,
+      "accounted": 8,
+      "known_bombs": 0,
+      "known_disposed": 8,
+      "claim": null,
+      "pose": [
+        -308.73503698606834,
+        280.39167274428524
+      ],
+      "goal": [
+        -265.0,
+        365.0
+      ],
+      "goal_kind": "explore",
+      "path_goal": "explore",
+      "path_points": 20,
+      "path_index": 4,
+      "path_end": [
+        -265.0,
+        365.0
+      ],
+      "stuck_count": 5,
+      "grasps": 1,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "explore_goal_selections": 348,
+      "repeated_explore_goals": 259,
+      "safety": {
+        "filtered_frames": 72,
+        "predictive_brake_frames": 0,
+        "infeasible_frames": 72
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "corridor_reasons": {},
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "first_seen",
+          "step": 983,
+          "key": "(8, 0)",
+          "bomb": [
+            -232.94,
+            467.0
+          ],
+          "view": [
+            -204.15,
+            341.02
+          ],
+          "distance": 118.23
+        },
+        {
+          "kind": "claim",
+          "step": 983,
+          "key": "(8, 0)",
+          "bomb": [
+            -232.94,
+            467.0
+          ],
+          "cost": 160.87,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "branch_trace": [],
+      "pose_trace": [],
+      "last_events": [
+        {
+          "kind": "release",
+          "step": 2273,
+          "near_center": true
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 2273
+        },
+        {
+          "kind": "zone_state",
+          "step": 2332,
+          "gps_degraded": false,
+          "comm_degraded": false
+        },
+        {
+          "kind": "damage",
+          "step": 2338,
+          "loss": 1,
+          "state": "EXPLORE",
+          "carrying": false,
+          "visible_drones": 7,
+          "lidar_min": 9.8,
+          "clearance": 76.2,
+          "gps_valid": true,
+          "comm_disabled": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 2396,
+          "gps_degraded": true,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 2639,
+          "gps_degraded": false,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 2699,
+          "gps_degraded": false,
+          "comm_degraded": true
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 2859
+        },
+        {
+          "kind": "stuck",
+          "step": 3100,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "zone_state",
+          "step": 3536,
+          "gps_degraded": false,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 3673,
+          "gps_degraded": false,
+          "comm_degraded": true
+        },
+        {
+          "kind": "zone_state",
+          "step": 3769,
+          "gps_degraded": false,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 3796,
+          "gps_degraded": false,
+          "comm_degraded": true
+        },
+        {
+          "kind": "zone_state",
+          "step": 3880,
+          "gps_degraded": false,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 3894,
+          "gps_degraded": false,
+          "comm_degraded": true
+        },
+        {
+          "kind": "stuck",
+          "step": 4060,
+          "state": "EXPLORE"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "state": "EXPLORE",
+      "carrying": false,
+      "accounted": 8,
+      "known_bombs": 0,
+      "known_disposed": 8,
+      "claim": null,
+      "pose": [
+        -352.0400632774159,
+        503.68943307526814
+      ],
+      "goal": [
+        -165.0,
+        535.0
+      ],
+      "goal_kind": "explore",
+      "path_goal": "explore",
+      "path_points": 24,
+      "path_index": 4,
+      "path_end": [
+        -165.0,
+        535.0
+      ],
+      "stuck_count": 10,
+      "grasps": 1,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "explore_goal_selections": 221,
+      "repeated_explore_goals": 160,
+      "safety": {
+        "filtered_frames": 77,
+        "predictive_brake_frames": 3,
+        "infeasible_frames": 73
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "corridor_reasons": {
+        "NO_COMMIT": 1042
+      },
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "first_seen",
+          "step": 436,
+          "key": "(9, 0)",
+          "bomb": [
+            818.85,
+            530.86
+          ],
+          "view": [
+            735.47,
+            421.01
+          ],
+          "distance": 126.91
+        },
+        {
+          "kind": "claim",
+          "step": 436,
+          "key": "(9, 0)",
+          "bomb": [
+            818.85,
+            530.86
+          ],
+          "cost": 285.74,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "branch_trace": [],
+      "pose_trace": [],
+      "last_events": [
+        {
+          "kind": "explore_goal_timeout",
+          "step": 1964
+        },
+        {
+          "kind": "damage",
+          "step": 2188,
+          "loss": 1,
+          "state": "EXPLORE",
+          "carrying": false,
+          "visible_drones": 6,
+          "lidar_min": 14.3,
+          "clearance": 70.0,
+          "gps_valid": true,
+          "comm_disabled": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 2277,
+          "gps_degraded": false,
+          "comm_degraded": true
+        },
+        {
+          "kind": "stuck",
+          "step": 2430,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 2570,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 2830,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 3174
+        },
+        {
+          "kind": "zone_state",
+          "step": 3320,
+          "gps_degraded": false,
+          "comm_degraded": false
+        },
+        {
+          "kind": "damage",
+          "step": 3397,
+          "loss": 1,
+          "state": "EXPLORE",
+          "carrying": false,
+          "visible_drones": 13,
+          "lidar_min": 13.4,
+          "clearance": 30.0,
+          "gps_valid": true,
+          "comm_disabled": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 3434,
+          "gps_degraded": false,
+          "comm_degraded": true
+        },
+        {
+          "kind": "stuck",
+          "step": 3510,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "zone_state",
+          "step": 3596,
+          "gps_degraded": false,
+          "comm_degraded": false
+        },
+        {
+          "kind": "zone_state",
+          "step": 3655,
+          "gps_degraded": false,
+          "comm_degraded": true
+        },
+        {
+          "kind": "damage",
+          "step": 3782,
+          "loss": 1,
+          "state": "EXPLORE",
+          "carrying": false,
+          "visible_drones": 7,
+          "lidar_min": 15.4,
+          "clearance": 30.0,
+          "gps_valid": true,
+          "comm_disabled": true
+        },
+        {
+          "kind": "damage",
+          "step": 3885,
+          "loss": 1,
+          "state": "EXPLORE",
+          "carrying": false,
+          "visible_drones": 0,
+          "lidar_min": 11.1,
+          "clearance": 10.0,
+          "gps_valid": true,
+          "comm_disabled": true
+        },
+        {
+          "kind": "stuck",
+          "step": 3980,
+          "state": "EXPLORE"
+        }
+      ]
+    }
+  ],
+  "truth_audit_after_control": [
+    {
+      "index": 0,
+      "position": [
+        -344.0,
+        342.0
+      ],
+      "controller_maps": [
+        {
+          "id": 0,
+          "occupancy": 2.45,
+          "obstacle": true,
+          "scan_step": 2221,
+          "near_step": 2215,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4500,
+          "nearest_reachable_free_px": 11.4,
+          "reachable_free_within_semantic_range": 398
+        },
+        {
+          "id": 1,
+          "occupancy": -12.0,
+          "obstacle": false,
+          "scan_step": 3339,
+          "near_step": 1034,
+          "clearance": 10.0,
+          "obstacle_component_cells": 0,
+          "nearest_reachable_free_px": 3.16,
+          "reachable_free_within_semantic_range": 407
+        },
+        {
+          "id": 2,
+          "occupancy": 2.5,
+          "obstacle": true,
+          "scan_step": 2221,
+          "near_step": 2215,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4471,
+          "nearest_reachable_free_px": 11.4,
+          "reachable_free_within_semantic_range": 398
+        },
+        {
+          "id": 3,
+          "occupancy": 2.5,
+          "obstacle": true,
+          "scan_step": 2221,
+          "near_step": 2215,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4506,
+          "nearest_reachable_free_px": 11.4,
+          "reachable_free_within_semantic_range": 398
+        },
+        {
+          "id": 4,
+          "occupancy": 6.0,
+          "obstacle": true,
+          "scan_step": 0,
+          "near_step": 0,
+          "clearance": 0.0,
+          "obstacle_component_cells": 2671,
+          "nearest_reachable_free_px": 21.21,
+          "reachable_free_within_semantic_range": 235
+        },
+        {
+          "id": 5,
+          "occupancy": 2.5,
+          "obstacle": true,
+          "scan_step": 2221,
+          "near_step": 2215,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4504,
+          "nearest_reachable_free_px": 11.4,
+          "reachable_free_within_semantic_range": 398
+        },
+        {
+          "id": 6,
+          "occupancy": -12.0,
+          "obstacle": false,
+          "scan_step": 3339,
+          "near_step": 1034,
+          "clearance": 10.0,
+          "obstacle_component_cells": 0,
+          "nearest_reachable_free_px": 3.16,
+          "reachable_free_within_semantic_range": 420
+        },
+        {
+          "id": 7,
+          "occupancy": -12.0,
+          "obstacle": false,
+          "scan_step": 4012,
+          "near_step": 1034,
+          "clearance": 10.0,
+          "obstacle_component_cells": 0,
+          "nearest_reachable_free_px": 3.16,
+          "reachable_free_within_semantic_range": 414
+        },
+        {
+          "id": 8,
+          "occupancy": -12.0,
+          "obstacle": false,
+          "scan_step": 3339,
+          "near_step": 1034,
+          "clearance": 10.0,
+          "obstacle_component_cells": 0,
+          "nearest_reachable_free_px": 3.16,
+          "reachable_free_within_semantic_range": 415
+        },
+        {
+          "id": 9,
+          "occupancy": -12.0,
+          "obstacle": false,
+          "scan_step": 4084,
+          "near_step": 3838,
+          "clearance": 10.0,
+          "obstacle_component_cells": 0,
+          "nearest_reachable_free_px": 3.16,
+          "reachable_free_within_semantic_range": 412
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "position": [
+        -656.0,
+        341.0
+      ],
+      "controller_maps": [
+        {
+          "id": 0,
+          "occupancy": -5.6,
+          "obstacle": false,
+          "scan_step": 2343,
+          "near_step": 1491,
+          "clearance": 10.0,
+          "obstacle_component_cells": 0,
+          "nearest_reachable_free_px": 4.12,
+          "reachable_free_within_semantic_range": 376
+        },
+        {
+          "id": 1,
+          "occupancy": -12.0,
+          "obstacle": false,
+          "scan_step": 3447,
+          "near_step": 3357,
+          "clearance": 10.0,
+          "obstacle_component_cells": 0,
+          "nearest_reachable_free_px": 4.12,
+          "reachable_free_within_semantic_range": 428
+        },
+        {
+          "id": 2,
+          "occupancy": -5.6,
+          "obstacle": false,
+          "scan_step": 2343,
+          "near_step": 1491,
+          "clearance": 10.0,
+          "obstacle_component_cells": 0,
+          "nearest_reachable_free_px": 4.12,
+          "reachable_free_within_semantic_range": 376
+        },
+        {
+          "id": 3,
+          "occupancy": -5.6,
+          "obstacle": false,
+          "scan_step": 2343,
+          "near_step": 1491,
+          "clearance": 10.0,
+          "obstacle_component_cells": 0,
+          "nearest_reachable_free_px": 4.12,
+          "reachable_free_within_semantic_range": 376
+        },
+        {
+          "id": 4,
+          "occupancy": 0.0,
+          "obstacle": false,
+          "scan_step": 0,
+          "near_step": 0,
+          "clearance": 114.02,
+          "obstacle_component_cells": 0,
+          "nearest_reachable_free_px": 133.33,
+          "reachable_free_within_semantic_range": 0
+        },
+        {
+          "id": 5,
+          "occupancy": -5.6,
+          "obstacle": false,
+          "scan_step": 2343,
+          "near_step": 1491,
+          "clearance": 10.0,
+          "obstacle_component_cells": 0,
+          "nearest_reachable_free_px": 4.12,
+          "reachable_free_within_semantic_range": 376
+        },
+        {
+          "id": 6,
+          "occupancy": -12.0,
+          "obstacle": false,
+          "scan_step": 3447,
+          "near_step": 3357,
+          "clearance": 10.0,
+          "obstacle_component_cells": 0,
+          "nearest_reachable_free_px": 4.12,
+          "reachable_free_within_semantic_range": 422
+        },
+        {
+          "id": 7,
+          "occupancy": -12.0,
+          "obstacle": false,
+          "scan_step": 3447,
+          "near_step": 3357,
+          "clearance": 10.0,
+          "obstacle_component_cells": 0,
+          "nearest_reachable_free_px": 4.12,
+          "reachable_free_within_semantic_range": 426
+        },
+        {
+          "id": 8,
+          "occupancy": -12.0,
+          "obstacle": false,
+          "scan_step": 3447,
+          "near_step": 3357,
+          "clearance": 10.0,
+          "obstacle_component_cells": 0,
+          "nearest_reachable_free_px": 4.12,
+          "reachable_free_within_semantic_range": 427
+        },
+        {
+          "id": 9,
+          "occupancy": -12.0,
+          "obstacle": false,
+          "scan_step": 3447,
+          "near_step": 3357,
+          "clearance": 10.0,
+          "obstacle_component_cells": 0,
+          "nearest_reachable_free_px": 4.12,
+          "reachable_free_within_semantic_range": 428
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "position": [
+        608.0,
+        530.0
+      ],
+      "controller_maps": [
+        {
+          "id": 0,
+          "occupancy": 10.8,
+          "obstacle": true,
+          "scan_step": 2530,
+          "near_step": 3176,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4500,
+          "nearest_reachable_free_px": 44.65,
+          "reachable_free_within_semantic_range": 171
+        },
+        {
+          "id": 1,
+          "occupancy": 4.8,
+          "obstacle": true,
+          "scan_step": 0,
+          "near_step": 0,
+          "clearance": 0.0,
+          "obstacle_component_cells": 3841,
+          "nearest_reachable_free_px": 25.18,
+          "reachable_free_within_semantic_range": 166
+        },
+        {
+          "id": 2,
+          "occupancy": 10.8,
+          "obstacle": true,
+          "scan_step": 2530,
+          "near_step": 3176,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4471,
+          "nearest_reachable_free_px": 39.92,
+          "reachable_free_within_semantic_range": 165
+        },
+        {
+          "id": 3,
+          "occupancy": 10.8,
+          "obstacle": true,
+          "scan_step": 2530,
+          "near_step": 3176,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4506,
+          "nearest_reachable_free_px": 39.92,
+          "reachable_free_within_semantic_range": 165
+        },
+        {
+          "id": 4,
+          "occupancy": 4.8,
+          "obstacle": true,
+          "scan_step": 0,
+          "near_step": 0,
+          "clearance": 0.0,
+          "obstacle_component_cells": 2671,
+          "nearest_reachable_free_px": 25.18,
+          "reachable_free_within_semantic_range": 180
+        },
+        {
+          "id": 5,
+          "occupancy": 10.8,
+          "obstacle": true,
+          "scan_step": 2530,
+          "near_step": 3176,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4504,
+          "nearest_reachable_free_px": 39.92,
+          "reachable_free_within_semantic_range": 165
+        },
+        {
+          "id": 6,
+          "occupancy": 4.8,
+          "obstacle": true,
+          "scan_step": 0,
+          "near_step": 0,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4511,
+          "nearest_reachable_free_px": 25.18,
+          "reachable_free_within_semantic_range": 166
+        },
+        {
+          "id": 7,
+          "occupancy": 4.8,
+          "obstacle": true,
+          "scan_step": 0,
+          "near_step": 0,
+          "clearance": 0.0,
+          "obstacle_component_cells": 3897,
+          "nearest_reachable_free_px": 25.18,
+          "reachable_free_within_semantic_range": 166
+        },
+        {
+          "id": 8,
+          "occupancy": 4.8,
+          "obstacle": true,
+          "scan_step": 0,
+          "near_step": 0,
+          "clearance": 0.0,
+          "obstacle_component_cells": 3910,
+          "nearest_reachable_free_px": 25.18,
+          "reachable_free_within_semantic_range": 166
+        },
+        {
+          "id": 9,
+          "occupancy": 4.8,
+          "obstacle": true,
+          "scan_step": 0,
+          "near_step": 0,
+          "clearance": 0.0,
+          "obstacle_component_cells": 3875,
+          "nearest_reachable_free_px": 25.18,
+          "reachable_free_within_semantic_range": 166
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "position": [
+        409.0,
+        532.0
+      ],
+      "controller_maps": [
+        {
+          "id": 0,
+          "occupancy": 4.4,
+          "obstacle": true,
+          "scan_step": 3472,
+          "near_step": 275,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4500,
+          "nearest_reachable_free_px": 73.25,
+          "reachable_free_within_semantic_range": 86
+        },
+        {
+          "id": 1,
+          "occupancy": 6.8,
+          "obstacle": true,
+          "scan_step": 259,
+          "near_step": 275,
+          "clearance": 0.0,
+          "obstacle_component_cells": 3841,
+          "nearest_reachable_free_px": 29.41,
+          "reachable_free_within_semantic_range": 128
+        },
+        {
+          "id": 2,
+          "occupancy": 5.6,
+          "obstacle": true,
+          "scan_step": 3472,
+          "near_step": 275,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4471,
+          "nearest_reachable_free_px": 73.25,
+          "reachable_free_within_semantic_range": 87
+        },
+        {
+          "id": 3,
+          "occupancy": 5.6,
+          "obstacle": true,
+          "scan_step": 3472,
+          "near_step": 275,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4506,
+          "nearest_reachable_free_px": 73.25,
+          "reachable_free_within_semantic_range": 85
+        },
+        {
+          "id": 4,
+          "occupancy": 8.4,
+          "obstacle": true,
+          "scan_step": 259,
+          "near_step": 275,
+          "clearance": 0.0,
+          "obstacle_component_cells": 2671,
+          "nearest_reachable_free_px": 36.12,
+          "reachable_free_within_semantic_range": 131
+        },
+        {
+          "id": 5,
+          "occupancy": 5.6,
+          "obstacle": true,
+          "scan_step": 3472,
+          "near_step": 275,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4504,
+          "nearest_reachable_free_px": 73.25,
+          "reachable_free_within_semantic_range": 87
+        },
+        {
+          "id": 6,
+          "occupancy": 6.8,
+          "obstacle": true,
+          "scan_step": 259,
+          "near_step": 275,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4511,
+          "nearest_reachable_free_px": 29.41,
+          "reachable_free_within_semantic_range": 128
+        },
+        {
+          "id": 7,
+          "occupancy": 6.8,
+          "obstacle": true,
+          "scan_step": 259,
+          "near_step": 275,
+          "clearance": 0.0,
+          "obstacle_component_cells": 3897,
+          "nearest_reachable_free_px": 29.41,
+          "reachable_free_within_semantic_range": 128
+        },
+        {
+          "id": 8,
+          "occupancy": 6.8,
+          "obstacle": true,
+          "scan_step": 259,
+          "near_step": 275,
+          "clearance": 0.0,
+          "obstacle_component_cells": 3910,
+          "nearest_reachable_free_px": 29.41,
+          "reachable_free_within_semantic_range": 128
+        },
+        {
+          "id": 9,
+          "occupancy": 6.8,
+          "obstacle": true,
+          "scan_step": 259,
+          "near_step": 275,
+          "clearance": 0.0,
+          "obstacle_component_cells": 3875,
+          "nearest_reachable_free_px": 29.41,
+          "reachable_free_within_semantic_range": 128
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "position": [
+        49.0,
+        472.0
+      ],
+      "controller_maps": [
+        {
+          "id": 0,
+          "occupancy": 11.7,
+          "obstacle": true,
+          "scan_step": 2526,
+          "near_step": 700,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4500,
+          "nearest_reachable_free_px": 17.46,
+          "reachable_free_within_semantic_range": 206
+        },
+        {
+          "id": 1,
+          "occupancy": 2.0,
+          "obstacle": true,
+          "scan_step": 1992,
+          "near_step": 700,
+          "clearance": 0.0,
+          "obstacle_component_cells": 3841,
+          "nearest_reachable_free_px": 14.32,
+          "reachable_free_within_semantic_range": 232
+        },
+        {
+          "id": 2,
+          "occupancy": 11.7,
+          "obstacle": true,
+          "scan_step": 2526,
+          "near_step": 700,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4471,
+          "nearest_reachable_free_px": 17.46,
+          "reachable_free_within_semantic_range": 209
+        },
+        {
+          "id": 3,
+          "occupancy": 11.7,
+          "obstacle": true,
+          "scan_step": 2526,
+          "near_step": 700,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4506,
+          "nearest_reachable_free_px": 17.46,
+          "reachable_free_within_semantic_range": 206
+        },
+        {
+          "id": 4,
+          "occupancy": 2.0,
+          "obstacle": true,
+          "scan_step": 1433,
+          "near_step": 1447,
+          "clearance": 0.0,
+          "obstacle_component_cells": 2671,
+          "nearest_reachable_free_px": 14.32,
+          "reachable_free_within_semantic_range": 201
+        },
+        {
+          "id": 5,
+          "occupancy": 11.7,
+          "obstacle": true,
+          "scan_step": 2526,
+          "near_step": 700,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4504,
+          "nearest_reachable_free_px": 17.46,
+          "reachable_free_within_semantic_range": 208
+        },
+        {
+          "id": 6,
+          "occupancy": 2.0,
+          "obstacle": true,
+          "scan_step": 1992,
+          "near_step": 700,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4511,
+          "nearest_reachable_free_px": 8.06,
+          "reachable_free_within_semantic_range": 220
+        },
+        {
+          "id": 7,
+          "occupancy": 2.0,
+          "obstacle": true,
+          "scan_step": 1992,
+          "near_step": 700,
+          "clearance": 0.0,
+          "obstacle_component_cells": 3897,
+          "nearest_reachable_free_px": 8.06,
+          "reachable_free_within_semantic_range": 220
+        },
+        {
+          "id": 8,
+          "occupancy": 2.0,
+          "obstacle": true,
+          "scan_step": 1992,
+          "near_step": 700,
+          "clearance": 0.0,
+          "obstacle_component_cells": 3910,
+          "nearest_reachable_free_px": 8.06,
+          "reachable_free_within_semantic_range": 220
+        },
+        {
+          "id": 9,
+          "occupancy": 2.0,
+          "obstacle": true,
+          "scan_step": 1992,
+          "near_step": 700,
+          "clearance": 0.0,
+          "obstacle_component_cells": 3875,
+          "nearest_reachable_free_px": 8.06,
+          "reachable_free_within_semantic_range": 220
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "position": [
+        -230.0,
+        472.0
+      ],
+      "controller_maps": [
+        {
+          "id": 0,
+          "occupancy": 16.8,
+          "obstacle": true,
+          "scan_step": 1793,
+          "near_step": 1785,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4500,
+          "nearest_reachable_free_px": 8.6,
+          "reachable_free_within_semantic_range": 196
+        },
+        {
+          "id": 1,
+          "occupancy": 10.5,
+          "obstacle": true,
+          "scan_step": 2520,
+          "near_step": 2512,
+          "clearance": 0.0,
+          "obstacle_component_cells": 3841,
+          "nearest_reachable_free_px": 8.6,
+          "reachable_free_within_semantic_range": 227
+        },
+        {
+          "id": 2,
+          "occupancy": 16.75,
+          "obstacle": true,
+          "scan_step": 1793,
+          "near_step": 1785,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4471,
+          "nearest_reachable_free_px": 8.6,
+          "reachable_free_within_semantic_range": 196
+        },
+        {
+          "id": 3,
+          "occupancy": 16.8,
+          "obstacle": true,
+          "scan_step": 1793,
+          "near_step": 1785,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4506,
+          "nearest_reachable_free_px": 8.6,
+          "reachable_free_within_semantic_range": 196
+        },
+        {
+          "id": 4,
+          "occupancy": 6.0,
+          "obstacle": true,
+          "scan_step": 0,
+          "near_step": 0,
+          "clearance": 0.0,
+          "obstacle_component_cells": 2671,
+          "nearest_reachable_free_px": 8.6,
+          "reachable_free_within_semantic_range": 130
+        },
+        {
+          "id": 5,
+          "occupancy": 16.8,
+          "obstacle": true,
+          "scan_step": 1793,
+          "near_step": 1785,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4504,
+          "nearest_reachable_free_px": 8.6,
+          "reachable_free_within_semantic_range": 196
+        },
+        {
+          "id": 6,
+          "occupancy": 12.0,
+          "obstacle": true,
+          "scan_step": 4099,
+          "near_step": 4099,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4511,
+          "nearest_reachable_free_px": 8.6,
+          "reachable_free_within_semantic_range": 247
+        },
+        {
+          "id": 7,
+          "occupancy": 5.5,
+          "obstacle": true,
+          "scan_step": 2520,
+          "near_step": 2512,
+          "clearance": 0.0,
+          "obstacle_component_cells": 3897,
+          "nearest_reachable_free_px": 8.6,
+          "reachable_free_within_semantic_range": 233
+        },
+        {
+          "id": 8,
+          "occupancy": 5.5,
+          "obstacle": true,
+          "scan_step": 2520,
+          "near_step": 2512,
+          "clearance": 0.0,
+          "obstacle_component_cells": 3910,
+          "nearest_reachable_free_px": 8.6,
+          "reachable_free_within_semantic_range": 225
+        },
+        {
+          "id": 9,
+          "occupancy": 6.7,
+          "obstacle": true,
+          "scan_step": 2520,
+          "near_step": 2512,
+          "clearance": 0.0,
+          "obstacle_component_cells": 3875,
+          "nearest_reachable_free_px": 8.6,
+          "reachable_free_within_semantic_range": 247
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "position": [
+        -551.0,
+        112.0
+      ],
+      "controller_maps": [
+        {
+          "id": 0,
+          "occupancy": 6.0,
+          "obstacle": true,
+          "scan_step": 2693,
+          "near_step": 2679,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4500,
+          "nearest_reachable_free_px": 8.06,
+          "reachable_free_within_semantic_range": 309
+        },
+        {
+          "id": 1,
+          "occupancy": 2.8,
+          "obstacle": true,
+          "scan_step": 3168,
+          "near_step": 3158,
+          "clearance": 0.0,
+          "obstacle_component_cells": 3841,
+          "nearest_reachable_free_px": 17.46,
+          "reachable_free_within_semantic_range": 321
+        },
+        {
+          "id": 2,
+          "occupancy": 6.0,
+          "obstacle": true,
+          "scan_step": 2693,
+          "near_step": 2679,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4471,
+          "nearest_reachable_free_px": 8.06,
+          "reachable_free_within_semantic_range": 309
+        },
+        {
+          "id": 3,
+          "occupancy": 6.0,
+          "obstacle": true,
+          "scan_step": 2693,
+          "near_step": 2679,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4506,
+          "nearest_reachable_free_px": 8.06,
+          "reachable_free_within_semantic_range": 309
+        },
+        {
+          "id": 4,
+          "occupancy": 0.0,
+          "obstacle": false,
+          "scan_step": 0,
+          "near_step": 0,
+          "clearance": 22.36,
+          "obstacle_component_cells": 0,
+          "nearest_reachable_free_px": 42.72,
+          "reachable_free_within_semantic_range": 69
+        },
+        {
+          "id": 5,
+          "occupancy": 6.0,
+          "obstacle": true,
+          "scan_step": 2693,
+          "near_step": 2679,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4504,
+          "nearest_reachable_free_px": 8.06,
+          "reachable_free_within_semantic_range": 309
+        },
+        {
+          "id": 6,
+          "occupancy": 6.6,
+          "obstacle": true,
+          "scan_step": 3168,
+          "near_step": 3158,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4511,
+          "nearest_reachable_free_px": 8.06,
+          "reachable_free_within_semantic_range": 321
+        },
+        {
+          "id": 7,
+          "occupancy": -0.2,
+          "obstacle": false,
+          "scan_step": 3168,
+          "near_step": 3158,
+          "clearance": 10.0,
+          "obstacle_component_cells": 0,
+          "nearest_reachable_free_px": 27.29,
+          "reachable_free_within_semantic_range": 309
+        },
+        {
+          "id": 8,
+          "occupancy": 5.2,
+          "obstacle": true,
+          "scan_step": 3168,
+          "near_step": 3158,
+          "clearance": 0.0,
+          "obstacle_component_cells": 3910,
+          "nearest_reachable_free_px": 8.06,
+          "reachable_free_within_semantic_range": 326
+        },
+        {
+          "id": 9,
+          "occupancy": -0.75,
+          "obstacle": false,
+          "scan_step": 3168,
+          "near_step": 3158,
+          "clearance": 10.0,
+          "obstacle_component_cells": 0,
+          "nearest_reachable_free_px": 22.02,
+          "reachable_free_within_semantic_range": 307
+        }
+      ]
+    },
+    {
+      "index": 7,
+      "position": [
+        -687.0,
+        -188.0
+      ],
+      "controller_maps": [
+        {
+          "id": 0,
+          "occupancy": 4.8,
+          "obstacle": true,
+          "scan_step": 712,
+          "near_step": 466,
+          "clearance": 0.0,
+          "obstacle_component_cells": 236,
+          "nearest_reachable_free_px": 7.28,
+          "reachable_free_within_semantic_range": 406
+        },
+        {
+          "id": 1,
+          "occupancy": 4.8,
+          "obstacle": true,
+          "scan_step": 712,
+          "near_step": 466,
+          "clearance": 0.0,
+          "obstacle_component_cells": 236,
+          "nearest_reachable_free_px": 7.28,
+          "reachable_free_within_semantic_range": 405
+        },
+        {
+          "id": 2,
+          "occupancy": 4.8,
+          "obstacle": true,
+          "scan_step": 712,
+          "near_step": 466,
+          "clearance": 0.0,
+          "obstacle_component_cells": 237,
+          "nearest_reachable_free_px": 7.28,
+          "reachable_free_within_semantic_range": 406
+        },
+        {
+          "id": 3,
+          "occupancy": 4.8,
+          "obstacle": true,
+          "scan_step": 712,
+          "near_step": 466,
+          "clearance": 0.0,
+          "obstacle_component_cells": 237,
+          "nearest_reachable_free_px": 7.28,
+          "reachable_free_within_semantic_range": 406
+        },
+        {
+          "id": 4,
+          "occupancy": 0.0,
+          "obstacle": false,
+          "scan_step": 0,
+          "near_step": 0,
+          "clearance": 160.0,
+          "obstacle_component_cells": 0,
+          "nearest_reachable_free_px": 365.94,
+          "reachable_free_within_semantic_range": 0
+        },
+        {
+          "id": 5,
+          "occupancy": 4.8,
+          "obstacle": true,
+          "scan_step": 712,
+          "near_step": 466,
+          "clearance": 0.0,
+          "obstacle_component_cells": 237,
+          "nearest_reachable_free_px": 7.28,
+          "reachable_free_within_semantic_range": 406
+        },
+        {
+          "id": 6,
+          "occupancy": 4.8,
+          "obstacle": true,
+          "scan_step": 712,
+          "near_step": 466,
+          "clearance": 0.0,
+          "obstacle_component_cells": 236,
+          "nearest_reachable_free_px": 7.28,
+          "reachable_free_within_semantic_range": 407
+        },
+        {
+          "id": 7,
+          "occupancy": 4.8,
+          "obstacle": true,
+          "scan_step": 712,
+          "near_step": 466,
+          "clearance": 0.0,
+          "obstacle_component_cells": 236,
+          "nearest_reachable_free_px": 7.28,
+          "reachable_free_within_semantic_range": 405
+        },
+        {
+          "id": 8,
+          "occupancy": 4.8,
+          "obstacle": true,
+          "scan_step": 712,
+          "near_step": 466,
+          "clearance": 0.0,
+          "obstacle_component_cells": 235,
+          "nearest_reachable_free_px": 7.28,
+          "reachable_free_within_semantic_range": 405
+        },
+        {
+          "id": 9,
+          "occupancy": 4.8,
+          "obstacle": true,
+          "scan_step": 712,
+          "near_step": 466,
+          "clearance": 0.0,
+          "obstacle_component_cells": 236,
+          "nearest_reachable_free_px": 7.28,
+          "reachable_free_within_semantic_range": 405
+        }
+      ]
+    },
+    {
+      "index": 8,
+      "position": [
+        -707.0,
+        530.0
+      ],
+      "controller_maps": [
+        {
+          "id": 0,
+          "occupancy": 8.65,
+          "obstacle": true,
+          "scan_step": 2447,
+          "near_step": 1673,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4500,
+          "nearest_reachable_free_px": 5.39,
+          "reachable_free_within_semantic_range": 188
+        },
+        {
+          "id": 1,
+          "occupancy": 15.5,
+          "obstacle": true,
+          "scan_step": 3512,
+          "near_step": 3502,
+          "clearance": 0.0,
+          "obstacle_component_cells": 3841,
+          "nearest_reachable_free_px": 5.39,
+          "reachable_free_within_semantic_range": 195
+        },
+        {
+          "id": 2,
+          "occupancy": 8.6,
+          "obstacle": true,
+          "scan_step": 2447,
+          "near_step": 1673,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4471,
+          "nearest_reachable_free_px": 5.39,
+          "reachable_free_within_semantic_range": 188
+        },
+        {
+          "id": 3,
+          "occupancy": 8.6,
+          "obstacle": true,
+          "scan_step": 2447,
+          "near_step": 1673,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4506,
+          "nearest_reachable_free_px": 5.39,
+          "reachable_free_within_semantic_range": 188
+        },
+        {
+          "id": 4,
+          "occupancy": 0.0,
+          "obstacle": false,
+          "scan_step": 0,
+          "near_step": 0,
+          "clearance": 10.0,
+          "obstacle_component_cells": 0,
+          "nearest_reachable_free_px": 281.69,
+          "reachable_free_within_semantic_range": 0
+        },
+        {
+          "id": 5,
+          "occupancy": 8.6,
+          "obstacle": true,
+          "scan_step": 2447,
+          "near_step": 1673,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4504,
+          "nearest_reachable_free_px": 5.39,
+          "reachable_free_within_semantic_range": 188
+        },
+        {
+          "id": 6,
+          "occupancy": 9.8,
+          "obstacle": true,
+          "scan_step": 3512,
+          "near_step": 3502,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4511,
+          "nearest_reachable_free_px": 5.39,
+          "reachable_free_within_semantic_range": 184
+        },
+        {
+          "id": 7,
+          "occupancy": 15.8,
+          "obstacle": true,
+          "scan_step": 3512,
+          "near_step": 3502,
+          "clearance": 0.0,
+          "obstacle_component_cells": 3897,
+          "nearest_reachable_free_px": 5.39,
+          "reachable_free_within_semantic_range": 194
+        },
+        {
+          "id": 8,
+          "occupancy": 15.8,
+          "obstacle": true,
+          "scan_step": 3512,
+          "near_step": 3502,
+          "clearance": 0.0,
+          "obstacle_component_cells": 3910,
+          "nearest_reachable_free_px": 5.39,
+          "reachable_free_within_semantic_range": 186
+        },
+        {
+          "id": 9,
+          "occupancy": 15.75,
+          "obstacle": true,
+          "scan_step": 3512,
+          "near_step": 3502,
+          "clearance": 0.0,
+          "obstacle_component_cells": 3875,
+          "nearest_reachable_free_px": 5.39,
+          "reachable_free_within_semantic_range": 197
+        }
+      ]
+    },
+    {
+      "index": 9,
+      "position": [
+        823.0,
+        528.0
+      ],
+      "controller_maps": [
+        {
+          "id": 0,
+          "occupancy": -3.2,
+          "obstacle": false,
+          "scan_step": 3763,
+          "near_step": 510,
+          "clearance": 10.0,
+          "obstacle_component_cells": 0,
+          "nearest_reachable_free_px": 3.61,
+          "reachable_free_within_semantic_range": 142
+        },
+        {
+          "id": 1,
+          "occupancy": -4.6,
+          "obstacle": false,
+          "scan_step": 522,
+          "near_step": 510,
+          "clearance": 10.0,
+          "obstacle_component_cells": 0,
+          "nearest_reachable_free_px": 3.61,
+          "reachable_free_within_semantic_range": 123
+        },
+        {
+          "id": 2,
+          "occupancy": 3.9,
+          "obstacle": true,
+          "scan_step": 3773,
+          "near_step": 510,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4471,
+          "nearest_reachable_free_px": 15.26,
+          "reachable_free_within_semantic_range": 131
+        },
+        {
+          "id": 3,
+          "occupancy": 3.9,
+          "obstacle": true,
+          "scan_step": 3773,
+          "near_step": 510,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4506,
+          "nearest_reachable_free_px": 15.26,
+          "reachable_free_within_semantic_range": 131
+        },
+        {
+          "id": 4,
+          "occupancy": -4.6,
+          "obstacle": false,
+          "scan_step": 522,
+          "near_step": 510,
+          "clearance": 10.0,
+          "obstacle_component_cells": 0,
+          "nearest_reachable_free_px": 3.61,
+          "reachable_free_within_semantic_range": 128
+        },
+        {
+          "id": 5,
+          "occupancy": 3.9,
+          "obstacle": true,
+          "scan_step": 3773,
+          "near_step": 510,
+          "clearance": 0.0,
+          "obstacle_component_cells": 4504,
+          "nearest_reachable_free_px": 15.26,
+          "reachable_free_within_semantic_range": 131
+        },
+        {
+          "id": 6,
+          "occupancy": -4.6,
+          "obstacle": false,
+          "scan_step": 522,
+          "near_step": 510,
+          "clearance": 10.0,
+          "obstacle_component_cells": 0,
+          "nearest_reachable_free_px": 3.61,
+          "reachable_free_within_semantic_range": 123
+        },
+        {
+          "id": 7,
+          "occupancy": -4.6,
+          "obstacle": false,
+          "scan_step": 522,
+          "near_step": 510,
+          "clearance": 10.0,
+          "obstacle_component_cells": 0,
+          "nearest_reachable_free_px": 3.61,
+          "reachable_free_within_semantic_range": 123
+        },
+        {
+          "id": 8,
+          "occupancy": -4.6,
+          "obstacle": false,
+          "scan_step": 522,
+          "near_step": 510,
+          "clearance": 10.0,
+          "obstacle_component_cells": 0,
+          "nearest_reachable_free_px": 3.61,
+          "reachable_free_within_semantic_range": 123
+        },
+        {
+          "id": 9,
+          "occupancy": -4.6,
+          "obstacle": false,
+          "scan_step": 522,
+          "near_step": 510,
+          "clearance": 10.0,
+          "obstacle_component_cells": 0,
+          "nearest_reachable_free_px": 3.61,
+          "reachable_free_within_semantic_range": 123
+        }
+      ]
+    }
+  ]
+}

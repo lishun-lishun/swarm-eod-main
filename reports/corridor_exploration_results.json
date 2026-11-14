@@ -1,0 +1,76 @@
+{
+  "stage": "corridor-end forced exploration and hidden-branch detection",
+  "accepted_configuration": {
+    "enabled_by_default": true,
+    "specialist_drone_ids": [9],
+    "new_task_start_step": 3000,
+    "team_idle_frames_before_start": 120,
+    "entry_confirm_frames": 8,
+    "corridor_min_forward_range_px": 130.0,
+    "corridor_max_width_px": 130.0,
+    "nominal_surface_target_px": 2.0,
+    "robust_static_margin_px": 8.0,
+    "note": "The actual target is max(2 px, 3 + 2*2.5 px + nonlinear stopping distance)."
+  },
+  "baseline_root_zip": {
+    "path": "team006_final_baseline.zip",
+    "sha256": "7D8A327E0103DDECE27F60A25BAA8137C757E3930B35D2C59DD2E3E48FA553D3",
+    "bytes": 128660
+  },
+  "fixed_layout_seed1_engine861": [
+    {
+      "map": "Map06",
+      "baseline": {"disposed": 10, "health_percent": 96.4, "steps": 1797, "stuck": 17, "collision_events": 9},
+      "candidate": {"disposed": 10, "health_percent": 96.4, "steps": 1797, "stuck": 17, "collision_events": 9, "corridor_entries": 0}
+    },
+    {
+      "map": "Map08",
+      "baseline": {"disposed": 9, "health_percent": 80.8, "steps": 5400, "stuck": 100, "collision_events": 48, "all_discovered_step": 1604},
+      "candidate": {"disposed": 9, "health_percent": 82.4, "steps": 5400, "stuck": 75, "collision_events": 44, "all_discovered_step": 1604, "corridor_entries": 1, "approach_failures": 1}
+    },
+    {
+      "map": "Map09",
+      "baseline": {"disposed": 10, "health_percent": 87.2, "steps": 3494, "stuck": 37, "collision_events": 32},
+      "candidate": {"disposed": 10, "health_percent": 87.2, "steps": 3494, "stuck": 37, "collision_events": 32, "corridor_entries": 0}
+    }
+  ],
+  "layout_seed2_regression": [
+    {"map": "Map06", "engine_seed": 861, "baseline": [10, 90.8, 3065], "candidate": [10, 90.8, 3065], "corridor_entries": 0},
+    {"map": "Map06", "engine_seed": 1861, "baseline": [10, 94.0, 2463], "candidate": [10, 94.0, 2463], "corridor_entries": 0},
+    {"map": "Map08", "engine_seed": 861, "baseline": [10, 77.6, 4542], "candidate": [10, 77.6, 4542], "corridor_entries": 0},
+    {"map": "Map08", "engine_seed": 1861, "baseline": [10, 87.2, 3742], "candidate": [10, 87.2, 3742], "corridor_entries": 0},
+    {"map": "Map09", "engine_seed": 861, "baseline": [10, 89.2, 2438], "candidate": [10, 89.2, 2438], "corridor_entries": 0},
+    {"map": "Map09", "engine_seed": 1861, "baseline": [10, 92.8, 3212], "candidate": [10, 92.8, 3212], "corridor_entries": 0}
+  ],
+  "diagnostic_baseline_reversals": {
+    "Map06": {"GOAL_RESELECT": 34, "LOCAL_CONTROL": 86},
+    "Map08": {"GOAL_RESELECT": 11, "LOCAL_CONTROL": 109},
+    "Map09": {"GOAL_RESELECT": 24, "LOCAL_CONTROL": 95, "PATH_EMPTY": 1},
+    "return_reversals": 0,
+    "conclusion": "The measured reversals implicate periodic goal rescoring/scan invalidation and local wall control; SCOUT_MIN return was not the direct cause in the captured windows."
+  },
+  "rejected_iterations": [
+    {"id": 1, "reason": "joint safety applied throughout corridor", "Map08_disposed": 7, "Map09_disposed": 8},
+    {"id": 3, "reason": "all drones directly commanded through corridors", "Map08_disposed": 10, "Map09_disposed": 9},
+    {"id": 7, "reason": "scalar endpoint brake fixed command validity but all drones still disrupted allocation", "Map09_disposed": 9},
+    {"id": 10, "reason": "four specialists did not improve fixed Map08 and reduced health", "Map08_disposed": 9},
+    {"id": 11, "reason": "1800-step start regressed Map08 layout2/engine861 from 10 to 9", "accepted": false},
+    {"id": 13, "reason": "3000-step last-resort start restored all known 10/10 regression cases", "accepted": true}
+  ],
+  "tests": {
+    "focused": {"passed": 20, "failed": 0},
+    "full_suite": {"passed": 343, "failed": 5, "errors": 0},
+    "full_suite_failures": [
+      "existing EvalPlan time_best_ratio default mismatch",
+      "existing GPU/CPU LiDAR one-ray mismatch",
+      "three Windows np.load file-handle cleanup failures"
+    ]
+  },
+  "source_reports": [
+    "corridor_baseline_trace_Map06_l1_e861.json",
+    "corridor_baseline_trace_Map08_l1_e861.json",
+    "corridor_baseline_trace_Map09_l1_e861.json",
+    "corridor_candidate13_Map08_l1_e861_fixed.json",
+    "corridor_candidate13_Map08_l2_e861_regress.json"
+  ]
+}

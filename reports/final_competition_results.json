@@ -1,0 +1,69 @@
+{
+  "controller": "FinalCompetitionDrone",
+  "entrypoint": "src/swarm_rescue/solutions/my_drone_eval.py",
+  "environment": "E:/envs/swarm_rescue/python.exe",
+  "official_engine": "Pymunk via Launcher(headless=True, competition_mode=True)",
+  "primary_suite": {
+    "layout_seed": 1,
+    "engine_seed": 861,
+    "maps": [
+      {"map": "Map01", "disposed": 10, "score": 88.3, "health": 95.2, "steps": 1352},
+      {"map": "Map02", "disposed": 10, "score": 99.5, "health": 97.6, "steps": 1188},
+      {"map": "Map03", "disposed": 10, "score": 99.1, "health": 95.6, "steps": 1146},
+      {"map": "Map04", "disposed": 10, "score": 98.8, "health": 94.8, "steps": 1527},
+      {"map": "Map05", "disposed": 10, "score": 99.0, "health": 94.8, "steps": 1475},
+      {"map": "Map06", "disposed": 10, "score": 98.3, "health": 96.4, "steps": 1797},
+      {"map": "Map07", "disposed": 10, "score": 91.3, "health": 88.4, "steps": 2824},
+      {"map": "Map07t4", "disposed": 10, "score": 81.9, "health": 84.8, "steps": 4468},
+      {"map": "Map08", "disposed": 9, "score": 70.2, "health": 80.8, "steps": 5400},
+      {"map": "Map09", "disposed": 10, "score": 87.5, "health": 87.2, "steps": 3494}
+    ],
+    "full_completion_runs": 9,
+    "runs": 10,
+    "bombs_disposed": 99,
+    "bombs_total": 100,
+    "mean_score": 91.39,
+    "mean_health": 91.56,
+    "mean_steps": 2467.1
+  },
+  "degraded_cross_validation": {
+    "layout_seed": 2,
+    "engine_seeds": [861, 1861],
+    "maps": [
+      {"map": "Map06", "engine_seed": 861, "disposed": 10, "score": 90.5, "health": 90.8, "steps": 3065},
+      {"map": "Map06", "engine_seed": 1861, "disposed": 10, "score": 94.3, "health": 94.0, "steps": 2463},
+      {"map": "Map08", "engine_seed": 861, "disposed": 10, "score": 80.1, "health": 77.6, "steps": 4542},
+      {"map": "Map08", "engine_seed": 1861, "disposed": 10, "score": 86.2, "health": 87.2, "steps": 3742},
+      {"map": "Map09", "engine_seed": 861, "disposed": 10, "score": 93.5, "health": 89.2, "steps": 2438},
+      {"map": "Map09", "engine_seed": 1861, "disposed": 10, "score": 90.1, "health": 92.8, "steps": 3212}
+    ],
+    "full_completion_runs": 6,
+    "runs": 6,
+    "bombs_disposed": 60,
+    "bombs_total": 60,
+    "mean_score": 89.1167,
+    "mean_health": 88.6,
+    "mean_steps": 3243.6667
+  },
+  "known_risk": {
+    "map": "Map08",
+    "layout_seed": 1,
+    "engine_seed_861_disposed": 9,
+    "engine_seed_1861_disposed": 8,
+    "cause": "all bombs were eventually grasped, but one or two boundary-pocket pickups started too late for loaded return before 5400 steps"
+  },
+  "rejected_ablations": [
+    {"name": "far_delivery_first", "disposed": 8, "health": 64.4, "reason": "remote congestion and delayed discovery"},
+    {"name": "edge_bonus_800", "disposed": 9, "health": 68.8, "reason": "more boundary damage without completion gain"},
+    {"name": "predictive_filter_all_modes", "disposed": 3, "health": 99.6, "reason": "empty-airframe model over-constrained pickup and cargo contact"}
+  ],
+  "verification": {
+    "focused_tests": "31 passed",
+    "full_repository_tests": "339 passed, 5 unrelated baseline/platform failures",
+    "submission_check_errors": 0,
+    "submission_check_warnings": 0,
+    "submission_zip": "team006_final.zip",
+    "submission_zip_bytes": 128660,
+    "submission_zip_sha256": "7D8A327E0103DDECE27F60A25BAA8137C757E3930B35D2C59DD2E3E48FA553D3"
+  }
+}

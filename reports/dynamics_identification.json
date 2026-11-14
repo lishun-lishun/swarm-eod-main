@@ -1,0 +1,122 @@
+{
+  "status": "measured_with_official_playground",
+  "units": {
+    "time": "one strategy control frame",
+    "position": "px",
+    "velocity": "px/control_frame"
+  },
+  "simulator": {
+    "pymunk_steps_per_control_frame": 10,
+    "control_frame_integration_time": 1.0
+  },
+  "scalar_model": {
+    "velocity_decay": 0.9500000000000015,
+    "input_matrix": [
+      [
+        0.5729312289729012,
+        0.0
+      ],
+      [
+        0.0,
+        0.5729312289729012
+      ]
+    ],
+    "bias": [
+      6.661338147750939e-16,
+      5.273559366969494e-16
+    ],
+    "train_mae": 7.316368746641443e-15,
+    "train_rmse": 1.0851875341649895e-14,
+    "validation_mae": 7.307176700587437e-15,
+    "validation_rmse": 1.0752074316198128e-14,
+    "train_count": 704,
+    "validation_count": 173
+  },
+  "matrix_model": {
+    "velocity_decay": 0.9500000000000007,
+    "input_matrix": [
+      [
+        0.5729312289729018,
+        -8.465450562766819e-16
+      ],
+      [
+        -2.7755575615628914e-16,
+        0.5729312289729017
+      ]
+    ],
+    "bias": [
+      8.326672684688674e-16,
+      1.6653345369377348e-16
+    ],
+    "train_mae": 4.656140727080851e-15,
+    "train_rmse": 6.949467682902498e-15,
+    "validation_mae": 4.645810069339135e-15,
+    "validation_rmse": 6.845350988992922e-15,
+    "train_count": 704,
+    "validation_count": 173
+  },
+  "selected_model": "scalar",
+  "matrix_selection_rule": "validation RMSE improves by >=2% and >1e-6 px/control_frame",
+  "experiment_summary": {
+    "one_frame_forward_velocity": [
+      0.5729312289728998,
+      0.0
+    ],
+    "one_frame_lateral_velocity": [
+      0.0,
+      0.5729312289728998
+    ],
+    "steady_forward_speed_after_180_frames": 11.457504157935189,
+    "coast_distance_over_100_frames": 222.61984655004585,
+    "coast_final_speed": 0.06783448815915101,
+    "diagonal_velocity_after_100_frames": [
+      8.054500226045262,
+      8.054500226045262
+    ],
+    "diagonal_command_norm_after_normalization": 0.9999999999999999,
+    "rotation_rate_rad_per_frame": 0.17591191641555215,
+    "rotating_translation_final_speed": 2.44664004356643
+  },
+  "braking_trials": [
+    {
+      "mode": "full_reverse",
+      "target_speed": 2.0,
+      "initial_speed": 2.1255032430858356,
+      "stopping_distance": 2.686296747295904,
+      "brake_frames": 4,
+      "final_speed": -0.39426756719715544
+    },
+    {
+      "mode": "full_reverse",
+      "target_speed": 4.0,
+      "initial_speed": 4.236833201998688,
+      "stopping_distance": 10.903686047586255,
+      "brake_frames": 7,
+      "final_speed": -0.4979010314019316
+    },
+    {
+      "mode": "full_reverse",
+      "target_speed": 6.0,
+      "initial_speed": 6.149944302102102,
+      "stopping_distance": 22.021914785431903,
+      "brake_frames": 9,
+      "final_speed": -0.36083443575962654
+    },
+    {
+      "mode": "full_reverse",
+      "target_speed": 8.0,
+      "initial_speed": 8.112831968237748,
+      "stopping_distance": 36.224222739614746,
+      "brake_frames": 11,
+      "final_speed": -0.3263782891439416
+    },
+    {
+      "mode": "full_reverse",
+      "target_speed": 10.0,
+      "initial_speed": 10.05968065128069,
+      "stopping_distance": 52.59125062613123,
+      "brake_frames": 13,
+      "final_speed": -0.41237294366634025
+    }
+  ]
+}

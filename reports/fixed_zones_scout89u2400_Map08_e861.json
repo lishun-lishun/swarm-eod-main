@@ -1,0 +1,5465 @@
+{
+  "disposed": 6,
+  "total_bombs": 10,
+  "official_total": 51.0,
+  "mean_health_percent": 74.8,
+  "time_to_dispose_all_step": 0,
+  "elapsed_timestep": 5400,
+  "max_timestep": 5400,
+  "walltime_seconds": 122.0,
+  "raw_output": "The team 'SkySaviors' n\u00b06, with tom, alice, bob, lea\nDefault team mode: <not set>\nEvaluation Plan (from file: plan_Map08.yml):\n==================================================\nConfig ID: 1\n  Map: Map08\n  Zones: no_com_zone, no_gps_zone\n  Number of Rounds: 1\n  Weight: 1\n  Team mode (scenario): rescue\n  Number of drones (scenario): 10\n--------------------------------------------------\nDefault team mode: <not set>\nTime score: full marks at or before 30% of the timestep limit\n--------------------------------------------------------------------------------------------\n\n--------------------------------------------------------------------------------------------\n--------------------------------------------------------------------------------------------\n* Map: Map08, mode: rescue, special zones: no_com_zone, no_gps_zone, round: 1/1\ncount_reachable v3 = 1624793\n\t* Round n\u00b01/1: \n\t\trescued nb: 6/10 (disposal score: 60.0%), health return score: 74.8%, time score: 0.0%, explor. score: 100.0% (weight 0%), walltime elapsed: 122s/180s, elapse timestep: 5400/5400 steps, time to dispose all: 0 steps.\n\t\tscore breakdown (competition weights): disposal 60.0 x 60% = 36.0, health 74.8 x 20% = 15.0, time 0.0 x 20% = 0.0, total 51.0/100.\n\t\tpercentage of drones destroyed: 0.0 %, mean percentage of drones health : 74.8 %.\n\t\tround score: 51.0%, frequency: 44.33 steps/s.\n--------------------------------------------------------------------------------------------\n",
+  "map": "Map08",
+  "engine_seed": 861,
+  "fixed_layout_source": "E:\\code\\final_fusai\\swarm-eod-main\\config\\zones_location.txt",
+  "zones_config": [
+    "NO_COM_ZONE",
+    "NO_GPS_ZONE"
+  ],
+  "ok": true,
+  "plan": "E:\\code\\final_fusai\\swarm-eod-main\\reports\\fixed_zones_work\\plan_Map08.yml",
+  "bomb_file": "E:\\code\\final_fusai\\swarm-eod-main\\reports\\fixed_zones_work\\bombs_Map08.json",
+  "controller_diagnostics": {
+    "drone_count": 10,
+    "control_calls": 54000,
+    "control_mean_ms": 1.6219552221041846,
+    "control_max_ms": 12.649499985855073,
+    "control_p95_ms": 3.8766900048358353,
+    "stuck_events": 89,
+    "grasp_failures": 0,
+    "grasp_time_steps": 0,
+    "grasp_successes": 8,
+    "recovery_events": 89,
+    "collision_damage_events": 63,
+    "event_counts": {
+      "grasp": 8,
+      "stuck": 89,
+      "release": 6,
+      "explore_goal_timeout": 34,
+      "center_goal_drop": 2,
+      "use_view": 1
+    },
+    "all_discovered_step": 3554,
+    "explore_goal_selections": 10249,
+    "repeated_exploration_ratio": 0.9413601326958728,
+    "corridor_entered": 0,
+    "corridor_ends_reached": 0,
+    "corridor_closed_ends": 0,
+    "corridor_branches_found": 0,
+    "corridor_branches_entered": 0,
+    "corridor_completed": 0,
+    "corridor_approach_failures": 0,
+    "unexplained_reversals": 0
+  },
+  "controller_states": [
+    {
+      "id": 0,
+      "state": "EXPLORE",
+      "carrying": false,
+      "accounted": 12,
+      "known_bombs": 4,
+      "known_disposed": 6,
+      "claim": null,
+      "pose": [
+        575.7855661596147,
+        -189.8429345591503
+      ],
+      "stuck_count": 4,
+      "grasps": 1,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "safety": {
+        "filtered_frames": 84,
+        "predictive_brake_frames": 4,
+        "infeasible_frames": 74
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "claim",
+          "step": 820,
+          "key": "(0, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2401.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 848,
+          "key": "(0, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2355.75,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 963,
+          "key": "(0, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2419.47,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 1057,
+          "key": "(0, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2424.65,
+          "blocked": false
+        },
+        {
+          "kind": "first_seen",
+          "step": 1145,
+          "key": "(0, 1)",
+          "bomb": [
+            656.42,
+            269.64
+          ],
+          "view": [
+            743.95,
+            167.16
+          ],
+          "distance": 123.77
+        },
+        {
+          "kind": "claim",
+          "step": 1145,
+          "key": "(0, 1)",
+          "bomb": [
+            656.42,
+            269.64
+          ],
+          "cost": 246.42,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3528,
+          "key": "(0, 5)",
+          "bomb": [
+            -131.89,
+            -422.47
+          ],
+          "cost": 1940.82,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3530,
+          "key": "(0, 7)",
+          "bomb": [
+            -120.89,
+            -445.33
+          ],
+          "cost": 1224.92,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3536,
+          "key": "(0, 6)",
+          "bomb": [
+            -0.41,
+            -533.42
+          ],
+          "cost": 3109.79,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3544,
+          "key": "(0, 7)",
+          "bomb": [
+            -120.89,
+            -445.33
+          ],
+          "cost": 1102.27,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3550,
+          "key": "(0, 6)",
+          "bomb": [
+            -0.41,
+            -533.42
+          ],
+          "cost": 2979.26,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3555,
+          "key": "(0, 5)",
+          "bomb": [
+            -131.89,
+            -422.47
+          ],
+          "cost": 1690.18,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3670,
+          "key": "(0, 6)",
+          "bomb": [
+            -0.41,
+            -533.42
+          ],
+          "cost": 3271.41,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3713,
+          "key": "(0, 6)",
+          "bomb": [
+            -8.53,
+            -529.84
+          ],
+          "cost": 2455.23,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3718,
+          "key": "(0, 6)",
+          "bomb": [
+            -8.53,
+            -529.84
+          ],
+          "cost": 3731.49,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3728,
+          "key": "(0, 6)",
+          "bomb": [
+            -8.53,
+            -529.84
+          ],
+          "cost": 3291.69,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3786,
+          "key": "(0, 6)",
+          "bomb": [
+            -7.48,
+            -531.73
+          ],
+          "cost": 3165.06,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3850,
+          "key": "(0, 6)",
+          "bomb": [
+            -7.48,
+            -531.73
+          ],
+          "cost": 3184.6,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3886,
+          "key": "(0, 6)",
+          "bomb": [
+            -7.48,
+            -531.73
+          ],
+          "cost": 2162.35,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3959,
+          "key": "(0, 8)",
+          "bomb": [
+            -5.98,
+            -554.68
+          ],
+          "cost": 2550.25,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4025,
+          "key": "(0, 8)",
+          "bomb": [
+            -5.98,
+            -554.68
+          ],
+          "cost": 2974.43,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4204,
+          "key": "(0, 9)",
+          "bomb": [
+            2.57,
+            -513.56
+          ],
+          "cost": 3864.16,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4225,
+          "key": "(0, 8)",
+          "bomb": [
+            -0.28,
+            -554.34
+          ],
+          "cost": 3166.82,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4265,
+          "key": "(0, 9)",
+          "bomb": [
+            2.57,
+            -513.56
+          ],
+          "cost": 1998.0,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4356,
+          "key": "(0, 6)",
+          "bomb": [
+            -9.59,
+            -543.1
+          ],
+          "cost": 3583.67,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4375,
+          "key": "(0, 6)",
+          "bomb": [
+            -9.59,
+            -543.1
+          ],
+          "cost": 2259.52,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4462,
+          "key": "(0, 8)",
+          "bomb": [
+            -5.48,
+            -547.8
+          ],
+          "cost": 2471.22,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4532,
+          "key": "(0, 9)",
+          "bomb": [
+            -4.43,
+            -522.35
+          ],
+          "cost": 2963.47,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4540,
+          "key": "(0, 9)",
+          "bomb": [
+            -4.43,
+            -522.35
+          ],
+          "cost": 3193.13,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4551,
+          "key": "(0, 9)",
+          "bomb": [
+            -4.43,
+            -522.35
+          ],
+          "cost": 3126.0,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4611,
+          "key": "(0, 6)",
+          "bomb": [
+            -3.92,
+            -540.27
+          ],
+          "cost": 1933.78,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 5346,
+          "key": "(0, 10)",
+          "bomb": [
+            565.28,
+            -569.37
+          ],
+          "cost": 4396.69,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 5354,
+          "key": "(0, 10)",
+          "bomb": [
+            565.28,
+            -569.37
+          ],
+          "cost": 2948.07,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "last_events": [
+        {
+          "kind": "grasp",
+          "step": 1173
+        },
+        {
+          "kind": "stuck",
+          "step": 1300,
+          "state": "CARRY"
+        },
+        {
+          "kind": "release",
+          "step": 2496,
+          "near_center": true
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 2496
+        },
+        {
+          "kind": "stuck",
+          "step": 2690,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 3048
+        },
+        {
+          "kind": "stuck",
+          "step": 3300,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 3580,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 3926
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 4355
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 4714
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "state": "EXPLORE",
+      "carrying": false,
+      "accounted": 10,
+      "known_bombs": 3,
+      "known_disposed": 6,
+      "claim": null,
+      "pose": [
+        449.8367598282626,
+        85.61194716493064
+      ],
+      "stuck_count": 6,
+      "grasps": 1,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "safety": {
+        "filtered_frames": 80,
+        "predictive_brake_frames": 2,
+        "infeasible_frames": 78
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "claim",
+          "step": 798,
+          "key": "(1, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2083.79,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 834,
+          "key": "(1, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2348.02,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 900,
+          "key": "(1, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2493.47,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 999,
+          "key": "(1, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2235.22,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 1250,
+          "key": "(1, 2)",
+          "bomb": [
+            641.99,
+            -90.71
+          ],
+          "cost": 587.93,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 1251,
+          "key": "(1, 1)",
+          "bomb": [
+            504.75,
+            -81.06
+          ],
+          "cost": 2541.57,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 1259,
+          "key": "(1, 1)",
+          "bomb": [
+            504.75,
+            -81.06
+          ],
+          "cost": 2541.57,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 1266,
+          "key": "(1, 2)",
+          "bomb": [
+            641.99,
+            -90.71
+          ],
+          "cost": 1630.79,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 1271,
+          "key": "(1, 1)",
+          "bomb": [
+            504.75,
+            -81.06
+          ],
+          "cost": 1542.48,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 1291,
+          "key": "(1, 2)",
+          "bomb": [
+            641.99,
+            -90.71
+          ],
+          "cost": 1214.52,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3528,
+          "key": "(1, 4)",
+          "bomb": [
+            -131.89,
+            -422.47
+          ],
+          "cost": 2221.26,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3531,
+          "key": "(1, 6)",
+          "bomb": [
+            -120.89,
+            -445.33
+          ],
+          "cost": 1502.77,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3544,
+          "key": "(1, 6)",
+          "bomb": [
+            -120.89,
+            -445.33
+          ],
+          "cost": 1369.65,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3546,
+          "key": "(1, 5)",
+          "bomb": [
+            -0.41,
+            -533.42
+          ],
+          "cost": 2976.6,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3552,
+          "key": "(1, 4)",
+          "bomb": [
+            -131.89,
+            -422.47
+          ],
+          "cost": 1970.38,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3604,
+          "key": "(1, 5)",
+          "bomb": [
+            -0.41,
+            -533.42
+          ],
+          "cost": 3180.53,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3611,
+          "key": "(1, 4)",
+          "bomb": [
+            -131.89,
+            -422.47
+          ],
+          "cost": 2277.86,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3621,
+          "key": "(1, 5)",
+          "bomb": [
+            -0.41,
+            -533.42
+          ],
+          "cost": 3250.87,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3682,
+          "key": "(1, 5)",
+          "bomb": [
+            -0.84,
+            -534.99
+          ],
+          "cost": 2459.03,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3701,
+          "key": "(1, 5)",
+          "bomb": [
+            -0.84,
+            -534.99
+          ],
+          "cost": 2341.65,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3712,
+          "key": "(1, 5)",
+          "bomb": [
+            -0.84,
+            -534.99
+          ],
+          "cost": 3513.77,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3717,
+          "key": "(1, 5)",
+          "bomb": [
+            -8.53,
+            -529.84
+          ],
+          "cost": 3512.47,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3727,
+          "key": "(1, 5)",
+          "bomb": [
+            -8.53,
+            -529.84
+          ],
+          "cost": 3174.59,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3994,
+          "key": "(1, 7)",
+          "bomb": [
+            -5.98,
+            -554.68
+          ],
+          "cost": 3511.02,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4159,
+          "key": "(1, 7)",
+          "bomb": [
+            -0.28,
+            -554.34
+          ],
+          "cost": 2996.34,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4227,
+          "key": "(1, 8)",
+          "bomb": [
+            2.57,
+            -513.56
+          ],
+          "cost": 4132.68,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4321,
+          "key": "(1, 7)",
+          "bomb": [
+            4.0,
+            -547.43
+          ],
+          "cost": 2788.65,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4431,
+          "key": "(1, 7)",
+          "bomb": [
+            -6.73,
+            -548.25
+          ],
+          "cost": 2275.37,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4495,
+          "key": "(1, 8)",
+          "bomb": [
+            -4.43,
+            -522.35
+          ],
+          "cost": 3420.65,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4532,
+          "key": "(1, 8)",
+          "bomb": [
+            -4.43,
+            -522.35
+          ],
+          "cost": 3209.27,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4540,
+          "key": "(1, 8)",
+          "bomb": [
+            -4.43,
+            -522.35
+          ],
+          "cost": 3209.27,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4551,
+          "key": "(1, 8)",
+          "bomb": [
+            -4.43,
+            -522.35
+          ],
+          "cost": 2838.89,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4611,
+          "key": "(1, 8)",
+          "bomb": [
+            -4.43,
+            -522.35
+          ],
+          "cost": 2738.61,
+          "blocked": true
+        }
+      ],
+      "carry_trace": [],
+      "last_events": [
+        {
+          "kind": "stuck",
+          "step": 210,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 1160,
+          "state": "FETCH"
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 1190
+        },
+        {
+          "kind": "grasp",
+          "step": 1462
+        },
+        {
+          "kind": "stuck",
+          "step": 1590,
+          "state": "CARRY"
+        },
+        {
+          "kind": "stuck",
+          "step": 1720,
+          "state": "CARRY"
+        },
+        {
+          "kind": "release",
+          "step": 3090,
+          "near_center": true
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 3090
+        },
+        {
+          "kind": "stuck",
+          "step": 3920,
+          "state": "FETCH"
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 3950
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 4356
+        },
+        {
+          "kind": "stuck",
+          "step": 4450,
+          "state": "FETCH"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "state": "EXPLORE",
+      "carrying": false,
+      "accounted": 12,
+      "known_bombs": 4,
+      "known_disposed": 6,
+      "claim": null,
+      "pose": [
+        617.3653927540148,
+        -464.13577660895277
+      ],
+      "stuck_count": 9,
+      "grasps": 1,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "safety": {
+        "filtered_frames": 61,
+        "predictive_brake_frames": 10,
+        "infeasible_frames": 49
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "first_seen",
+          "step": 781,
+          "key": "(2, 0)",
+          "bomb": [
+            -229.59,
+            -521.62
+          ],
+          "view": [
+            -364.31,
+            -510.98
+          ],
+          "distance": 124.14
+        },
+        {
+          "kind": "claim",
+          "step": 781,
+          "key": "(2, 0)",
+          "bomb": [
+            -229.59,
+            -521.62
+          ],
+          "cost": 1004.29,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 2795,
+          "key": "(2, 2)",
+          "bomb": [
+            194.68,
+            282.15
+          ],
+          "cost": 1549.86,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3609,
+          "key": "(2, 3)",
+          "bomb": [
+            -131.89,
+            -422.47
+          ],
+          "cost": 2306.02,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3612,
+          "key": "(2, 4)",
+          "bomb": [
+            -0.41,
+            -533.42
+          ],
+          "cost": 4940.0,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3682,
+          "key": "(2, 4)",
+          "bomb": [
+            -0.84,
+            -534.99
+          ],
+          "cost": 2900.91,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3723,
+          "key": "(2, 4)",
+          "bomb": [
+            -8.53,
+            -529.84
+          ],
+          "cost": 2715.95,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3835,
+          "key": "(2, 4)",
+          "bomb": [
+            -7.48,
+            -531.73
+          ],
+          "cost": 3874.93,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3929,
+          "key": "(2, 4)",
+          "bomb": [
+            -7.48,
+            -531.73
+          ],
+          "cost": 1949.66,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4003,
+          "key": "(2, 4)",
+          "bomb": [
+            -3.66,
+            -529.66
+          ],
+          "cost": 3674.95,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4117,
+          "key": "(2, 5)",
+          "bomb": [
+            -0.28,
+            -554.34
+          ],
+          "cost": 800.27,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4200,
+          "key": "(2, 5)",
+          "bomb": [
+            -0.28,
+            -554.34
+          ],
+          "cost": 2879.68,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4217,
+          "key": "(2, 4)",
+          "bomb": [
+            3.6,
+            -537.8
+          ],
+          "cost": 2800.94,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4302,
+          "key": "(2, 6)",
+          "bomb": [
+            2.57,
+            -513.56
+          ],
+          "cost": 2776.53,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4350,
+          "key": "(2, 4)",
+          "bomb": [
+            -9.59,
+            -543.1
+          ],
+          "cost": 3683.29,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4372,
+          "key": "(2, 4)",
+          "bomb": [
+            -9.59,
+            -543.1
+          ],
+          "cost": 1695.36,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4470,
+          "key": "(2, 6)",
+          "bomb": [
+            -4.43,
+            -522.35
+          ],
+          "cost": 4438.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4495,
+          "key": "(2, 6)",
+          "bomb": [
+            -4.43,
+            -522.35
+          ],
+          "cost": 4168.34,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4525,
+          "key": "(2, 6)",
+          "bomb": [
+            -4.43,
+            -522.35
+          ],
+          "cost": 3913.9,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4557,
+          "key": "(2, 4)",
+          "bomb": [
+            -5.53,
+            -536.38
+          ],
+          "cost": 2696.91,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4610,
+          "key": "(2, 5)",
+          "bomb": [
+            -5.48,
+            -547.8
+          ],
+          "cost": 4359.26,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4671,
+          "key": "(2, 5)",
+          "bomb": [
+            -5.48,
+            -547.8
+          ],
+          "cost": 3915.49,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4720,
+          "key": "(2, 6)",
+          "bomb": [
+            -0.14,
+            -525.61
+          ],
+          "cost": 5927.65,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 5291,
+          "key": "(2, 7)",
+          "bomb": [
+            565.28,
+            -569.37
+          ],
+          "cost": 2017.29,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 5372,
+          "key": "(2, 7)",
+          "bomb": [
+            565.28,
+            -569.37
+          ],
+          "cost": 2454.44,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "last_events": [
+        {
+          "kind": "center_goal_drop",
+          "step": 1770
+        },
+        {
+          "kind": "center_goal_drop",
+          "step": 1791
+        },
+        {
+          "kind": "release",
+          "step": 1856,
+          "near_center": true
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 1856
+        },
+        {
+          "kind": "stuck",
+          "step": 2300,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 2580,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 2975
+        },
+        {
+          "kind": "stuck",
+          "step": 3420,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 3909
+        },
+        {
+          "kind": "stuck",
+          "step": 4170,
+          "state": "FETCH"
+        },
+        {
+          "kind": "stuck",
+          "step": 4320,
+          "state": "FETCH"
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 4362
+        },
+        {
+          "kind": "stuck",
+          "step": 4440,
+          "state": "FETCH"
+        },
+        {
+          "kind": "stuck",
+          "step": 4560,
+          "state": "FETCH"
+        },
+        {
+          "kind": "stuck",
+          "step": 4690,
+          "state": "FETCH"
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 4906
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "state": "CARRY",
+      "carrying": false,
+      "accounted": 11,
+      "known_bombs": 3,
+      "known_disposed": 6,
+      "claim": null,
+      "pose": [
+        722.6396866115882,
+        -534.4442751967913
+      ],
+      "stuck_count": 6,
+      "grasps": 2,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "safety": {
+        "filtered_frames": 59,
+        "predictive_brake_frames": 4,
+        "infeasible_frames": 53
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "claim",
+          "step": 732,
+          "key": "(3, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1298.29,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 809,
+          "key": "(3, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 817.16,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 834,
+          "key": "(3, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 747.74,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 1030,
+          "key": "(3, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1856.18,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 1356,
+          "key": "(3, 3)",
+          "bomb": [
+            641.99,
+            -90.71
+          ],
+          "cost": 474.56,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 1368,
+          "key": "(3, 4)",
+          "bomb": [
+            797.9,
+            -55.9
+          ],
+          "cost": 716.82,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 1383,
+          "key": "(3, 3)",
+          "bomb": [
+            641.99,
+            -90.71
+          ],
+          "cost": 1116.95,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 1444,
+          "key": "(3, 3)",
+          "bomb": [
+            641.55,
+            -92.75
+          ],
+          "cost": 892.1,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 1467,
+          "key": "(3, 2)",
+          "bomb": [
+            504.75,
+            -81.06
+          ],
+          "cost": 1297.37,
+          "blocked": false
+        },
+        {
+          "kind": "first_seen",
+          "step": 1991,
+          "key": "(3, 5)",
+          "bomb": [
+            424.63,
+            181.97
+          ],
+          "view": [
+            454.48,
+            275.0
+          ],
+          "distance": 86.71
+        },
+        {
+          "kind": "claim",
+          "step": 1991,
+          "key": "(3, 5)",
+          "bomb": [
+            424.63,
+            181.97
+          ],
+          "cost": 751.7,
+          "blocked": false
+        },
+        {
+          "kind": "first_seen",
+          "step": 2226,
+          "key": "(3, 6)",
+          "bomb": [
+            201.15,
+            289.86
+          ],
+          "view": [
+            310.53,
+            202.71
+          ],
+          "distance": 128.85
+        },
+        {
+          "kind": "claim",
+          "step": 4376,
+          "key": "(3, 8)",
+          "bomb": [
+            7.23,
+            -518.46
+          ],
+          "cost": 3322.29,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4387,
+          "key": "(3, 7)",
+          "bomb": [
+            -9.59,
+            -543.1
+          ],
+          "cost": 2283.76,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4412,
+          "key": "(3, 7)",
+          "bomb": [
+            -9.59,
+            -543.1
+          ],
+          "cost": 2452.58,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4433,
+          "key": "(3, 8)",
+          "bomb": [
+            7.23,
+            -518.46
+          ],
+          "cost": 2329.9,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4452,
+          "key": "(3, 7)",
+          "bomb": [
+            -5.53,
+            -536.38
+          ],
+          "cost": 2454.28,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4476,
+          "key": "(3, 8)",
+          "bomb": [
+            -4.43,
+            -522.35
+          ],
+          "cost": 3469.06,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4502,
+          "key": "(3, 8)",
+          "bomb": [
+            -4.43,
+            -522.35
+          ],
+          "cost": 3217.77,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4512,
+          "key": "(3, 8)",
+          "bomb": [
+            -4.43,
+            -522.35
+          ],
+          "cost": 2736.65,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4532,
+          "key": "(3, 8)",
+          "bomb": [
+            -4.43,
+            -522.35
+          ],
+          "cost": 3103.15,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4547,
+          "key": "(3, 8)",
+          "bomb": [
+            -4.43,
+            -522.35
+          ],
+          "cost": 3228.12,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4614,
+          "key": "(3, 7)",
+          "bomb": [
+            -3.92,
+            -540.27
+          ],
+          "cost": 1831.2,
+          "blocked": true
+        },
+        {
+          "kind": "first_seen",
+          "step": 5261,
+          "key": "(3, 9)",
+          "bomb": [
+            565.28,
+            -569.37
+          ],
+          "view": [
+            692.47,
+            -539.86
+          ],
+          "distance": 119.58
+        },
+        {
+          "kind": "claim",
+          "step": 5261,
+          "key": "(3, 9)",
+          "bomb": [
+            565.28,
+            -569.37
+          ],
+          "cost": 1254.55,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "last_events": [
+        {
+          "kind": "stuck",
+          "step": 910,
+          "state": "FETCH"
+        },
+        {
+          "kind": "stuck",
+          "step": 1880,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "grasp",
+          "step": 2067
+        },
+        {
+          "kind": "stuck",
+          "step": 2180,
+          "state": "CARRY"
+        },
+        {
+          "kind": "stuck",
+          "step": 2350,
+          "state": "CARRY"
+        },
+        {
+          "kind": "stuck",
+          "step": 2480,
+          "state": "CARRY"
+        },
+        {
+          "kind": "stuck",
+          "step": 2610,
+          "state": "CARRY"
+        },
+        {
+          "kind": "release",
+          "step": 4027,
+          "near_center": true
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 4027
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 4355
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 4710
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 5038
+        },
+        {
+          "kind": "grasp",
+          "step": 5289
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "state": "CARRY",
+      "carrying": false,
+      "accounted": 10,
+      "known_bombs": 3,
+      "known_disposed": 6,
+      "claim": null,
+      "pose": [
+        -139.97084748028328,
+        -540.5171684708114
+      ],
+      "stuck_count": 17,
+      "grasps": 1,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "safety": {
+        "filtered_frames": 76,
+        "predictive_brake_frames": 3,
+        "infeasible_frames": 73
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "claim",
+          "step": 784,
+          "key": "(4, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1648.36,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 912,
+          "key": "(4, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1101.44,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 1537,
+          "key": "(4, 2)",
+          "bomb": [
+            641.55,
+            -92.75
+          ],
+          "cost": 1530.94,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 2748,
+          "key": "(4, 3)",
+          "bomb": [
+            194.68,
+            282.15
+          ],
+          "cost": 1436.2,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 2915,
+          "key": "(4, 3)",
+          "bomb": [
+            194.68,
+            282.15
+          ],
+          "cost": 1207.0,
+          "blocked": false
+        },
+        {
+          "kind": "first_seen",
+          "step": 3478,
+          "key": "(4, 4)",
+          "bomb": [
+            -118.83,
+            -422.23
+          ],
+          "view": [
+            -146.03,
+            -529.4
+          ],
+          "distance": 99.56
+        },
+        {
+          "kind": "claim",
+          "step": 3478,
+          "key": "(4, 4)",
+          "bomb": [
+            -118.83,
+            -422.23
+          ],
+          "cost": 736.32,
+          "blocked": false
+        },
+        {
+          "kind": "first_seen",
+          "step": 3486,
+          "key": "(4, 5)",
+          "bomb": [
+            1.4,
+            -541.44
+          ],
+          "view": [
+            -133.92,
+            -526.08
+          ],
+          "distance": 125.19
+        },
+        {
+          "kind": "claim",
+          "step": 3534,
+          "key": "(4, 5)",
+          "bomb": [
+            -0.41,
+            -533.42
+          ],
+          "cost": 663.62,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3539,
+          "key": "(4, 4)",
+          "bomb": [
+            -127.8,
+            -422.23
+          ],
+          "cost": 435.71,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3549,
+          "key": "(4, 6)",
+          "bomb": [
+            -120.89,
+            -445.33
+          ],
+          "cost": 16.0,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "last_events": [
+        {
+          "kind": "explore_goal_timeout",
+          "step": 3113
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 3414
+        },
+        {
+          "kind": "grasp",
+          "step": 3554
+        },
+        {
+          "kind": "stuck",
+          "step": 3740,
+          "state": "CARRY"
+        },
+        {
+          "kind": "stuck",
+          "step": 3880,
+          "state": "CARRY"
+        },
+        {
+          "kind": "stuck",
+          "step": 4010,
+          "state": "CARRY"
+        },
+        {
+          "kind": "stuck",
+          "step": 4150,
+          "state": "CARRY"
+        },
+        {
+          "kind": "stuck",
+          "step": 4280,
+          "state": "CARRY"
+        },
+        {
+          "kind": "stuck",
+          "step": 4410,
+          "state": "CARRY"
+        },
+        {
+          "kind": "stuck",
+          "step": 4540,
+          "state": "CARRY"
+        },
+        {
+          "kind": "stuck",
+          "step": 4670,
+          "state": "CARRY"
+        },
+        {
+          "kind": "stuck",
+          "step": 4800,
+          "state": "CARRY"
+        },
+        {
+          "kind": "stuck",
+          "step": 4930,
+          "state": "CARRY"
+        },
+        {
+          "kind": "stuck",
+          "step": 5060,
+          "state": "CARRY"
+        },
+        {
+          "kind": "stuck",
+          "step": 5190,
+          "state": "CARRY"
+        },
+        {
+          "kind": "stuck",
+          "step": 5320,
+          "state": "CARRY"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "state": "FETCH",
+      "carrying": false,
+      "accounted": 12,
+      "known_bombs": 4,
+      "known_disposed": 6,
+      "claim": "(5, 9)",
+      "pose": [
+        764.4317566743333,
+        -520.5901607917675
+      ],
+      "stuck_count": 4,
+      "grasps": 1,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "safety": {
+        "filtered_frames": 90,
+        "predictive_brake_frames": 5,
+        "infeasible_frames": 85
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "claim",
+          "step": 852,
+          "key": "(5, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1804.19,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 1200,
+          "key": "(5, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 3278.15,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 1248,
+          "key": "(5, 2)",
+          "bomb": [
+            641.99,
+            -90.71
+          ],
+          "cost": 700.85,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 1260,
+          "key": "(5, 1)",
+          "bomb": [
+            504.75,
+            -81.06
+          ],
+          "cost": 1918.45,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 1265,
+          "key": "(5, 2)",
+          "bomb": [
+            641.99,
+            -90.71
+          ],
+          "cost": 1474.88,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 1296,
+          "key": "(5, 1)",
+          "bomb": [
+            504.75,
+            -81.06
+          ],
+          "cost": 1806.83,
+          "blocked": true
+        },
+        {
+          "kind": "first_seen",
+          "step": 1351,
+          "key": "(5, 3)",
+          "bomb": [
+            797.9,
+            -55.9
+          ],
+          "view": [
+            662.95,
+            -28.06
+          ],
+          "distance": 126.79
+        },
+        {
+          "kind": "claim",
+          "step": 1351,
+          "key": "(5, 3)",
+          "bomb": [
+            797.9,
+            -55.9
+          ],
+          "cost": 430.5,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3530,
+          "key": "(5, 5)",
+          "bomb": [
+            -0.41,
+            -533.42
+          ],
+          "cost": 3140.67,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3540,
+          "key": "(5, 6)",
+          "bomb": [
+            -120.89,
+            -445.33
+          ],
+          "cost": 2411.05,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3550,
+          "key": "(5, 5)",
+          "bomb": [
+            -0.41,
+            -533.42
+          ],
+          "cost": 2915.38,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3556,
+          "key": "(5, 5)",
+          "bomb": [
+            -0.41,
+            -533.42
+          ],
+          "cost": 2869.67,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3600,
+          "key": "(5, 4)",
+          "bomb": [
+            -131.89,
+            -422.47
+          ],
+          "cost": 2775.76,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3615,
+          "key": "(5, 5)",
+          "bomb": [
+            -0.41,
+            -533.42
+          ],
+          "cost": 3046.21,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3667,
+          "key": "(5, 5)",
+          "bomb": [
+            -0.84,
+            -534.99
+          ],
+          "cost": 2379.62,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3682,
+          "key": "(5, 5)",
+          "bomb": [
+            -0.84,
+            -534.99
+          ],
+          "cost": 2379.85,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3713,
+          "key": "(5, 5)",
+          "bomb": [
+            -8.53,
+            -529.84
+          ],
+          "cost": 3623.77,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3718,
+          "key": "(5, 5)",
+          "bomb": [
+            -8.53,
+            -529.84
+          ],
+          "cost": 3623.77,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3729,
+          "key": "(5, 5)",
+          "bomb": [
+            -8.53,
+            -529.84
+          ],
+          "cost": 3134.09,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3798,
+          "key": "(5, 5)",
+          "bomb": [
+            -7.48,
+            -531.73
+          ],
+          "cost": 3008.5,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3896,
+          "key": "(5, 5)",
+          "bomb": [
+            -7.48,
+            -531.73
+          ],
+          "cost": 2004.37,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3973,
+          "key": "(5, 7)",
+          "bomb": [
+            -5.98,
+            -554.68
+          ],
+          "cost": 2815.7,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4023,
+          "key": "(5, 7)",
+          "bomb": [
+            -5.98,
+            -554.68
+          ],
+          "cost": 3001.37,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4079,
+          "key": "(5, 7)",
+          "bomb": [
+            -5.98,
+            -554.68
+          ],
+          "cost": 3011.37,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4175,
+          "key": "(5, 7)",
+          "bomb": [
+            -5.98,
+            -554.68
+          ],
+          "cost": 4277.12,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4230,
+          "key": "(5, 8)",
+          "bomb": [
+            2.57,
+            -513.56
+          ],
+          "cost": 3586.64,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4306,
+          "key": "(5, 7)",
+          "bomb": [
+            4.0,
+            -547.43
+          ],
+          "cost": 2270.76,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4459,
+          "key": "(5, 7)",
+          "bomb": [
+            -5.48,
+            -547.8
+          ],
+          "cost": 2604.08,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4465,
+          "key": "(5, 8)",
+          "bomb": [
+            7.23,
+            -518.46
+          ],
+          "cost": 2604.08,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4502,
+          "key": "(5, 8)",
+          "bomb": [
+            -4.43,
+            -522.35
+          ],
+          "cost": 3270.27,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4558,
+          "key": "(5, 5)",
+          "bomb": [
+            -5.53,
+            -536.38
+          ],
+          "cost": 1929.64,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 5303,
+          "key": "(5, 9)",
+          "bomb": [
+            565.28,
+            -569.37
+          ],
+          "cost": 1455.11,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "last_events": [
+        {
+          "kind": "stuck",
+          "step": 930,
+          "state": "FETCH"
+        },
+        {
+          "kind": "stuck",
+          "step": 1170,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "use_view",
+          "step": 1254
+        },
+        {
+          "kind": "grasp",
+          "step": 1379
+        },
+        {
+          "kind": "release",
+          "step": 2687,
+          "near_center": true
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 2687
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 3015
+        },
+        {
+          "kind": "stuck",
+          "step": 3350,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 3500,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 3895
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 4270
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 4580
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "state": "EXPLORE",
+      "carrying": false,
+      "accounted": 8,
+      "known_bombs": 1,
+      "known_disposed": 6,
+      "claim": null,
+      "pose": [
+        148.8742121120391,
+        -516.1748031313932
+      ],
+      "stuck_count": 10,
+      "grasps": 0,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "safety": {
+        "filtered_frames": 86,
+        "predictive_brake_frames": 12,
+        "infeasible_frames": 70
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "claim",
+          "step": 839,
+          "key": "(6, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1939.1,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 859,
+          "key": "(6, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2066.66,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 912,
+          "key": "(6, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1961.73,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "last_events": [
+        {
+          "kind": "stuck",
+          "step": 1050,
+          "state": "FETCH"
+        },
+        {
+          "kind": "stuck",
+          "step": 1170,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 1620,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 1770,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 1890,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 2020,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 2170,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 2462,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 2762,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 5238,
+          "state": "EXPLORE"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "state": "FETCH",
+      "carrying": false,
+      "accounted": 12,
+      "known_bombs": 4,
+      "known_disposed": 6,
+      "claim": "(7, 10)",
+      "pose": [
+        601.4956595236129,
+        -290.75928691554043
+      ],
+      "stuck_count": 6,
+      "grasps": 1,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "safety": {
+        "filtered_frames": 55,
+        "predictive_brake_frames": 1,
+        "infeasible_frames": 53
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "claim",
+          "step": 798,
+          "key": "(7, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1941.43,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 1087,
+          "key": "(7, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2368.87,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 1250,
+          "key": "(7, 2)",
+          "bomb": [
+            641.99,
+            -90.71
+          ],
+          "cost": 512.26,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 1252,
+          "key": "(7, 1)",
+          "bomb": [
+            504.75,
+            -81.06
+          ],
+          "cost": 1402.98,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 1257,
+          "key": "(7, 2)",
+          "bomb": [
+            641.99,
+            -90.71
+          ],
+          "cost": 512.26,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 1267,
+          "key": "(7, 1)",
+          "bomb": [
+            504.75,
+            -81.06
+          ],
+          "cost": 1802.78,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 1293,
+          "key": "(7, 1)",
+          "bomb": [
+            504.75,
+            -81.06
+          ],
+          "cost": 1826.55,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 1312,
+          "key": "(7, 1)",
+          "bomb": [
+            504.75,
+            -81.06
+          ],
+          "cost": 1461.43,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 1321,
+          "key": "(7, 2)",
+          "bomb": [
+            641.99,
+            -90.71
+          ],
+          "cost": 1095.53,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 1327,
+          "key": "(7, 1)",
+          "bomb": [
+            504.75,
+            -81.06
+          ],
+          "cost": 1261.63,
+          "blocked": true
+        },
+        {
+          "kind": "first_seen",
+          "step": 1480,
+          "key": "(7, 4)",
+          "bomb": [
+            541.89,
+            -87.61
+          ],
+          "view": [
+            456.21,
+            -195.3
+          ],
+          "distance": 126.61
+        },
+        {
+          "kind": "claim",
+          "step": 3526,
+          "key": "(7, 6)",
+          "bomb": [
+            -0.41,
+            -533.42
+          ],
+          "cost": 5983.46,
+          "blocked": false
+        },
+        {
+          "kind": "first_seen",
+          "step": 3528,
+          "key": "(7, 7)",
+          "bomb": [
+            -120.89,
+            -445.33
+          ],
+          "view": [
+            -124.18,
+            -318.03
+          ],
+          "distance": 116.34
+        },
+        {
+          "kind": "claim",
+          "step": 3532,
+          "key": "(7, 7)",
+          "bomb": [
+            -119.94,
+            -441.47
+          ],
+          "cost": 312.58,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3537,
+          "key": "(7, 5)",
+          "bomb": [
+            -131.89,
+            -422.47
+          ],
+          "cost": 818.96,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3546,
+          "key": "(7, 6)",
+          "bomb": [
+            -0.41,
+            -533.42
+          ],
+          "cost": 4175.98,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3556,
+          "key": "(7, 5)",
+          "bomb": [
+            -131.89,
+            -422.47
+          ],
+          "cost": 639.96,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3615,
+          "key": "(7, 6)",
+          "bomb": [
+            -0.41,
+            -533.42
+          ],
+          "cost": 4530.89,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3627,
+          "key": "(7, 6)",
+          "bomb": [
+            -0.41,
+            -533.42
+          ],
+          "cost": 4622.44,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3677,
+          "key": "(7, 6)",
+          "bomb": [
+            -0.84,
+            -534.99
+          ],
+          "cost": 3552.68,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3712,
+          "key": "(7, 6)",
+          "bomb": [
+            -8.53,
+            -529.84
+          ],
+          "cost": 5021.36,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3757,
+          "key": "(7, 6)",
+          "bomb": [
+            -7.48,
+            -531.73
+          ],
+          "cost": 6059.19,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3797,
+          "key": "(7, 8)",
+          "bomb": [
+            -7.53,
+            -556.04
+          ],
+          "cost": 5068.87,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3873,
+          "key": "(7, 8)",
+          "bomb": [
+            -7.53,
+            -556.04
+          ],
+          "cost": 4401.25,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 3882,
+          "key": "(7, 8)",
+          "bomb": [
+            -7.53,
+            -556.04
+          ],
+          "cost": 3263.44,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 3920,
+          "key": "(7, 8)",
+          "bomb": [
+            -5.98,
+            -554.68
+          ],
+          "cost": 4926.61,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4100,
+          "key": "(7, 8)",
+          "bomb": [
+            -5.98,
+            -554.68
+          ],
+          "cost": 6499.93,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4122,
+          "key": "(7, 8)",
+          "bomb": [
+            -5.98,
+            -554.68
+          ],
+          "cost": 6331.97,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4180,
+          "key": "(7, 6)",
+          "bomb": [
+            3.6,
+            -537.8
+          ],
+          "cost": 7415.06,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4192,
+          "key": "(7, 9)",
+          "bomb": [
+            2.57,
+            -513.56
+          ],
+          "cost": 6622.35,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4227,
+          "key": "(7, 9)",
+          "bomb": [
+            2.57,
+            -513.56
+          ],
+          "cost": 5917.83,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4263,
+          "key": "(7, 8)",
+          "bomb": [
+            4.0,
+            -547.43
+          ],
+          "cost": 4376.6,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4272,
+          "key": "(7, 9)",
+          "bomb": [
+            2.57,
+            -513.56
+          ],
+          "cost": 3843.12,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4350,
+          "key": "(7, 9)",
+          "bomb": [
+            2.57,
+            -513.56
+          ],
+          "cost": 3177.99,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4429,
+          "key": "(7, 6)",
+          "bomb": [
+            -9.59,
+            -543.1
+          ],
+          "cost": 2624.74,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4462,
+          "key": "(7, 9)",
+          "bomb": [
+            7.23,
+            -518.46
+          ],
+          "cost": 2663.32,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 4513,
+          "key": "(7, 8)",
+          "bomb": [
+            -5.48,
+            -547.8
+          ],
+          "cost": 3686.59,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4522,
+          "key": "(7, 9)",
+          "bomb": [
+            -4.43,
+            -522.35
+          ],
+          "cost": 3642.6,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 4582,
+          "key": "(7, 6)",
+          "bomb": [
+            -5.53,
+            -536.38
+          ],
+          "cost": 2204.37,
+          "blocked": true
+        },
+        {
+          "kind": "claim",
+          "step": 5347,
+          "key": "(7, 10)",
+          "bomb": [
+            565.28,
+            -569.37
+          ],
+          "cost": 2853.75,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 5394,
+          "key": "(7, 10)",
+          "bomb": [
+            565.28,
+            -569.37
+          ],
+          "cost": 2530.31,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 5399,
+          "key": "(7, 10)",
+          "bomb": [
+            565.28,
+            -569.37
+          ],
+          "cost": 2898.93,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "last_events": [
+        {
+          "kind": "explore_goal_timeout",
+          "step": 1238
+        },
+        {
+          "kind": "grasp",
+          "step": 1510
+        },
+        {
+          "kind": "release",
+          "step": 2910,
+          "near_center": true
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 2910
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 3238
+        },
+        {
+          "kind": "stuck",
+          "step": 3720,
+          "state": "FETCH"
+        },
+        {
+          "kind": "stuck",
+          "step": 3890,
+          "state": "FETCH"
+        },
+        {
+          "kind": "stuck",
+          "step": 4030,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 4150,
+          "state": "FETCH"
+        },
+        {
+          "kind": "stuck",
+          "step": 4320,
+          "state": "FETCH"
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 4397
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 4772
+        },
+        {
+          "kind": "stuck",
+          "step": 4980,
+          "state": "EXPLORE"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "state": "EXPLORE",
+      "carrying": false,
+      "accounted": 8,
+      "known_bombs": 1,
+      "known_disposed": 6,
+      "claim": null,
+      "pose": [
+        192.86128695269562,
+        -501.8276133362797
+      ],
+      "stuck_count": 21,
+      "grasps": 0,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "safety": {
+        "filtered_frames": 65,
+        "predictive_brake_frames": 7,
+        "infeasible_frames": 56
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "first_seen",
+          "step": 682,
+          "key": "(8, 0)",
+          "bomb": [
+            -227.94,
+            -550.28
+          ],
+          "view": [
+            -354.5,
+            -514.81
+          ],
+          "distance": 120.44
+        },
+        {
+          "kind": "claim",
+          "step": 682,
+          "key": "(8, 0)",
+          "bomb": [
+            -227.94,
+            -550.28
+          ],
+          "cost": 999.69,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 683,
+          "key": "(8, 0)",
+          "bomb": [
+            -227.94,
+            -550.28
+          ],
+          "cost": 999.69,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 684,
+          "key": "(8, 0)",
+          "bomb": [
+            -227.94,
+            -550.28
+          ],
+          "cost": 999.69,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 685,
+          "key": "(8, 0)",
+          "bomb": [
+            -227.94,
+            -550.28
+          ],
+          "cost": 999.69,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 686,
+          "key": "(8, 0)",
+          "bomb": [
+            -231.76,
+            -559.21
+          ],
+          "cost": 706.14,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 687,
+          "key": "(8, 0)",
+          "bomb": [
+            -235.48,
+            -559.94
+          ],
+          "cost": 706.14,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 688,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 653.34,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 689,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 653.34,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 690,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 653.34,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 691,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 653.34,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 692,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 653.34,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 693,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 653.34,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 694,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 653.34,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 695,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 653.34,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 696,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 653.34,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 697,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 653.34,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 698,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 863.89,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 699,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 863.89,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 700,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 863.89,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 701,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 863.89,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 702,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 863.89,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 703,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 863.89,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 704,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 863.89,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 705,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 863.89,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 706,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 863.89,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 707,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 863.89,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 708,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 907.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 709,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 907.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 710,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 907.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 711,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 907.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 712,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 907.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 713,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 907.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 714,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 907.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 715,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 907.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 716,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 907.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 717,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 907.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 718,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 987.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 719,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 987.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 720,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 997.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 721,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 997.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 722,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 997.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 723,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 997.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 724,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 997.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 725,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 997.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 726,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 997.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 727,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 997.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 728,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 997.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 729,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1082.68,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 730,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1082.68,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 731,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1082.68,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 732,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1082.68,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 733,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1082.68,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 734,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1082.68,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 735,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1129.53,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 736,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1129.53,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 737,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1129.53,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 738,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1129.53,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 739,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1129.53,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 740,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1129.53,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 741,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1129.53,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 742,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1129.53,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 743,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1129.53,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 744,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1182.41,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 745,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1182.41,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 746,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1182.41,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 747,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1182.41,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 748,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1182.41,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 749,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1182.41,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 750,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1182.41,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 751,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1182.41,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 752,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1182.41,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 753,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1182.41,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 754,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1190.69,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 755,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1190.69,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 756,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1190.69,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 757,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1190.69,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 758,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1190.69,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 759,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1190.69,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 800,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1456.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 801,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1456.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 802,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1456.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 803,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1456.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 804,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1456.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 805,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1456.55,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 806,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1470.69,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 807,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1470.69,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 808,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1470.69,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 809,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1470.69,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 810,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1470.69,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 811,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1470.69,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 812,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1470.69,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 813,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1470.69,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 814,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1470.69,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 815,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1470.69,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 857,
+          "key": "(8, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 1650.02,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "last_events": [
+        {
+          "kind": "stuck",
+          "step": 2740,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 2930,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 3130,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 3380,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 3530,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 3680,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 3836,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 3990,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 4140,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 4290,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 4480,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 4630,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 4780,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 4930,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 5090,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 5240,
+          "state": "EXPLORE"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "state": "EXPLORE",
+      "carrying": false,
+      "accounted": 12,
+      "known_bombs": 4,
+      "known_disposed": 6,
+      "claim": null,
+      "pose": [
+        625.5592869539516,
+        -283.21303774715284
+      ],
+      "stuck_count": 6,
+      "grasps": 0,
+      "drops": 0,
+      "final_timeouts": 0,
+      "push_retries": 0,
+      "safety": {
+        "filtered_frames": 153,
+        "predictive_brake_frames": 15,
+        "infeasible_frames": 137
+      },
+      "corridor": {
+        "entered": 0,
+        "ends_reached": 0,
+        "closed_ends": 0,
+        "branches_found": 0,
+        "branches_entered": 0,
+        "completed": 0,
+        "paused": 0,
+        "midway_reversals_blocked": 0,
+        "min_end_gap": null,
+        "min_observation_gap": null,
+        "approach_failures": 0
+      },
+      "reversal_traces": [],
+      "bomb_trace": [
+        {
+          "kind": "claim",
+          "step": 796,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2302.01,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 797,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2302.01,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 798,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2302.01,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 799,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2302.01,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 800,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2302.01,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 801,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2426.18,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 802,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2426.18,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 803,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2461.28,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 804,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2526.93,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 805,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2526.93,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 806,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2656.68,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 807,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2666.51,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 808,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2724.1,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 809,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2617.81,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 810,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2667.41,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 811,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2667.41,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 812,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2667.41,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 813,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2667.41,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 814,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2667.41,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 815,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2667.41,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 816,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2667.41,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 817,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2667.41,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 818,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2667.41,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 819,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2667.41,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 820,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2656.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 821,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2656.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 822,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2656.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 823,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2679.41,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 824,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2693.18,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 825,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2734.09,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 826,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2705.2,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 827,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2748.19,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 828,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2718.83,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 829,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2757.87,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 830,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2751.85,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 831,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2751.85,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 832,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2751.85,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 833,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2751.85,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 834,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2751.85,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 835,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2751.85,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 836,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2751.85,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 837,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2751.85,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 838,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2751.85,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 839,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2751.85,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 840,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2774.0,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 841,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2774.0,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 842,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2774.0,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 843,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2774.0,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 844,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2774.0,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 845,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2774.0,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 846,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2774.0,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 847,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2819.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 848,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2819.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 849,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2829.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 850,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2839.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 851,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2839.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 852,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2839.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 853,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2839.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 854,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2839.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 855,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2839.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 856,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2839.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 857,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2839.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 858,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2839.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 859,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2904.93,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 860,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2914.93,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 861,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2924.93,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 862,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2929.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 863,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2939.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 864,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2939.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 865,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2939.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 866,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2939.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 867,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2939.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 868,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2939.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 869,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2939.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 870,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2939.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 871,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2939.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 872,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2979.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 873,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2979.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 874,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2979.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 875,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2979.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 876,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2979.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 877,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2979.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 878,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2979.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 879,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2979.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 880,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2979.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 881,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2979.07,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 882,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2967.22,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 883,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2967.22,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 884,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2967.22,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 885,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2967.22,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 886,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2967.22,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 887,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2967.22,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 888,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2967.22,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 889,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2967.22,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 890,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2967.22,
+          "blocked": false
+        },
+        {
+          "kind": "claim",
+          "step": 891,
+          "key": "(9, 0)",
+          "bomb": [
+            -237.18,
+            -559.85
+          ],
+          "cost": 2967.22,
+          "blocked": false
+        }
+      ],
+      "carry_trace": [],
+      "last_events": [
+        {
+          "kind": "stuck",
+          "step": 1350,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 2450,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "stuck",
+          "step": 2601,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 3038
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 3366
+        },
+        {
+          "kind": "stuck",
+          "step": 3680,
+          "state": "FETCH"
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 3710
+        },
+        {
+          "kind": "stuck",
+          "step": 4410,
+          "state": "EXPLORE"
+        },
+        {
+          "kind": "explore_goal_timeout",
+          "step": 4757
+        },
+        {
+          "kind": "stuck",
+          "step": 4880,
+          "state": "EXPLORE"
+        }
+      ]
+    }
+  ]
+}
