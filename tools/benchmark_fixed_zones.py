@@ -108,6 +108,30 @@ def run(map_name: str, engine_seed: int, source: Path) -> dict:
     random.seed(engine_seed)
     np.random.seed(engine_seed)
     original_default_rng = np.random.default_rng
+    disposal_observations = []
+    initial_bomb_positions = {}
+    audit_disposal_events = os.environ.get("V6_EVENT_AUDIT", "0") == "1"
+    if audit_disposal_events:
+        from swarm_rescue.simulation.elements.bomb import Bomb
+        from swarm_rescue.simulation.elements.disposal_center import DisposalCenter
+        original_bomb_pre_step = Bomb.pre_step
+        original_activate = DisposalCenter.activate
+
+        def observed_bomb_pre_step(entity):
+            initial_bomb_positions.setdefault(
+                id(entity), tuple(float(v) for v in entity.true_position()))
+            return original_bomb_pre_step(entity)
+
+        def observed_activate(center, entity):
+            if not entity.disposed:
+                disposal_observations.append({
+                    "step": int(center._playground.timestep),
+                    "initial_position": initial_bomb_positions.get(id(entity)),
+                })
+            return original_activate(center, entity)
+
+        Bomb.pre_step = observed_bomb_pre_step
+        DisposalCenter.activate = observed_activate
     np.random.default_rng = lambda value=None: original_default_rng(
         engine_seed if value is None else value
     )
@@ -122,6 +146,9 @@ def run(map_name: str, engine_seed: int, source: Path) -> dict:
             )
     finally:
         np.random.default_rng = original_default_rng
+        if audit_disposal_events:
+            Bomb.pre_step = original_bomb_pre_step
+            DisposalCenter.activate = original_activate
     result = parse(stream.getvalue())
     result.update(
         map=map_name,
@@ -139,6 +166,18 @@ def run(map_name: str, engine_seed: int, source: Path) -> dict:
         for drone in list(_ACTIVE_DRONES)
         if getattr(drone, "ready", False)
     }
+    if audit_disposal_events:
+        for event in disposal_observations:
+            initial = event["initial_position"]
+            if initial is None:
+                event["bomb_index"] = None
+                continue
+            distances = [np.hypot(initial[0] - bomb["x"],
+                                  initial[1] - bomb["y"])
+                         for bomb in layouts[map_name]]
+            nearest = int(np.argmin(distances))
+            event["bomb_index"] = nearest if distances[nearest] <= 35.0 else None
+        result["official_disposal_events"] = disposal_observations
     # Evaluation-only truth audit, executed after Launcher has completed all
     # controller calls.  These values never re-enter a controller decision.
     truth_audit = []
@@ -175,6 +214,11 @@ def run(map_name: str, engine_seed: int, source: Path) -> dict:
                 "reachable_free_within_semantic_range": int(
                     np.count_nonzero(
                         reachable_free & (distances <= 130.0))),
+                "v6_ray_seen_step": (
+                    int(drone.v6_adapter.visibility.seen_at[iy, ix]) - 1
+                    if getattr(drone, "v6_adapter", None) is not None
+                    and drone.v6_adapter.visibility.seen_at[iy, ix] > 0
+                    else None),
             })
         truth_audit.append({
             "index": index,

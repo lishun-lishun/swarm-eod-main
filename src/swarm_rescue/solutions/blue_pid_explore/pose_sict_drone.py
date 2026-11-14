@@ -37,6 +37,8 @@ from .model_velocity_control import PolePlacementVelocityController, world_to_bo
 from .v5_deadline_allocator import DeadlineTaskScheduler, TaskCandidate
 from .v5_control_gate import BoundedModelBlend
 from .velocity_estimator import LegalVelocityEstimator
+from .v6_adapter import V6Adapter
+from .v6_task_policy import KnownTask, PeerCommitment
 
 TYPE = DroneSemanticSensor.TypeEntity
 
@@ -109,6 +111,12 @@ V5_DEADLINE_ASSIGNMENT = _os.environ.get("V5_DEADLINE_ASSIGNMENT", "0") == "1"
 V5_TIME_HORIZON = int(_os.environ.get("V5_TIME_HORIZON", "0"))
 V5_MODEL_BLEND = _os.environ.get("V5_MODEL_BLEND", "0") == "1"
 V5_MODEL_SHADOW = _os.environ.get("V5_MODEL_SHADOW", "0") == "1"
+V6_RAY_AUDIT = _os.environ.get("V6_RAY_AUDIT", "0") == "1"
+V6_VIEW_PLAN = _os.environ.get("V6_VIEW_PLAN", "0") == "1"
+V6_ROUTE_AUDIT = _os.environ.get("V6_ROUTE_AUDIT", "0") == "1"
+V6_CONNECTED_REPAIR = _os.environ.get("V6_CONNECTED_REPAIR", "0") == "1"
+V6_TASK_POLICY = _os.environ.get("V6_TASK_POLICY", "0") == "1"
+V6_BRAKE_SHADOW = _os.environ.get("V6_BRAKE_SHADOW", "0") == "1"
 EXP_DIST_POW = float(_os.environ.get("V3_EXP_DIST_POW", "1.0"))
 NARROW_CAP = int(_os.environ.get("V3_NARROW_CAP", "10"))
 FRONTIER = _os.environ.get("V3_FRONTIER", "0") == "1"  # tested: worse
@@ -231,6 +239,8 @@ def controller_state_snapshot():
                 drone.stats.get("repeated_explore_goals", 0)),
             "safety": {key: int(value) for key, value in safety.items()},
             "v5_path_counts": dict(getattr(drone, "v5_path_counts", {})),
+            "v6_route_counts": dict(getattr(drone, "v6_route_counts", {})),
+            "v6_real_ray_cells": int(getattr(drone, "_v6_real_ray_cells", 0)),
             "v5_blend_frames": int(getattr(drone, "v5_blend_frames", 0)),
             "v5_shadow_frames": int(getattr(drone, "v5_shadow_frames", 0)),
             "v5_bid": (None if drone.know.v5_outgoing_bid is None
@@ -312,6 +322,16 @@ class SictRescueDrone(DroneAbstract):
     def _setup(self):
         self.me = int(self.identifier or 0)
         self.grid = GridMap(self.size_area, self.me)
+        self.v6_adapter = (V6Adapter(self.me, self.grid) if
+                           (V6_RAY_AUDIT or V6_VIEW_PLAN or V6_ROUTE_AUDIT
+                            or V6_CONNECTED_REPAIR or V6_TASK_POLICY) else None)
+        self._v6_gps_outage = 0
+        self._v6_real_ray_cells = 0
+        self._v6_known_task_keys = frozenset()
+        self._v6_failure_snapshot = ()
+        self._v6_disposed_snapshot = 0
+        self._v6_claim_snapshot = None
+        self._v6_slot_snapshot = None
         self.know = Knowledge(self.me)
         self.pose = None
         self.heading = None
@@ -590,6 +610,22 @@ class SictRescueDrone(DroneAbstract):
             rel = np.abs((angles - a + math.pi) % (2 * math.pi) - math.pi)
             mask |= (rel < width) & (lidar > d - 25.0) & (lidar < d + 45.0)
         self.grid.integrate(self.pose, self.heading, lidar, angles, mask, step)
+        if (V6_RAY_AUDIT or V6_VIEW_PLAN) and self.v6_adapter is not None:
+            gps = self.measured_gps_position()
+            self._v6_gps_outage = 0 if gps is not None else self._v6_gps_outage + 1
+            pose_ok = (self.pose is not None and self.heading is not None
+                       and all(math.isfinite(v) for v in (*self.pose, self.heading))
+                       and ((gps is not None and math.dist(self.pose, gps) < 30.0)
+                            or (gps is None and self._v6_gps_outage <= 40
+                                and self.odometer_values() is not None)))
+            new_cells = self.v6_adapter.observe_semantic_rays(
+                step=step, pose=self.pose, heading=self.heading,
+                lidar_distances=lidar, lidar_angles=angles,
+                pose_trustworthy=pose_ok)
+            if new_cells:
+                self._v6_real_ray_cells += new_cells
+                self._event("v6_real_ray_cells", step, new_cells=new_cells,
+                            gps_valid=gps is not None)
 
     # ============================================================= planning
     def _plan_kind(self):
@@ -1183,6 +1219,28 @@ class SictRescueDrone(DroneAbstract):
 
     def _choose_bomb(self, step):
         previous_claim = self.claim_key
+        if V6_TASK_POLICY:
+            task_keys = frozenset(self.know.bombs)
+            slot_open = self._carrier_slot_free()
+            failures = tuple(sorted((repr(k), int(v))
+                                    for k, v in self.know.failures.items()))
+            lease_conflict = (previous_claim in self.know.bombs and any(
+                cpos is not None
+                and math.dist(cpos, self.know.bombs[previous_claim]["pos"]) <= MATCH + 6
+                for cpos, _, _ in self.know.claims.values()))
+            task_event = (task_keys != self._v6_known_task_keys
+                          or failures != self._v6_failure_snapshot
+                          or self.know.disposed != self._v6_disposed_snapshot
+                          or previous_claim != self._v6_claim_snapshot
+                          or slot_open != self._v6_slot_snapshot
+                          or lease_conflict)
+            self._v6_known_task_keys = task_keys
+            self._v6_failure_snapshot = failures
+            self._v6_disposed_snapshot = self.know.disposed
+            self._v6_claim_snapshot = previous_claim
+            self._v6_slot_snapshot = slot_open
+            if not task_event:
+                return
         if V5_DEADLINE_ASSIGNMENT:
             self.know.v5_outgoing_bid = None
         if self.cum is None:
@@ -1198,6 +1256,7 @@ class SictRescueDrone(DroneAbstract):
             self._refresh_center_field(step)
         best = None
         v5_options = []
+        v6_options = []
         incumbent = None
         incumbent_eta = None
         for key, track in self.know.bombs.items():
@@ -1280,6 +1339,19 @@ class SictRescueDrone(DroneAbstract):
                     failures=self.know.failures.get(key, 0),
                     blocked_approach=blocked,
                 ), cost, view, blocked))
+            if V6_TASK_POLICY:
+                estimate = self._eta_estimator.estimate(
+                    approach_path_px=approach_px,
+                    loaded_home_path_px=home_px,
+                    failure_count=self.know.failures.get(key, 0),
+                    approach_risk_frames=35.0 if blocked else 0.0)
+                v6_options.append((KnownTask(
+                    key=key, xy=tuple(pos),
+                    approach_frames=estimate.approach_frames,
+                    return_frames=estimate.return_frames + estimate.queue_frames,
+                    grasp_frames=estimate.grasp_frames,
+                    failure_risk_frames=estimate.risk_frames),
+                    cost, view, blocked))
             rank = eta_rank if V4_PREDICTIVE_ASSIGNMENT else cost
             candidate = (rank, cost, key, pos, view, blocked)
             if key == previous_claim:
@@ -1288,6 +1360,37 @@ class SictRescueDrone(DroneAbstract):
             if best is None or rank < best[0]:
                 best = candidate
         v5_decision = None
+        if V6_TASK_POLICY and not V5_DEADLINE_ASSIGNMENT:
+            peers = []
+            for pid, (cpos, _, received_step) in self.know.claims.items():
+                if cpos is None:
+                    continue
+                bid = self.know.v5_incoming_bids.get(pid)
+                frames = (float(bid.cost_frames) if bid is not None
+                          and bid.valid(step) and math.dist(cpos, bid.position) <= 20.0
+                          else None)
+                peers.append(PeerCommitment(
+                    drone_id=pid, xy=tuple(cpos), bid_frames=frames,
+                    observed_step=received_step,
+                    carrying=bool(self.know.peers.get(pid, {}).get("carry"))))
+            choice = self.v6_adapter.assigner.choose(
+                [row[0] for row in v6_options], now=step,
+                current_key=previous_claim,
+                current_feasible=any(row[0].key == previous_claim
+                                     for row in v6_options),
+                peers=peers, allow_switch=True)
+            if choice.task is None:
+                best = None
+            else:
+                selected = next(row for row in v6_options
+                                if row[0].key == choice.task.key)
+                _, cost, view, blocked = selected
+                best = (choice.total_frames, cost, choice.task.key,
+                        choice.task.xy, view, blocked)
+                if choice.task.key != previous_claim:
+                    self._event("v6_task_choice", step,
+                                reason=choice.reason,
+                                eta_frames=round(choice.total_frames, 1))
         if V5_DEADLINE_ASSIGNMENT:
             recent_pickups = sum(
                 event["kind"] == "grasp" and step - event["step"] <= 1200

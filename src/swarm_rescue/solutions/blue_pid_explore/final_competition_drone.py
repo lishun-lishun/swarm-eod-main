@@ -20,6 +20,8 @@ from .v5_path_supervisor import PathProgressSupervisor
 from .predictive_brake import BrakingMode, PredictiveBrakingController
 from .velocity_controller import body_to_world, world_to_body
 from .model_velocity_control import ShadowCargoIdentifier
+from .v6_local_validator import make_short_segment_validator
+from .v6_braking_audit import stopping_distance_upper
 
 
 class FinalCompetitionDrone(FusionRescueDrone):
@@ -43,6 +45,20 @@ class FinalCompetitionDrone(FusionRescueDrone):
         self.v5_path_recover = os.environ.get("V5_PATH_RECOVER", "0") == "1"
         self.v5_path_supervisor = PathProgressSupervisor()
         self.v5_path_counts = Counter()
+        self.v6_route_audit = os.environ.get("V6_ROUTE_AUDIT", "0") == "1"
+        self.v6_connected_repair = os.environ.get("V6_CONNECTED_REPAIR", "0") == "1"
+        self.v6_view_plan = os.environ.get("V6_VIEW_PLAN", "0") == "1"
+        self.v6_brake_shadow = os.environ.get("V6_BRAKE_SHADOW", "0") == "1"
+        self._v6_last_view_eval = -100000
+        self._v6_pending_view = None
+        self._v6_view_goal = None
+        self._v6_view_seen_at_start = 0
+        self._v6_view_planned_step = -1
+        self._v6_view_sweep_until = -1
+        self._v6_last_issue = None
+        self._v6_last_issue_step = -100000
+        self._v6_last_plan_step = -100000
+        self.v6_route_counts = Counter()
         self._v5_last_recovery_step = -100000
         self.cargo_identifier = (
             ShadowCargoIdentifier()
@@ -205,6 +221,9 @@ class FinalCompetitionDrone(FusionRescueDrone):
         self.corridor_explorer.pause()
         self._corridor_control_state = CorridorExploreState.PAUSED
         command = super()._carry(step, cmd, lidar, angles)
+        if (self.v6_adapter is not None and self.pose is not None
+                and (self.v6_route_audit or self.v6_connected_repair)):
+            self._v6_observe_carry_route(step, command, lidar, angles)
         if self.v5_path_watchdog and self.pose is not None:
             self._v5_observe_carry_path(step, lidar, angles)
         if self.carry_trace_enabled and self.pose is not None:
@@ -259,6 +278,146 @@ class FinalCompetitionDrone(FusionRescueDrone):
                 "lidar_right": None if lidar is None else self._sector_min(lidar, angles, -math.pi / 2.0),
             })
         return command
+
+    def _v6_observe_carry_route(self, step, command, lidar, angles):
+        waypoint = (self.path[min(max(0, self.path_i), len(self.path) - 1)]
+                    if self.path else None)
+        cost = None
+        if self.center_cum is not None and self.grid.costs is not None:
+            cell = self.grid.free_start(self.grid.costs["carry"], *self.pose, radius=5)
+            if cell is not None and math.isfinite(float(self.center_cum[cell])):
+                cost = float(self.center_cum[cell]) * CELL
+        nearest = min((hit[2] for hit in self.center_hits), default=None)
+        issue = self.v6_adapter.monitor_carrier(
+            step=step, route_tag=str(self.path_goal), pose=self.pose,
+            waypoint=waypoint, route_count=len(self.path),
+            commanded_speed=math.hypot(command["forward"], command["lateral"]),
+            center_cost_px=cost, center_surface_distance_px=nearest,
+            carrying=bool(self.grasped_bombs()))
+        if issue.kind in ("OK", "COOLDOWN", "LOW_COMMAND", "YIELD"):
+            return
+        self.v6_route_counts[issue.kind] += 1
+        if (issue.kind != self._v6_last_issue
+                or step - self._v6_last_issue_step >= 40):
+            self._event("v6_carry_issue", step, issue=issue.kind,
+                        reason=issue.reason, center_cost=cost,
+                        center_semantic=nearest, path_points=len(self.path),
+                        waypoint_progress=round(issue.waypoint_progress_px, 2))
+            self._v6_last_issue = issue.kind
+            self._v6_last_issue_step = step
+        if (not self.v6_connected_repair or issue.kind != "MISSING_ROUTE"
+                or cost is None or cost < 90.0
+                or (nearest is not None and nearest < 110.0)
+                or lidar is None or angles is None
+                or self.measured_gps_position() is None
+                or step - self._v6_last_plan_step < 120):
+            return
+        self._v6_last_plan_step = step
+        if not (self.grid.center_points or self.grid.seen_points):
+            self.v6_route_counts["no_center_witness"] += 1
+            return
+        # Candidate routes are local beliefs. The official disposal event is
+        # the only delivery confirmation; a center map cell is not arrival.
+        validate = make_short_segment_validator(
+            grid=self.grid, position=self.pose, heading=self.heading,
+            lidar_ranges=lidar, lidar_angles=angles,
+            footprint_vertices=self._safety_footprint, carrying=True)
+        targets = sorted(self.grid.center_points or self.grid.seen_points,
+                         key=lambda p: math.dist(p, self.pose))[:4]
+        for target in targets:
+            route = self.v6_adapter.propose_reconnected_loaded_path(
+                grid=self.grid, current_pose=self.pose,
+                center_witness_xy=target, segment_safe=validate,
+                min_clearance_px=18.0)
+            self.v6_route_counts[route.status] += 1
+            if route.status != "MAP_CONNECTED" or len(route.points) < 3:
+                continue
+            first = route.points[1]
+            if not validate(self.pose, first):
+                self.v6_route_counts["first_lidar_reject"] += 1
+                continue
+            if not all(self._v5_loaded_segment_safe(a, b)
+                       for a, b in zip(route.points[:3], route.points[1:4])):
+                self.v6_route_counts["first_hull_reject"] += 1
+                continue
+            # Commit only after both map connection and live first-leg checks.
+            self.path = list(route.points[1:])
+            self.path_i = 0
+            self.path_goal = "center"
+            self.path_step = step
+            self._reset_progress()
+            self.v6_route_counts["verified_replan"] += 1
+            self._event("v6_connected_repair", step,
+                        path_points=len(self.path), expansions=route.expansions,
+                        length_px=round(route.length_px, 1))
+            break
+
+    def _explore_target(self, step, keep_cell=None, dist_scale=1.0):
+        baseline = super()._explore_target(step, keep_cell=keep_cell,
+                                            dist_scale=dist_scale)
+        if (not self.v6_view_plan or self.v6_adapter is None
+                or self.pose is None or self.cum is None
+                or self.grasped_bombs() or self.claim_key is not None
+                or self.know.accounted() >= EXPECTED_BOMBS
+                or step - self.start_step < 300
+                or np.count_nonzero(self.grid.occ < -0.6) < 250
+                or self.interest_left is None or self.interest_left > 80
+                or step - self._v6_last_view_eval < 30):
+            return baseline
+        self._v6_last_view_eval = step
+        lidar, angles = self._lidar()
+        if (lidar is None or angles is None
+                or self.measured_gps_position() is None):
+            return baseline
+        view = self.v6_adapter.propose_explore_view(
+            grid=self.grid, current_pose=self.pose,
+            fresh_cum_cost=self.cum)
+        if view is None or view.score <= 0:
+            return baseline
+        validator = make_short_segment_validator(
+            grid=self.grid, position=self.pose, heading=self.heading,
+            lidar_ranges=lidar, lidar_angles=angles,
+            footprint_vertices=self._safety_footprint, carrying=False)
+        route = self.v6_adapter.propose_reconnected_loaded_path(
+            grid=self.grid, current_pose=self.pose,
+            center_witness_xy=(view.x, view.y),
+            segment_safe=validator, min_clearance_px=19.0)
+        if (route.status != "MAP_CONNECTED" or len(route.points) < 3
+                or not validator(self.pose, route.points[1])):
+            self._event("v6_view_reject", step, reason=route.status,
+                        expansions=route.expansions)
+            return baseline
+        goal = (view.x, view.y)
+        self._v6_pending_view = (goal, tuple(route.points[1:]))
+        self._v6_view_goal = goal
+        self._v6_view_seen_at_start = int(np.count_nonzero(
+            self.v6_adapter.visibility.seen_at))
+        self._v6_view_planned_step = step
+        self.deep_pick = False
+        self.object_pick = False
+        self._event("v6_view_planned", step, goal=list(goal),
+                    expected_new=round(view.expected_new_cells, 1),
+                    path_cost=round(view.path_cost_px, 1),
+                    expansions=route.expansions)
+        return goal, view.cell
+
+    def _set_path_to(self, goal, step, end_cell=None, wide=False):
+        pending = self._v6_pending_view
+        if (pending is not None and step == self._v6_view_planned_step
+                and math.dist(tuple(goal), pending[0]) < 1.0):
+            self.path = list(pending[1])
+            self.path_i = 0
+            self.path_goal = "explore"
+            self.path_step = step
+            self._v6_pending_view = None
+            return
+        if (self.v6_view_plan and self._v6_view_goal is not None
+                and math.dist(tuple(goal), self._v6_view_goal) < 1.0
+                and self.path and self.path_goal == "explore"):
+            # The current verified path remains the transaction's fallback.
+            self.path_step = step
+            return
+        return super()._set_path_to(goal, step, end_cell=end_cell, wide=wide)
 
     def _v5_loaded_segment_safe(self, start, end):
         """Check a short map connection with the present loaded hull and swing envelope."""
@@ -355,6 +514,29 @@ class FinalCompetitionDrone(FusionRescueDrone):
             self.v5_path_counts["terminal_unresolved"] += 1
 
     def _explore(self, step, cmd, lidar, angles):
+        if (self.v6_view_plan and self._v6_view_goal is not None
+                and self.pose is not None and self.goal is not None
+                and math.dist(self.goal, self._v6_view_goal) < 1.0
+                and math.dist(self.pose, self._v6_view_goal) < 25.0
+                and not self.corridor_explorer.committed):
+            if self._v6_view_sweep_until < self._v6_view_planned_step:
+                self._v6_view_sweep_until = step + 8
+                self._event("v6_view_reached", step,
+                            goal=list(self._v6_view_goal))
+            if step <= self._v6_view_sweep_until:
+                cmd["grasper"] = 0
+                cmd["forward"], cmd["lateral"] = self._velocity_to_command(
+                    (0.0, 0.0), lidar, angles, False, careful=True)
+                if lidar is None or float(np.nanmin(lidar)) >= 38.0:
+                    cmd["rotation"] = 0.22 if self.me % 2 == 0 else -0.22
+                return cmd
+            new_cells = int(np.count_nonzero(
+                self.v6_adapter.visibility.seen_at)) - self._v6_view_seen_at_start
+            self.v6_adapter.note_view_execution(
+                self._v6_view_goal, reached=True,
+                new_observed_cells=new_cells)
+            self._event("v6_view_complete", step, new_ray_cells=new_cells)
+            self._v6_view_goal = None
         reason = "BASELINE"
         self._corridor_goal_lock = False
         bombs_missing = EXPECTED_BOMBS <= 0 or self.know.accounted() < EXPECTED_BOMBS
@@ -619,6 +801,22 @@ class FinalCompetitionDrone(FusionRescueDrone):
 
     def control(self):
         command = self._control_with_safety()
+        if (self.v6_brake_shadow and self.pose is not None
+                and self.heading is not None and not self.grasped_bombs()
+                and int(self.elapsed_timestep) % 10 == 0):
+            speed = math.hypot(*self.vel)
+            if math.isfinite(speed) and speed > 0.3:
+                lidar, angles = self._lidar()
+                if lidar is not None and angles is not None:
+                    bearing = wrap(math.atan2(self.vel[1], self.vel[0])
+                                   - self.heading)
+                    gap = self._sector_min(lidar, angles, bearing, half=0.08)
+                    if gap is not None:
+                        stop = stopping_distance_upper(speed)
+                        if stop + 8.0 > gap:
+                            self._event("v6_brake_shadow", int(self.elapsed_timestep),
+                                        speed=round(speed, 2), gap=gap,
+                                        empty_stop_upper=round(stop, 2))
         if self.v5_path_watchdog and not self.grasped_bombs():
             self.v5_path_supervisor.reset()
         if (getattr(self, "_v4_velocity_estimator", None) is not None
