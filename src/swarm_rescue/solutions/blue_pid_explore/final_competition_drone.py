@@ -16,6 +16,7 @@ from .lidar_safety import LidarPredictiveSafetyLayer
 from .oriented_footprint import OrientedFootprint
 from .predictive_brake import BrakingMode, PredictiveBrakingController
 from .velocity_controller import body_to_world, world_to_body
+from .model_velocity_control import ShadowCargoIdentifier
 
 
 class FinalCompetitionDrone(FusionRescueDrone):
@@ -34,6 +35,11 @@ class FinalCompetitionDrone(FusionRescueDrone):
         self.predictive_safety = LidarPredictiveSafetyLayer()
         self.corridor_brake = PredictiveBrakingController()
         self.branch_brake = PredictiveBrakingController()
+        self.cargo_identifier = (
+            ShadowCargoIdentifier()
+            if os.environ.get("V4_CARGO_IDENTIFICATION", "0") == "1"
+            else None
+        )
         self._safety_footprint = footprint_vertices_from_body(self.base)
         self.corridor_explorer = CorridorExplorer(
             OrientedFootprint(self._safety_footprint, margin=1.0),
@@ -508,6 +514,36 @@ class FinalCompetitionDrone(FusionRescueDrone):
 
     def control(self):
         command = self._control_with_safety()
+        if (getattr(self, "_v4_velocity_estimator", None) is not None
+                and self.heading is not None):
+            self._v4_velocity_estimator.set_previous_command(
+                body_to_world(
+                    (float(command["forward"]), float(command["lateral"])),
+                    self.heading,
+                ),
+                float(command["rotation"]),
+            )
+        if self.cargo_identifier is not None and self.pose is not None:
+            step = int(self.elapsed_timestep)
+            carrying = bool(self.grasped_bombs())
+            gps_valid = self.measured_gps_position() is not None
+            clearance = float(self.grid.clearance_at(*self.pose))
+            peer_clear = all(distance > 75.0 for _, _, distance
+                             in self.visible_drones)
+            health = int(self.drone_health)
+            previous_health = getattr(self, "_cargo_shadow_health", health)
+            eligible = (carrying and self.state == "CARRY"
+                        and self.measurement_valid and gps_valid
+                        and math.isfinite(clearance) and clearance > 45.0
+                        and peer_clear and health == previous_health)
+            applied = body_to_world(
+                (float(command["forward"]), float(command["lateral"])),
+                self.heading,
+            )
+            self.cargo_identifier.advance(
+                step, self.v_identification, applied, eligible=eligible,
+            )
+            self._cargo_shadow_health = health
         if self.pose_trace_enabled and self.pose is not None:
             self.pose_trace.append({
                 "step": int(self.elapsed_timestep),

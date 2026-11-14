@@ -32,6 +32,9 @@ from .legacy_sict_knowledge import Knowledge, MATCH
 from .legacy_sict_mapping import CELL, GridMap
 from .legacy_sict_control import braking_speed, grasp_candidates, heading_command
 from .legacy_sict_coordination import auction_utility
+from .predictive_task_eta import CompletionTimeEstimator, AssignmentHysteresis
+from .model_velocity_control import PolePlacementVelocityController, world_to_body
+from .velocity_estimator import LegalVelocityEstimator
 
 TYPE = DroneSemanticSensor.TypeEntity
 
@@ -97,6 +100,9 @@ REGION_EXCLUSIVE_START = int(
 REGION_BLOCK = float(_os.environ.get("V3_REGION_BLOCK", "120.0"))
 GOAL_STICKY = int(_os.environ.get("V3_GOAL_STICKY", "40"))
 CLAIM_DELIVERY = float(_os.environ.get("V3_CLAIM_DELIVERY", "0.0"))
+V4_PREDICTIVE_ASSIGNMENT = _os.environ.get("V4_PREDICTIVE_ASSIGNMENT", "0") == "1"
+V4_MODEL_EMPTY = _os.environ.get("V4_MODEL_EMPTY", "0") == "1"
+V4_MODEL_LEGAL_OBSERVER = _os.environ.get("V4_MODEL_LEGAL_OBSERVER", "0") == "1"
 EXP_DIST_POW = float(_os.environ.get("V3_EXP_DIST_POW", "1.0"))
 NARROW_CAP = int(_os.environ.get("V3_NARROW_CAP", "10"))
 FRONTIER = _os.environ.get("V3_FRONTIER", "0") == "1"  # tested: worse
@@ -218,6 +224,9 @@ def controller_state_snapshot():
             "repeated_explore_goals": int(
                 drone.stats.get("repeated_explore_goals", 0)),
             "safety": {key: int(value) for key, value in safety.items()},
+            "cargo_model": (drone.cargo_identifier.diagnostics()
+                            if getattr(drone, "cargo_identifier", None)
+                            is not None else None),
             "corridor": {
                 key: (None if isinstance(value, float) and not np.isfinite(value)
                       else int(value) if isinstance(value, (int, np.integer))
@@ -315,6 +324,18 @@ class SictRescueDrone(DroneAbstract):
         self.claim_pos = None
         self.claim_cost = None
         self.claim_since = 0
+        self._eta_estimator = CompletionTimeEstimator()
+        self._eta_hysteresis = AssignmentHysteresis()
+        self._last_claim_eta = None
+        self.model_empty_controller = PolePlacementVelocityController(
+            closed_loop_pole=0.75)
+        self._v4_velocity_estimator = (
+            LegalVelocityEstimator()
+            if V4_MODEL_EMPTY and V4_MODEL_LEGAL_OBSERVER else None)
+        self.v_control = (0.0, 0.0)
+        self.v_identification = (0.0, 0.0)
+        self.velocity_sigma = math.inf
+        self.measurement_valid = False
         self.repick_until = -1
         self.final_since = None
         self.unseen_close = 0
@@ -400,6 +421,12 @@ class SictRescueDrone(DroneAbstract):
         gps = self.measured_gps_position()
         compass = self.measured_compass_angle()
         odom = self.odometer_values()
+        if self._v4_velocity_estimator is not None:
+            legal_estimate = self._v4_velocity_estimator.update(
+                odometry=odom, compass=compass, gps_position=gps)
+            self.v_control = tuple(float(v) for v in legal_estimate.velocity)
+        self.measurement_valid = False
+        self.velocity_sigma = math.inf
         if self.pose is None:
             if gps is None:
                 return
@@ -411,9 +438,17 @@ class SictRescueDrone(DroneAbstract):
         if odom is not None:
             dist, alpha, theta = float(odom[0]), float(odom[1]), float(odom[2])
             vx, vy = dist * math.cos(h + alpha), dist * math.sin(h + alpha)
+            if all(math.isfinite(value) for value in (dist, alpha, theta, vx, vy)):
+                # This is the previous control interval's noisy odometry
+                # displacement, used only for shadow identification.
+                self.v_identification = (vx, vy)
+                self.velocity_sigma = math.hypot(0.2, abs(dist) * math.radians(8.0))
+                self.measurement_valid = True
             x, y = x + vx, y + vy
             h = wrap(h + theta)
             self.vel = (0.5 * self.vel[0] + 0.5 * vx, 0.5 * self.vel[1] + 0.5 * vy)
+            if self._v4_velocity_estimator is None:
+                self.v_control = self.vel
         if gps is not None:
             x += 0.12 * (float(gps[0]) - x)
             y += 0.12 * (float(gps[1]) - y)
@@ -1135,7 +1170,12 @@ class SictRescueDrone(DroneAbstract):
             if self.claim_key is not None:
                 self._drop_claim()
             return
+        if V4_PREDICTIVE_ASSIGNMENT and (self.grid.center_points
+                                         or self.grid.seen_points):
+            self._refresh_center_field(step)
         best = None
+        incumbent = None
+        incumbent_eta = None
         for key, track in self.know.bombs.items():
             pos = track["pos"]
             if math.dist(pos, self.pose) > 30 and self.know.failures.get(key, 0) >= 3:
@@ -1171,6 +1211,20 @@ class SictRescueDrone(DroneAbstract):
                     cost += WIDE_PEN
             if not math.isfinite(cost):
                 continue
+            approach_px = float(cost)
+            home_px = None
+            if cell is not None and self.center_cum is not None:
+                home_cell = self.center_cum[cell]
+                if np.isfinite(home_cell):
+                    home_px = float(home_cell) * CELL
+            eta_rank = (self._eta_estimator.estimate(
+                approach_path_px=approach_px,
+                loaded_home_path_px=home_px,
+                failure_count=self.know.failures.get(key, 0),
+                approach_risk_frames=35.0 if blocked else 0.0,
+            ).total_frames if V4_PREDICTIVE_ASSIGNMENT else None)
+            # The wireless claim protocol continues to compare pixel costs.
+            # ETA is strictly local ranking and never enters claim_cost.
             if CLAIM_DELIVERY and self.center_cum is not None and cell is not None:
                 # Total work, not just the approach: a taxi driver chooses by
                 # trip length, and a maze bomb costs ~1000 loaded steps to
@@ -1189,13 +1243,32 @@ class SictRescueDrone(DroneAbstract):
                     cost -= 400.0
             if self.know.claimed_by_better_peer(pos, cost):
                 continue
-            if best is None or cost < best[0]:
-                best = (cost, key, pos, view, blocked)
+            rank = eta_rank if V4_PREDICTIVE_ASSIGNMENT else cost
+            candidate = (rank, cost, key, pos, view, blocked)
+            if key == previous_claim:
+                incumbent = candidate
+                incumbent_eta = eta_rank
+            if best is None or rank < best[0]:
+                best = candidate
         if best is None:
             if self.claim_key is not None:
                 self._drop_claim()
             return
-        cost, key, pos, view, blocked = best
+        if (V4_PREDICTIVE_ASSIGNMENT and incumbent is not None
+                and best[2] != previous_claim
+                and not self._eta_hysteresis.should_switch(
+                    incumbent_eta, best[0])):
+            best = incumbent
+        eta_rank, cost, key, pos, view, blocked = best
+        if V4_PREDICTIVE_ASSIGNMENT and key != previous_claim:
+            reason = ("new_claim" if previous_claim is None else
+                      "old_invalid" if incumbent is None else "eta_gain")
+            self._event("task_switch", step, task_switch_reason=reason,
+                        old_eta=(None if incumbent_eta is None else
+                                 round(float(incumbent_eta), 2)),
+                        new_eta=round(float(eta_rank), 2),
+                        current_claim_age=(0 if previous_claim is None else
+                                           step - self.claim_since))
         if key != self.claim_key:
             self.fetch_breadcrumbs.clear()
             self.claim_view = None
@@ -1206,6 +1279,8 @@ class SictRescueDrone(DroneAbstract):
             self.unseen_close = 0
             self.view_reached = False
         self.claim_pos, self.claim_cost = pos, cost
+        if V4_PREDICTIVE_ASSIGNMENT:
+            self._last_claim_eta = float(eta_rank)
         self.claim_wide = blocked
         if key != previous_claim:
             if not hasattr(self, "bomb_trace"):
@@ -1289,6 +1364,20 @@ class SictRescueDrone(DroneAbstract):
     def _velocity_to_command(self, v_des, lidar, angles, carrying, careful=False,
                              wall_margin=None, ignore_target=None):
         """Velocity PD + lidar braking + wall and drone repulsion."""
+        if (V4_MODEL_EMPTY and not carrying and not careful
+                and self.state == "EXPLORE" and lidar is not None):
+            finite = np.asarray(lidar, float)
+            finite = finite[np.isfinite(finite)]
+            peers_close = any(distance < 90.0
+                              for _, _, distance in self.visible_drones)
+            if finite.size and float(np.min(finite)) > 90.0 and not peers_close:
+                try:
+                    command_world = self.model_empty_controller.compute(
+                        v_des, self.v_control)
+                    command_body = world_to_body(command_world, self.heading)
+                    return float(command_body[0]), float(command_body[1])
+                except (ValueError, TypeError):
+                    pass
         vt = V_CARRY if carrying else V_EMPTY
         vdx, vdy = v_des
         speed = math.hypot(vdx, vdy)
