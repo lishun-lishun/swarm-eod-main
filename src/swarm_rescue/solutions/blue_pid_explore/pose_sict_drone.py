@@ -117,6 +117,8 @@ V6_ROUTE_AUDIT = _os.environ.get("V6_ROUTE_AUDIT", "0") == "1"
 V6_CONNECTED_REPAIR = _os.environ.get("V6_CONNECTED_REPAIR", "0") == "1"
 V6_TASK_POLICY = _os.environ.get("V6_TASK_POLICY", "0") == "1"
 V6_BRAKE_SHADOW = _os.environ.get("V6_BRAKE_SHADOW", "0") == "1"
+V7_RAY_AUDIT = any(_os.environ.get(name, "0") == "1" for name in (
+    "V7_RAY_AUDIT", "V7_GATEWAY_SHADOW", "V7_GATEWAY", "V7_PROBE"))
 EXP_DIST_POW = float(_os.environ.get("V3_EXP_DIST_POW", "1.0"))
 NARROW_CAP = int(_os.environ.get("V3_NARROW_CAP", "10"))
 FRONTIER = _os.environ.get("V3_FRONTIER", "0") == "1"  # tested: worse
@@ -241,6 +243,7 @@ def controller_state_snapshot():
             "v5_path_counts": dict(getattr(drone, "v5_path_counts", {})),
             "v6_route_counts": dict(getattr(drone, "v6_route_counts", {})),
             "v6_real_ray_cells": int(getattr(drone, "_v6_real_ray_cells", 0)),
+            "v7_counts": dict(getattr(drone, "v7_counts", {})),
             "v5_blend_frames": int(getattr(drone, "v5_blend_frames", 0)),
             "v5_shadow_frames": int(getattr(drone, "v5_shadow_frames", 0)),
             "v5_bid": (None if drone.know.v5_outgoing_bid is None
@@ -324,7 +327,8 @@ class SictRescueDrone(DroneAbstract):
         self.grid = GridMap(self.size_area, self.me)
         self.v6_adapter = (V6Adapter(self.me, self.grid) if
                            (V6_RAY_AUDIT or V6_VIEW_PLAN or V6_ROUTE_AUDIT
-                            or V6_CONNECTED_REPAIR or V6_TASK_POLICY) else None)
+                            or V6_CONNECTED_REPAIR or V6_TASK_POLICY
+                            or V7_RAY_AUDIT) else None)
         self._v6_gps_outage = 0
         self._v6_real_ray_cells = 0
         self._v6_known_task_keys = frozenset()
@@ -462,6 +466,10 @@ class SictRescueDrone(DroneAbstract):
         gps = self.measured_gps_position()
         compass = self.measured_compass_angle()
         odom = self.odometer_values()
+        if getattr(self, "v7_ego_trail", None) is not None:
+            self.v7_ego_trail.update(
+                step=int(self.elapsed_timestep), odometry=odom,
+                gps_valid=gps is not None)
         if self._v4_velocity_estimator is not None:
             legal_estimate = self._v4_velocity_estimator.update(
                 odometry=odom, compass=compass, gps_position=gps)
@@ -610,7 +618,7 @@ class SictRescueDrone(DroneAbstract):
             rel = np.abs((angles - a + math.pi) % (2 * math.pi) - math.pi)
             mask |= (rel < width) & (lidar > d - 25.0) & (lidar < d + 45.0)
         self.grid.integrate(self.pose, self.heading, lidar, angles, mask, step)
-        if (V6_RAY_AUDIT or V6_VIEW_PLAN) and self.v6_adapter is not None:
+        if (V6_RAY_AUDIT or V6_VIEW_PLAN or V7_RAY_AUDIT) and self.v6_adapter is not None:
             gps = self.measured_gps_position()
             self._v6_gps_outage = 0 if gps is not None else self._v6_gps_outage + 1
             pose_ok = (self.pose is not None and self.heading is not None

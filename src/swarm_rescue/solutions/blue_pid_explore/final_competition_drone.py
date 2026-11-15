@@ -22,6 +22,10 @@ from .velocity_controller import body_to_world, world_to_body
 from .model_velocity_control import ShadowCargoIdentifier
 from .v6_local_validator import make_short_segment_validator
 from .v6_braking_audit import stopping_distance_upper
+from .v7_gateway import GatewayPlanner
+from .v7_probe_guard import ProbePersistenceGate
+from .v7_egotrail import LocalOdomTrail, retreat_desired_world_velocity
+from .v7_yaw_sweep import YawPhaseSweep
 
 
 class FinalCompetitionDrone(FusionRescueDrone):
@@ -49,6 +53,36 @@ class FinalCompetitionDrone(FusionRescueDrone):
         self.v6_connected_repair = os.environ.get("V6_CONNECTED_REPAIR", "0") == "1"
         self.v6_view_plan = os.environ.get("V6_VIEW_PLAN", "0") == "1"
         self.v6_brake_shadow = os.environ.get("V6_BRAKE_SHADOW", "0") == "1"
+        self.v7_gateway_shadow = os.environ.get("V7_GATEWAY_SHADOW", "0") == "1"
+        self.v7_gateway_enabled = os.environ.get("V7_GATEWAY", "0") == "1"
+        self.v7_probe_enabled = os.environ.get("V7_PROBE", "0") == "1"
+        self.v7_sweep_enabled = os.environ.get("V7_SWEEP", "0") == "1"
+        self.v7_retreat_shadow = os.environ.get("V7_EGO_SHADOW", "0") == "1"
+        self.v7_retreat_enabled = os.environ.get("V7_EGO_RETREAT", "0") == "1"
+        self.v7_scout_id = int(os.environ.get("V7_SCOUT_ID", "9"))
+        self.v7_ego_target_id = int(os.environ.get("V7_EGO_TARGET_ID", "-1"))
+        self.v7_gateway_start = int(os.environ.get("V7_GATEWAY_START", "900"))
+        self.v7_ego_trail = (LocalOdomTrail() if
+                             (self.v7_retreat_shadow or self.v7_retreat_enabled)
+                             else None)
+        self.v7_gateway = None  # GridMap is constructed by _setup, not __init__.
+        self.v7_probe = ProbePersistenceGate(required_clear_frames=3, max_step_px=8.0)
+        self.v7_yaw_sweep = YawPhaseSweep(ray_count=35, phases=3)
+        self._v7_gateway_goal = None
+        self._v7_gateway_index = 1
+        self._v7_gateway_start_step = -1
+        self._v7_gateway_best_distance = math.inf
+        self._v7_gateway_progress_step = -1
+        self._v7_last_gateway_eval = -10000
+        self._v7_probe_goal = None
+        self._v7_probe_steps = 0
+        self._v7_probe_in_motion = False
+        self._v7_missing_carry_frames = 0
+        self._v7_carry_progress = deque(maxlen=75)
+        self.v7_counts = Counter()
+        self._v7_action_step = -1
+        self._v7_action_source = None
+        self._v7_action_nominal = None
         self._v6_last_view_eval = -100000
         self._v6_pending_view = None
         self._v6_view_goal = None
@@ -127,6 +161,196 @@ class FinalCompetitionDrone(FusionRescueDrone):
             "infeasible_frames": 0,
         }
 
+    def _setup(self):
+        super()._setup()
+        if self.v7_gateway_enabled or self.v7_gateway_shadow:
+            self.v7_gateway = GatewayPlanner(
+                origin_xy=(-self.grid.width / 2.0, -self.grid.height / 2.0),
+                cell_px=CELL, min_clearance_px=16.0, max_expansions=8000)
+
+    def _v7_known_free_segment(self, a, b):
+        """Check the complete link in the fused free belief, not just clearance."""
+        distance = math.dist(a, b)
+        count = max(2, int(math.ceil(distance / (CELL * 0.4))) + 1)
+        for fraction in np.linspace(0.0, 1.0, count):
+            point = (a[0] + fraction * (b[0] - a[0]),
+                     a[1] + fraction * (b[1] - a[1]))
+            iy, ix = self.grid.cell(*point)
+            if (self.grid.occ[iy, ix] >= -0.6
+                    or self.grid.clearance[iy, ix] < 16.0
+                    or self.grid.border[iy, ix]):
+                return False
+        return True
+
+    def _v7_live_segment(self, a, b, lidar, angles, hull_radius):
+        if lidar is None or angles is None or self.heading is None:
+            return False
+        distance = math.dist(a, b)
+        if distance < 1e-6:
+            return True
+        bearing = wrap(math.atan2(b[1] - a[1], b[0] - a[0]) - self.heading)
+        ranges = np.asarray(lidar, float)
+        rays = np.asarray(angles, float)
+        difference = np.abs((rays - bearing + math.pi) % (2 * math.pi) - math.pi)
+        nearest = np.argsort(difference)[:3]
+        return (nearest.size == 3 and np.all(np.isfinite(ranges[nearest]))
+                and float(np.min(ranges[nearest])) > distance + hull_radius + 4.0)
+
+    def _v7_end_gateway(self, step, reason, *, failed=False):
+        gateway = self._v7_gateway_goal
+        if gateway is not None:
+            self._event("v7_gateway_end", step, reason=reason,
+                        gateway=list(gateway.xy),
+                        reached=reason == "REACHED")
+            if self.v7_gateway is not None:
+                self.v7_gateway.mark_failed(
+                    gateway.cell, step, cooldown=350 if failed else 550)
+        self._v7_gateway_goal = None
+        self._v7_probe_goal = None
+        self._v7_probe_steps = 0
+        self._v7_probe_in_motion = False
+        self.v7_probe.reset()
+        self.v7_yaw_sweep.reset()
+
+    def _v7_note_action(self, step, command, source):
+        self._v7_action_step = step
+        self._v7_action_source = source
+        self._v7_action_nominal = {
+            key: float(command[key]) for key in ("forward", "lateral", "rotation")}
+        return command
+
+    def _v7_gateway_explore(self, step, cmd, lidar, angles):
+        """One-scout, bounded known-free route with an optional short probe."""
+        if self.v7_gateway is None or self.me != self.v7_scout_id:
+            return None
+        eligible = (step >= self.v7_gateway_start
+                    and self.grid.clearance is not None
+                    and self.grid.fused_step >= 0
+                    and self.pose is not None and self.heading is not None
+                    and self.measured_gps_position() is not None
+                    and not self.grasped_bombs() and self.claim_key is None
+                    and not self.visible_bombs
+                    and not self.corridor_explorer.committed
+                    and step - self.last_team_busy > 120
+                    and self.know.accounted() < EXPECTED_BOMBS)
+        if not eligible:
+            if self._v7_gateway_goal is not None:
+                self._v7_end_gateway(step, "INTERRUPTED")
+            return None
+        if (self._v7_gateway_goal is None
+                and step - self._v7_last_gateway_eval >= 60):
+            self._v7_last_gateway_eval = step
+            radius = self.corridor_explorer.footprint.radius
+            proposal = self.v7_gateway.choose(
+                occ=self.grid.occ, clearance_px=self.grid.clearance,
+                own_evidence=self.grid.ev,
+                semantic_seen_at=(self.v6_adapter.visibility.seen_at
+                                  if self.v6_adapter is not None else None),
+                current_xy=self.pose, now=step,
+                start_link_safe=lambda a, b: (
+                    self._v7_known_free_segment(a, b)
+                    and self._v7_live_segment(a, b, lidar, angles, radius)),
+                peer_goals=[peer["goal"] for peer in self.know.peers.values()
+                            if peer.get("goal") is not None])
+            if proposal is not None:
+                self.v7_counts["planned"] += 1
+                self._event("v7_gateway_planned", step,
+                            target=list(proposal.xy),
+                            route_cost_px=round(proposal.route_cost_px, 1),
+                            route_points=len(proposal.route),
+                            semantic_gap=proposal.semantic_gap)
+                if self.v7_gateway_enabled:
+                    self._v7_gateway_goal = proposal
+                    self._v7_gateway_index = 1
+                    self._v7_gateway_start_step = step
+                    self._v7_gateway_best_distance = math.inf
+                    self._v7_gateway_progress_step = step
+        if not self.v7_gateway_enabled or self._v7_gateway_goal is None:
+            return None
+        gateway = self._v7_gateway_goal
+        if step - self._v7_gateway_start_step > 340:
+            self._v7_end_gateway(step, "TIMEOUT", failed=True)
+            return None
+        if self._v7_probe_goal is not None:
+            target = self._v7_probe_goal
+            if math.dist(self.pose, target) < 3.0:
+                self.v7_counts["probed"] += 1
+                self._event("v7_probe_reached", step, target=list(target))
+                self._v7_probe_goal = None
+                self._v7_probe_in_motion = False
+            else:
+                self._v7_probe_in_motion = True
+                velocity = self._toward(target, 1.2, stop_dist=1.0)
+                cmd["forward"], cmd["lateral"] = self._velocity_to_command(
+                    velocity, lidar, angles, False, careful=True)
+                cmd["rotation"] = 0.0
+                return self._v7_note_action(step, cmd, "V7_PROBE")
+        while (self._v7_gateway_index < len(gateway.route)
+               and math.dist(self.pose, gateway.route[self._v7_gateway_index]) < 10.0):
+            self._v7_gateway_index += 1
+        if self._v7_gateway_index < len(gateway.route):
+            target = gateway.route[self._v7_gateway_index]
+            if not self._v7_known_free_segment(self.pose, target):
+                self._v7_end_gateway(step, "MAP_LINK_BLOCKED", failed=True)
+                return None
+            if self._v7_gateway_index <= 2 and not self._v7_live_segment(
+                    self.pose, target, lidar, angles,
+                    self.corridor_explorer.footprint.radius):
+                self._v7_end_gateway(step, "LIVE_LINK_BLOCKED", failed=True)
+                return None
+            remaining = math.dist(self.pose, gateway.xy)
+            if remaining < self._v7_gateway_best_distance - 2.0:
+                self._v7_gateway_best_distance = remaining
+                self._v7_gateway_progress_step = step
+            if step - self._v7_gateway_progress_step > 75:
+                self._v7_end_gateway(step, "NO_PROGRESS", failed=True)
+                return None
+            velocity = self._toward(target, 3.0)
+            cmd["forward"], cmd["lateral"] = self._velocity_to_command(
+                velocity, lidar, angles, False, careful=True)
+            cmd["rotation"] = 0.0
+            return self._v7_note_action(step, cmd, "V7_GATEWAY")
+        if math.dist(self.pose, gateway.xy) > 16.0:
+            self._v7_end_gateway(step, "NOT_ACTUALLY_REACHED", failed=True)
+            return None
+        if self._v7_probe_steps == 0:
+            self.v7_counts["reached"] += 1
+            self._event("v7_gateway_reached", step, target=list(gateway.xy),
+                        route_points=len(gateway.route))
+            self._v7_probe_steps = 1
+        cmd["forward"], cmd["lateral"] = self._velocity_to_command(
+            (0.0, 0.0), lidar, angles, False, careful=True)
+        if self.v7_sweep_enabled:
+            sweep = self.v7_yaw_sweep.update(
+                current_heading=self.heading, carrying=False,
+                visible_target=bool(self.visible_bombs), stable_standpoint=True)
+            if not sweep.done:
+                cmd["rotation"] = sweep.rotation
+                return self._v7_note_action(step, cmd, "V7_SWEEP")
+        if self.v7_probe_enabled and self._v7_probe_steps <= 4:
+            observation = self.v7_probe.observe(
+                gateway_cell=gateway.cell, position=self.pose,
+                heading=self.heading, target_heading=gateway.heading,
+                lidar_ranges=lidar, lidar_angles=angles,
+                body_radius_px=self.corridor_explorer.footprint.radius,
+                carrying=False, dynamic_obstruction=bool(self.visible_drones))
+            if observation.confirmed:
+                target = observation.proposal.xy
+                cell = self.grid.cell(*target)
+                if (self.grid.border[cell] or self.grid.occ[cell] > 1.0):
+                    self._v7_end_gateway(step, "KNOWN_OBSTACLE", failed=True)
+                    return None
+                self._v7_probe_goal = target
+                self._v7_probe_steps += 1
+                self.v7_counts["probe_confirmed"] += 1
+                self._event("v7_probe_confirmed", step, target=list(target),
+                            lidar_frames=observation.consecutive)
+                return self._v7_note_action(step, cmd, "V7_PROBE")
+            if observation.reason == "WAIT_FOR_REPEAT_SCAN":
+                return self._v7_note_action(step, cmd, "V7_PROBE")
+        self._v7_end_gateway(step, "REACHED")
+        return None
+
     @staticmethod
     def _sector_min(distances, angles, center, half=0.18):
         d = np.asarray(distances, float)
@@ -201,6 +425,8 @@ class FinalCompetitionDrone(FusionRescueDrone):
         return math.atan2(target[1] - self.pose[1], target[0] - self.pose[0])
 
     def _fetch(self, step, cmd, lidar, angles):
+        if self._v7_gateway_goal is not None:
+            self._v7_end_gateway(step, "FETCH_INTERRUPTED")
         self.corridor_explorer.pause()
         self._corridor_control_state = CorridorExploreState.PAUSED
         return super()._fetch(step, cmd, lidar, angles)
@@ -218,9 +444,13 @@ class FinalCompetitionDrone(FusionRescueDrone):
         return self.me % slots == phase
 
     def _carry(self, step, cmd, lidar, angles):
+        if self._v7_gateway_goal is not None:
+            self._v7_end_gateway(step, "CARRY_INTERRUPTED")
         self.corridor_explorer.pause()
         self._corridor_control_state = CorridorExploreState.PAUSED
         command = super()._carry(step, cmd, lidar, angles)
+        if self.v7_ego_trail is not None:
+            command = self._v7_ego_carry(step, command, lidar, angles)
         if (self.v6_adapter is not None and self.pose is not None
                 and (self.v6_route_audit or self.v6_connected_repair)):
             self._v6_observe_carry_route(step, command, lidar, angles)
@@ -277,6 +507,85 @@ class FinalCompetitionDrone(FusionRescueDrone):
                 "lidar_left": None if lidar is None else self._sector_min(lidar, angles, math.pi / 2.0),
                 "lidar_right": None if lidar is None else self._sector_min(lidar, angles, -math.pi / 2.0),
             })
+        return command
+
+    def _v7_ego_carry(self, step, command, lidar, angles):
+        """Observe a short local retreat; never merge ego coordinates into GridMap."""
+        if self.v7_ego_target_id >= 0 and self.me != self.v7_ego_target_id:
+            return command
+        gps_invalid = self.measured_gps_position() is None
+        semantic_near = any(hit[2] < 150.0 for hit in self.center_hits)
+        no_route = not self.path or self.path_i >= len(self.path)
+        waypoint = (self.path[min(self.path_i, len(self.path) - 1)]
+                    if self.path else None)
+        if gps_invalid and waypoint is not None:
+            self._v7_carry_progress.append((
+                step, math.dist(self.pose, waypoint), tuple(self.pose)))
+        else:
+            self._v7_carry_progress.clear()
+        stalled = False
+        if len(self._v7_carry_progress) >= 45:
+            old_step, old_distance, old_pose = self._v7_carry_progress[-45]
+            stalled = (step - old_step >= 44
+                       and old_distance - self._v7_carry_progress[-1][1] < 8.0
+                       and math.dist(old_pose, self.pose) < 25.0)
+        candidate = (gps_invalid and (no_route or stalled) and not semantic_near
+                     and step >= self.escape_until and step >= self.backoff_until
+                     and self.push_since is None and lidar is not None
+                     and angles is not None and not self.visible_drones)
+        self._v7_missing_carry_frames = (
+            self._v7_missing_carry_frames + 1 if candidate else 0)
+        if self._v7_missing_carry_frames < 8:
+            return command
+        # PivotJoint cargo can swing around the airframe. A full grasp-reach
+        # envelope is deliberately conservative until a loaded sweep model is
+        # validated against official Pymunk. Only current local rays are used.
+        loaded_radius = max(self.corridor_explorer.footprint.radius,
+                            GRASP_REACH + 19.0)
+        def local_safe(bearing, length):
+            distances = np.asarray(lidar, float)
+            rays = np.asarray(angles, float)
+            delta = np.abs((rays - bearing + math.pi) % (2 * math.pi) - math.pi)
+            nearby = np.argsort(delta)[:5]
+            return (nearby.size == 5 and np.all(np.isfinite(distances[nearby]))
+                    and float(np.min(distances[nearby])) >
+                    length + loaded_radius + 5.0)
+        request = self.v7_ego_trail.retreat_target(
+            now=step, path_missing=bool(no_route or stalled), carrying=True,
+            local_segment_safe=local_safe)
+        if request is None:
+            self.v7_counts["ego_rejected"] += 1
+            if step % 50 == self.me % 50:
+                self._event("v7_ego_no_safe_retreat", step,
+                            gps_valid=False, path_points=len(self.path),
+                            loaded_radius=round(loaded_radius, 1))
+            return command
+        self.v7_counts["ego_verified"] += 1
+        if step % 20 == self.me % 20:
+            self._event("v7_ego_retreat_candidate", step,
+                        distance_px=round(request.distance_px, 1),
+                        age_frames=request.age_frames,
+                        drift_px=round(request.estimated_drift_px, 1),
+                        active=bool(self.v7_retreat_enabled))
+        if not self.v7_retreat_enabled:
+            return command
+        # This remains the legacy cargo controller's nominal action and is
+        # subsequently passed through its unchanged final safety chain.
+        original = {key: float(command[key]) for key in
+                    ("forward", "lateral", "rotation")}
+        velocity = retreat_desired_world_velocity(
+            request, self.heading, speed_px_per_frame=1.3)
+        command["forward"], command["lateral"] = self._velocity_to_command(
+            velocity, lidar, angles, True, careful=True, wall_margin=18.0)
+        command["rotation"] = 0.0
+        command["grasper"] = 1
+        self.v7_counts["ego_active"] += 1
+        self._v7_note_action(step, command, "V7_EGO_RETREAT")
+        self._event("v7_ego_retreat_action", step, source="V7_EGO_RETREAT",
+                    original=original,
+                    nominal={key: float(command[key]) for key in
+                             ("forward", "lateral", "rotation")},
+                    gps_valid=False, lidar_valid=True)
         return command
 
     def _v6_observe_carry_route(self, step, command, lidar, angles):
@@ -774,6 +1083,9 @@ class FinalCompetitionDrone(FusionRescueDrone):
                 self._branch_local_progress_step = -1
         else:
             self._corridor_control_state = CorridorExploreState.IDLE
+        v7_command = self._v7_gateway_explore(step, cmd, lidar, angles)
+        if v7_command is not None:
+            return v7_command
         command = super()._explore(step, cmd, lidar, angles)
         self._trace_explore(command, lidar, angles, reason)
         return command
@@ -801,6 +1113,15 @@ class FinalCompetitionDrone(FusionRescueDrone):
 
     def control(self):
         command = self._control_with_safety()
+        if self._v7_action_step == int(self.elapsed_timestep):
+            final_action = {
+                key: float(command[key]) for key in
+                ("forward", "lateral", "rotation")}
+            self._event("v7_final_action", int(self.elapsed_timestep),
+                        source=self._v7_action_source,
+                        nominal=self._v7_action_nominal,
+                        final=final_action,
+                        gps_valid=self.measured_gps_position() is not None)
         if (self.v6_brake_shadow and self.pose is not None
                 and self.heading is not None and not self.grasped_bombs()
                 and int(self.elapsed_timestep) % 10 == 0):
@@ -994,7 +1315,8 @@ class FinalCompetitionDrone(FusionRescueDrone):
         # end inspection without filtering ordinary corridor cruise.
         close_obstacle = finite.size > 0 and float(np.min(finite)) < 30.0
         if (not close_obstacle or
-                (not corridor_mode and float(np.linalg.norm(self.vel)) < 5.0)):
+                (not corridor_mode and not self._v7_probe_in_motion
+                 and float(np.linalg.norm(self.vel)) < 5.0)):
             return command
         distances = self._task_open_scan(np.asarray(distances, float), np.asarray(angles, float))
         nominal_world = body_to_world(
