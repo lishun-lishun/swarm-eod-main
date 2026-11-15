@@ -118,7 +118,8 @@ V6_CONNECTED_REPAIR = _os.environ.get("V6_CONNECTED_REPAIR", "0") == "1"
 V6_TASK_POLICY = _os.environ.get("V6_TASK_POLICY", "0") == "1"
 V6_BRAKE_SHADOW = _os.environ.get("V6_BRAKE_SHADOW", "0") == "1"
 V7_RAY_AUDIT = any(_os.environ.get(name, "0") == "1" for name in (
-    "V7_RAY_AUDIT", "V7_GATEWAY_SHADOW", "V7_GATEWAY", "V7_PROBE"))
+    "V7_RAY_AUDIT", "V7_GATEWAY_SHADOW", "V7_GATEWAY", "V7_PROBE",
+    "V8_MACRO_SHADOW", "V8_MACRO_ACTIVE"))
 EXP_DIST_POW = float(_os.environ.get("V3_EXP_DIST_POW", "1.0"))
 NARROW_CAP = int(_os.environ.get("V3_NARROW_CAP", "10"))
 FRONTIER = _os.environ.get("V3_FRONTIER", "0") == "1"  # tested: worse
@@ -244,6 +245,7 @@ def controller_state_snapshot():
             "v6_route_counts": dict(getattr(drone, "v6_route_counts", {})),
             "v6_real_ray_cells": int(getattr(drone, "_v6_real_ray_cells", 0)),
             "v7_counts": dict(getattr(drone, "v7_counts", {})),
+            "v8_counts": dict(getattr(drone, "v8_counts", {})),
             "v5_blend_frames": int(getattr(drone, "v5_blend_frames", 0)),
             "v5_shadow_frames": int(getattr(drone, "v5_shadow_frames", 0)),
             "v5_bid": (None if drone.know.v5_outgoing_bid is None
@@ -466,6 +468,8 @@ class SictRescueDrone(DroneAbstract):
         gps = self.measured_gps_position()
         compass = self.measured_compass_angle()
         odom = self.odometer_values()
+        if getattr(self, "v8_route", None) is not None:
+            self.v8_route.odometry_update(int(self.elapsed_timestep), odom)
         if getattr(self, "v7_ego_trail", None) is not None:
             self.v7_ego_trail.update(
                 step=int(self.elapsed_timestep), odometry=odom,
