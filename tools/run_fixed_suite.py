@@ -25,6 +25,8 @@ def source_digest() -> str:
     files = [ROOT / "src" / "swarm_rescue" / "solutions" / "my_drone_eval.py"]
     files.extend(sorted((ROOT / "src" / "swarm_rescue" / "solutions" /
                          "blue_pid_explore").glob("*.py")))
+    files.extend(sorted((ROOT / "src" / "swarm_rescue" / "solutions" /
+                         "v9_rescue").glob("*.py")))
     for path in files:
         digest.update(path.relative_to(ROOT).as_posix().encode())
         digest.update(path.read_bytes())

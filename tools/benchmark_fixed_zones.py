@@ -161,6 +161,9 @@ def run(map_name: str, engine_seed: int, source: Path) -> dict:
     )
     result["controller_diagnostics"] = diagnostics_snapshot()
     result["controller_states"] = controller_state_snapshot()
+    if os.environ.get("V9_CONTROLLER") == "1":
+        from swarm_rescue.solutions.v9_rescue.diagnostics import snapshot as v9_snapshot
+        result["v9_legal_agents"] = v9_snapshot()
     result["controller_task_events"] = {
         str(drone.me): list(getattr(drone, "task_events", ()))
         for drone in list(_ACTIVE_DRONES)
